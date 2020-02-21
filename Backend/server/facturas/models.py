@@ -5,7 +5,7 @@ from django.db import models
 class Client(models.Model):
     id =  models.IntegerField(primary_key=True)
     name = models.TextField(null=True)
-    apellidos = models.TextField(null=True)
+    last_name = models.TextField(null=True)
     email = models. EmailField(null=True,max_length=254)
 
 

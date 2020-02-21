@@ -1,9 +1,9 @@
 from django.urls import path 
 
-from .views import ArticleListView, ArticleDetailView
+from .views import FacturaListView, FacturaDetailView
 
 urlpatterns = [
-    path('', ArticleListView.as_view()),
-    path('<pk>',ArticleDetailView.as_view())
+    path('', FacturaListView.as_view()),
+    path('<pk>',FacturaDetailView.as_view())
 
 ]
