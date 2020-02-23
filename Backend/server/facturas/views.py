@@ -1,14 +1,14 @@
 
 from rest_framework.generics import ListAPIView,RetrieveAPIView
 
-from facturas.models import Client
-from .api.serializers import FacturaSerializer
+from facturas.models import User
+from .api.serializers import UserSerializer
 
 
-class FacturaListView(ListAPIView):
-    queryset = Client.objects.all()
-    serializer_class = FacturaSerializer
+class UserListView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-class FacturaDetailView(RetrieveAPIView):
-    queryset = Client.objects.all()
-    serializer_class = FacturaSerializer
+class UserDetailView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

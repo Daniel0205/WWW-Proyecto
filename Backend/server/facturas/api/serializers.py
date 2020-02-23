@@ -1,8 +1,12 @@
 from rest_framework import serializers
 
-from facturas.models import Client
+from django import forms
+from facturas.models import User
 
-class FacturaSerializer (serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    password = forms.CharField(widget=forms.PasswordInput)
+    
     class Meta:
-        model = Client
-        fields = ('id','name','last_name','email','type','shipping_way')
+        model = User
+        fields = ('id_usuario','name','last_name','password','type','active')
+    
