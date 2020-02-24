@@ -9,21 +9,20 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "@material-ui/lab/Alert";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Background from "./Images/login.jpg";
-import Dashboard from "./Dashboard/Paperbase";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarMesssages from '../components/SnackbarMesssages';
 
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="http://www.blankwebsite.com/">
+        Antimateria
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -59,11 +58,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [user, setUser] = useState("");
+  const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
   const [disabledLogin, setdisabledLogin] = useState(true);
-  const [open, setOpen] = React.useState(false);
   const [RedirectToHome, setRedirectToHome] = React.useState(false);
+  const [messaje, setMessaje] = React.useState('');
+  const [type, setType] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -72,11 +74,23 @@ export default function SignIn() {
     setOpen(false);
   };
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault();
-    setOpen(true);
-    if (user === "jem" || password === "jem") {
-      setTimeout(() => setRedirectToHome(true), 2000);
+
+    let response = await fetch('http://127.0.0.1:8000/api/' + userID);
+
+    if (response.ok) {
+      response = await response.json();
+      if (password === response.password) {
+        setType('success');
+        setMessaje('Succesfuly logged!');
+        setOpen(true);
+        setTimeout(() => setRedirectToHome(true), 2000);
+      }
+    } else {
+      setType('error');
+      setMessaje('User id not found!');
+      setOpen(true);
     }
   }
 
@@ -102,16 +116,16 @@ export default function SignIn() {
             </Typography>
             <form className={classes.form} noValidate onSubmit={onSubmit}>
               <TextField
-                value={user}
-                onChange={event => setUser(event.target.value)}
+                value={userID}
+                onChange={event => setUserID(event.target.value)}
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="id"
+                label="User ID"
+                name="id"
+                autoComplete="id"
                 autoFocus
               />
               <TextField
@@ -158,18 +172,15 @@ export default function SignIn() {
               </Grid>
             </form>
             <Snackbar
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right"
-              }}
-              open={open}
-              autoHideDuration={6000}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
               onClose={handleClose}
+              open={open}
+              autoHideDuration={3000}
             >
-              <Alert severity="success" variant="filled" onClose={handleClose}>
-                {"     "}
-                Succesfuly logged!{"     "}
-              </Alert>
+              <SnackbarMesssages
+                variant={type}
+                onClose={handleClose}
+                message={messaje} />
             </Snackbar>
           </div>
           <Box mt={8}>
