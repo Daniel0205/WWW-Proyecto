@@ -29,7 +29,16 @@ Luego instalamos las dependencias:
 ```
 Nota el `(venvDjango)` frente al prompt. Esto indica que el entono virtual esta activado.
 
-Una vez `pip` ha terminado de descargar las dependencias, corrremos el servidor de Django:
+Inicialmente y cuando se modifiquen los modelos, debemos ejecutar los siguientes comandos:
+
+```sh
+(venvDjango)$ makemigrations
+(venvDjango)$ migrate
+(venvDjango)$ # Opcionalmente cuando se presentan algunos problemas en la migracion
+(venvDjango)$ migrate --run-syncdb
+```
+
+Una vez `pip` ha terminado de descargar las dependencias y hacer las migraciones, corrremos el servidor de Django:
 ```sh
 (venvDjango)$ python manage.py runserver
 ```
