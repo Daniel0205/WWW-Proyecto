@@ -14,8 +14,9 @@ import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Background from "./Images/login.jpg";
 import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarMesssages from '../components/SnackbarMesssages';
-
+import SnackbarMesssages from "../components/SnackbarMesssages";
+import axios from "axios";
+import qs from "qs";
 
 function Copyright() {
   return (
@@ -62,10 +63,9 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [disabledLogin, setdisabledLogin] = useState(true);
   const [RedirectToHome, setRedirectToHome] = React.useState(false);
-  const [messaje, setMessaje] = React.useState('');
-  const [type, setType] = React.useState('');
+  const [messaje, setMessaje] = React.useState("");
+  const [type, setType] = React.useState("");
   const [open, setOpen] = React.useState(false);
-
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -74,24 +74,32 @@ export default function SignIn() {
     setOpen(false);
   };
 
-  async function onSubmit(event) {
+  function onSubmit(event) {
     event.preventDefault();
 
-    let response = await fetch('http://127.0.0.1:8000/api/' + userID);
-
-    if (response.ok) {
-      response = await response.json();
-      if (password === response.password) {
-        setType('success');
-        setMessaje('Succesfuly logged!');
+    axios
+      .post(
+        "http://localhost:8000/rest-auth/login/",
+        qs.stringify({
+          username: userID,
+          password: password
+        })
+      )
+      .then(response => {
+        if (response.data) {
+          console.log("token: ", response.data);
+          setType("success");
+          setMessaje("Succesfuly logged!");
+          setOpen(true);
+          setTimeout(() => setRedirectToHome(true), 2000);
+        }
+      })
+      .catch(error => {
+        console.log(error.response);
+        setType("error");
+        setMessaje("User id not found!");
         setOpen(true);
-        setTimeout(() => setRedirectToHome(true), 2000);
-      }
-    } else {
-      setType('error');
-      setMessaje('User id not found!');
-      setOpen(true);
-    }
+      });
   }
 
   function CaptchaPassed() {
@@ -143,11 +151,13 @@ export default function SignIn() {
               />
               <br />
               <br />
-              <ReCAPTCHA
-                align="center"
-                sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
-                onChange={CaptchaPassed}
-              />
+              {
+                <ReCAPTCHA
+                  align="center"
+                  sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
+                  onChange={CaptchaPassed}
+                />
+              }
               <Button
                 disabled={disabledLogin}
                 type="submit"
@@ -172,7 +182,7 @@ export default function SignIn() {
               </Grid>
             </form>
             <Snackbar
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               onClose={handleClose}
               open={open}
               autoHideDuration={3000}
@@ -180,7 +190,8 @@ export default function SignIn() {
               <SnackbarMesssages
                 variant={type}
                 onClose={handleClose}
-                message={messaje} />
+                message={messaje}
+              />
             </Snackbar>
           </div>
           <Box mt={8}>
