@@ -17,6 +17,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarMesssages from "../components/SnackbarMesssages";
 import axios from "axios";
 import qs from "qs";
+import { connect } from "react-redux";
+import { addArticle } from "./store/actions/index";
 
 function Copyright() {
   return (
@@ -57,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn() {
+function SignIn() {
   const classes = useStyles();
   const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
@@ -95,7 +97,6 @@ export default function SignIn() {
         }
       })
       .catch(error => {
-        console.log(error.response);
         setType("error");
         setMessaje("User id not found!");
         setOpen(true);
@@ -204,3 +205,15 @@ export default function SignIn() {
     );
   }
 }
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addArticle: article => dispatch(addArticle(article))
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignIn);; 
