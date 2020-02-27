@@ -18,7 +18,7 @@ import SnackbarMesssages from "../components/SnackbarMesssages";
 import axios from "axios";
 import qs from "qs";
 import { connect } from "react-redux";
-import { addArticle } from "./store/actions/index";
+import { setCredentials } from "./store/login/action";
 
 function Copyright() {
   return (
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function SignIn() {
+function SignIn(props) {
   const classes = useStyles();
   const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
@@ -76,6 +76,12 @@ function SignIn() {
     setOpen(false);
   };
 
+  async function fetchData(id_user) {
+    const response = await axios.get("http://localhost:8000/api/" + id_user);
+    let data = response.data;
+    props.setCredentials({ ...data });
+  }
+
   function onSubmit(event) {
     event.preventDefault();
 
@@ -89,7 +95,11 @@ function SignIn() {
       )
       .then(response => {
         if (response.data) {
-          console.log("token: ", response.data);
+
+          let token = response.data.key;
+          props.setCredentials({ token });
+          fetchData(userID);
+
           setType("success");
           setMessaje("Succesfuly logged!");
           setOpen(true);
@@ -152,13 +162,11 @@ function SignIn() {
               />
               <br />
               <br />
-              {
-                <ReCAPTCHA
-                  align="center"
-                  sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
-                  onChange={CaptchaPassed}
-                />
-              }
+              <ReCAPTCHA
+                align="center"
+                sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
+                onChange={CaptchaPassed}
+              />
               <Button
                 disabled={disabledLogin}
                 type="submit"
@@ -206,14 +214,10 @@ function SignIn() {
   }
 }
 
-
 function mapDispatchToProps(dispatch) {
   return {
-    addArticle: article => dispatch(addArticle(article))
+    setCredentials: credentials => dispatch(setCredentials(credentials))
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SignIn);; 
+export default connect(null, mapDispatchToProps)(SignIn);

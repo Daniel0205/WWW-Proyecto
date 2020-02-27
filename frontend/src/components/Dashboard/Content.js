@@ -18,6 +18,8 @@ import CardContent from '@material-ui/core/CardContent';
 import axios from "axios";
 
 
+import MaterialTableDemo from "./UsertList";
+
 const styles = theme => ({
   paper: {
     maxWidth: 936,
@@ -46,94 +48,15 @@ function Content(props) {
 
   const { classes } = props;
 
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    axios
-    .get(
-      "http://localhost:8000/api/user"
-    )
-    .then(response => {
-      setUsers(response.data)
-      console.log(response)
-    })
-    .catch(error => {
-      console.log(error)
-    });
-
-  }, []);
+ 
 
 
-  function usersCard(){
-
-    if(users.length===0){
-      return (
-      <Typography color="textSecondary" align="center">
-        No users for this project yet
-      </Typography>)
-    }
-    else{
-      return users.map((x)=>
-      <Card className={classes.contentWrapper}>
-        <CardContent>
-        <Typography color='primary' variant='h3'>
-          {x.id_user}
-        </Typography>
-        <Typography color='textPrimary'>
-          Name: {x.name}
-        </Typography>
-        <Typography color='textPrimary'>
-          Last name: {x.last_name}
-        </Typography>
-        <Typography color='textPrimary'>
-          type: {x.type}
-        </Typography >
-          
-        </CardContent>
-      </Card>)
-    }
-  }
 
 
   return (
-    <Paper className={classes.paper}>
-      <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
-            </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by email address, phone number, or user UID"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" className={classes.addUser}>
-                Add user
-              </Button>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      {usersCard()}
-
-    </Paper>
+      < MaterialTableDemo />
   );
 }
 
-Content.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Content);
