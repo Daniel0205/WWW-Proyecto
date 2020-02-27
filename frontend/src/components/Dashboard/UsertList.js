@@ -59,10 +59,7 @@ export default function MaterialTableDemo() {
       data={state.data}
       editable={{
         onRowAdd: newData =>
-
           new Promise(resolve => {
-            console.log(resolve)
-            console.log(newData)
             setTimeout(() => {
               resolve();
               setState(prevState => {
@@ -76,13 +73,14 @@ export default function MaterialTableDemo() {
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
-              if (oldData) {
+              /*if (oldData) {
                 setState(prevState => {
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
                 });
-              }
+              }*/
+              
             }, 600);
           }),
         onRowDelete: oldData =>
