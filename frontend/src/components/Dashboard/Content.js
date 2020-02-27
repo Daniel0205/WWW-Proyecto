@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,6 +12,11 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
+import axios from "axios";
+
 
 const styles = theme => ({
   paper: {
@@ -37,7 +42,58 @@ const styles = theme => ({
 });
 
 function Content(props) {
+
+
   const { classes } = props;
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios
+    .get(
+      "http://localhost:8000/api/user"
+    )
+    .then(response => {
+      setUsers(response.data)
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error)
+    });
+
+  }, []);
+
+
+  function usersCard(){
+
+    if(users.length===0){
+      return (
+      <Typography color="textSecondary" align="center">
+        No users for this project yet
+      </Typography>)
+    }
+    else{
+      return users.map((x)=>
+      <Card className={classes.contentWrapper}>
+        <CardContent>
+        <Typography color='primary' variant='h3'>
+          {x.id_user}
+        </Typography>
+        <Typography color='textPrimary'>
+          Name: {x.name}
+        </Typography>
+        <Typography color='textPrimary'>
+          Last name: {x.last_name}
+        </Typography>
+        <Typography color='textPrimary'>
+          type: {x.type}
+        </Typography >
+          
+        </CardContent>
+      </Card>)
+    }
+  }
+
 
   return (
     <Paper className={classes.paper}>
@@ -70,11 +126,8 @@ function Content(props) {
           </Grid>
         </Toolbar>
       </AppBar>
-      <div className={classes.contentWrapper}>
-        <Typography color="textSecondary" align="center">
-          No users for this project yet
-        </Typography>
-      </div>
+      {usersCard()}
+
     </Paper>
   );
 }
