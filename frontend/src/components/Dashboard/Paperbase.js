@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +8,7 @@ import Link from '@material-ui/core/Link';
 import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
+import { connect } from "react-redux";
 
 function Copyright() {
   return (
@@ -134,7 +135,8 @@ theme = {
 
 const drawerWidth = 256;
 
-const styles = {
+
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     minHeight: '100vh',
@@ -158,11 +160,12 @@ const styles = {
   footer: {
     padding: theme.spacing(2),
     background: '#eaeff1',
-  },
-};
+  }
+}));
+
 
 function Paperbase(props) {
-  const { classes } = props;
+  const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -200,8 +203,9 @@ function Paperbase(props) {
   );
 }
 
-Paperbase.propTypes = {
-  classes: PropTypes.object.isRequired,
+
+const mapStateToProps = state => {
+ return { credentials: state.credentials };
 };
 
-export default withStyles(styles)(Paperbase);
+export default connect(mapStateToProps)(Paperbase);

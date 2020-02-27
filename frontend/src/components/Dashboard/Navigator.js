@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -18,6 +17,7 @@ import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponen
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
+import { connect } from "react-redux";
 
 const categories = [
   {
@@ -41,7 +41,7 @@ const categories = [
   },
 ];
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   categoryHeader: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
@@ -80,16 +80,32 @@ const styles = theme => ({
   divider: {
     marginTop: theme.spacing(2),
   },
-});
+}));
 
 function Navigator(props) {
-  const { classes, ...other } = props;
+  const classes = useStyles();
+  const { ...other } = props;
+  const [userType, setUserType] = useState("");
+
+  useEffect(() => {
+    if (props.credentials.length) {
+      if (props.credentials[1].type === "A")
+        setUserType("Administrator");
+      if (props.credentials[1].type === "O")
+        setUserType("Operator");
+      if (props.credentials[1].type === "G")
+        setUserType("Manager");
+    } else {
+      setUserType("Guest");
+    }
+  })
+
 
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          Paperbase
+          {userType}
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <ListItemIcon className={classes.itemIcon}>
@@ -139,8 +155,9 @@ function Navigator(props) {
   );
 }
 
-Navigator.propTypes = {
-  classes: PropTypes.object.isRequired,
+
+const mapStateToProps = state => {
+  return { credentials: state.credentials };
 };
 
-export default withStyles(styles)(Navigator);
+export default connect(mapStateToProps)(Navigator);

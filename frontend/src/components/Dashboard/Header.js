@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -15,11 +14,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   secondaryBar: {
     zIndex: 0,
   },
@@ -39,10 +40,22 @@ const styles = theme => ({
   button: {
     borderColor: lightColor,
   },
-});
+}));
 
 function Header(props) {
-  const { classes, onDrawerToggle } = props;
+  const classes = useStyles();
+  const { onDrawerToggle } = props;
+  const [userName, setUserName] = useState("")
+  const [userLastName, setUserLastName] = useState("")
+
+  useEffect(() => {
+    if (props.credentials.length) {
+      setUserName(props.credentials[1].name);
+      setUserLastName(props.credentials[1].last_name);
+    } else {
+      setUserName("Guest");
+    }
+  })
 
   return (
     <React.Fragment>
@@ -93,7 +106,7 @@ function Header(props) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Authentication
+                Welcome {userName} {userLastName}
               </Typography>
             </Grid>
             <Grid item>
@@ -129,9 +142,9 @@ function Header(props) {
   );
 }
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onDrawerToggle: PropTypes.func.isRequired,
+
+const mapStateToProps = state => {
+  return { credentials: state.credentials };
 };
 
-export default withStyles(styles)(Header);
+export default connect(mapStateToProps)(Header);
