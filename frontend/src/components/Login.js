@@ -17,6 +17,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarMesssages from "../components/SnackbarMesssages";
 import axios from "axios";
 import qs from "qs";
+import { connect } from "react-redux";
+import { setCredentials } from "./store/login/action";
 
 function Copyright() {
   return (
@@ -57,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn() {
+function SignIn(props) {
   const classes = useStyles();
   const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
@@ -74,6 +76,12 @@ export default function SignIn() {
     setOpen(false);
   };
 
+  async function fetchData(id_user) {
+    const response = await axios.get("http://localhost:8000/api/" + id_user);
+    let data = response.data;
+    props.setCredentials({ ...data });
+  }
+
   function onSubmit(event) {
     event.preventDefault();
 
@@ -87,7 +95,11 @@ export default function SignIn() {
       )
       .then(response => {
         if (response.data) {
-          console.log("token: ", response.data);
+
+          let token = response.data.key;
+          props.setCredentials({ token });
+          fetchData(userID);
+
           setType("success");
           setMessaje("Succesfuly logged!");
           setOpen(true);
@@ -95,7 +107,6 @@ export default function SignIn() {
         }
       })
       .catch(error => {
-        console.log(error.response);
         setType("error");
         setMessaje("User id not found!");
         setOpen(true);
@@ -151,13 +162,11 @@ export default function SignIn() {
               />
               <br />
               <br />
-              {
-                <ReCAPTCHA
-                  align="center"
-                  sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
-                  onChange={CaptchaPassed}
-                />
-              }
+              <ReCAPTCHA
+                align="center"
+                sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
+                onChange={CaptchaPassed}
+              />
               <Button
                 disabled={disabledLogin}
                 type="submit"
@@ -204,3 +213,11 @@ export default function SignIn() {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setCredentials: credentials => dispatch(setCredentials(credentials))
+  };
+}
+
+export default connect(null, mapDispatchToProps)(SignIn);

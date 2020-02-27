@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +11,8 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
+
+import MaterialTableDemo from "./UsertList";
 
 const styles = theme => ({
   paper: {
@@ -40,14 +41,15 @@ function Content(props) {
   const { classes } = props;
 
   return (
-    <Paper className={classes.paper}>
-      <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
+    <div>
+      < MaterialTableDemo />
+      {/* <AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <SearchIcon className={classes.block} color="inherit" />
             </Grid>
-            <Grid item xs>
+            { <Grid item xs>
               <TextField
                 fullWidth
                 placeholder="Search by email address, phone number, or user UID"
@@ -56,8 +58,8 @@ function Content(props) {
                   className: classes.searchInput,
                 }}
               />
-            </Grid>
-            <Grid item>
+            </Grid> 
+             <Grid item>
               <Button variant="contained" color="primary" className={classes.addUser}>
                 Add user
               </Button>
@@ -67,20 +69,17 @@ function Content(props) {
                 </IconButton>
               </Tooltip>
             </Grid>
-          </Grid>
+          </Grid> 
         </Toolbar>
       </AppBar>
       <div className={classes.contentWrapper}>
         <Typography color="textSecondary" align="center">
           No users for this project yet
         </Typography>
+      </div> */}
       </div>
-    </Paper>
   );
 }
 
-Content.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Content);
