@@ -56,6 +56,10 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
 
+    REQUIRED_FIELDS = ('name','last_name','type','password')
+    USERNAME_FIELD = 'id_user'
+    objects = MyUserManager()
+
     id_user =  models.IntegerField(primary_key=True)
     name = models.TextField(null=False)
     last_name = models.TextField(null=False)
@@ -72,11 +76,9 @@ class User(AbstractBaseUser):
     active = models.BooleanField(default=True)
 
 
-    REQUIRED_FIELDS = ['name','last_name','type','password']
-    USERNAME_FIELD = 'id_user'
-    objects = MyUserManager()
+    
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=True)
 
 
     def __str__(self):

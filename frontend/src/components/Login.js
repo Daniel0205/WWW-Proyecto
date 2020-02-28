@@ -77,7 +77,7 @@ function SignIn(props) {
   };
 
   async function fetchData(id_user) {
-    const response = await axios.get("http://localhost:8000/api/" + id_user);
+    const response = await axios.get("http://localhost:8000/api/user/" + id_user);
     let data = response.data;
     props.setCredentials({ ...data });
   }
@@ -94,6 +94,7 @@ function SignIn(props) {
         })
       )
       .then(response => {
+        console.log(response)
         if (response.data) {
 
           let token = response.data.key;
