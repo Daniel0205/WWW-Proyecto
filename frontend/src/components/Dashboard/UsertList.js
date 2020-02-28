@@ -2,10 +2,15 @@ import React from 'react';
 import MaterialTable from 'material-table';
 
 import axios from "axios";
+import qs from "qs";
+
 
 export default function MaterialTableDemo() {
-  
-
+  axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.headers = {
+    "Content-Type": "application/json"
+  };
   const [state, setState] = React.useState({
     columns: [
       { title: 'ID', field: 'id_user',editable:'onAdd',type: 'numeric' },
@@ -62,11 +67,32 @@ export default function MaterialTableDemo() {
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
+           
+              axios
+              .post(
+                "http://localhost:8000/api/user/create/",
+                {
+                  id_user:newData.id_user,
+                  password:"password1234",
+                  name: newData.name,
+                  last_name: newData.last_name,
+                  type:newData.type,
+                  active: newData.active,
+                  
+             }
+              )
+              .then(response => {
+                console.log(response)
+                setState(prevState => {
+                  const data = [...prevState.data];
+                  data.push(newData);
+                  return { ...prevState, data };
+                });                
+              })
+              .catch(error => {
+                console.log(error)
               });
+             
             }, 600);
           }),
         onRowUpdate: (newData, oldData) =>
@@ -83,7 +109,7 @@ export default function MaterialTableDemo() {
               
             }, 600);
           }),
-        onRowDelete: oldData =>
+       /* onRowDelete: oldData =>
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
@@ -93,7 +119,7 @@ export default function MaterialTableDemo() {
                 return { ...prevState, data };
               });
             }, 600);
-          }),
+          }),*/
       }}
     />
   );
