@@ -14,8 +14,8 @@ export default function MaterialTableDemo() {
   const [state, setState] = React.useState({
     columns: [
       { title: 'ID', field: 'id_user',editable:'onAdd',type: 'numeric' },
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'last_name' },
+      { title: 'Name', field: 'name',editable:'onAdd' },
+      { title: 'Surname', field: 'last_name',editable:'onAdd' },
       { title: 'Type', field: 'type', initialEditValue: 'O', lookup: { O: 'Operator', A: 'Administrator', G:'Manager' },},
       { title: 'Active', field: 'active',initialEditValue: 'true',lookup: { true: 'True', false:'False' }},
     ],
@@ -99,12 +99,34 @@ export default function MaterialTableDemo() {
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
-              /*if (oldData) {
-                setState(prevState => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
+              console.log(newData)
+              console.log(oldData)
+              axios
+              .put(
+                "http://localhost:8000/api/user/update/"+oldData.id_user,
+                {
+                  id_user:newData.id_user,
+                  password:"password1234",
+                  name: newData.name,
+                  last_name: newData.last_name,
+                  type:newData.type,
+                  active: newData.active              
+             }
+              )
+              .then(response => {
+                console.log(response)
+                if (oldData) {
+                  setState(prevState => {
+                    const data = [...prevState.data];
+                    data[data.indexOf(oldData)] = newData;
+                    return { ...prevState, data };
+                  });
+                }                
+              })
+              .catch(error => {
+                console.log(error)
+              });
+              /*
               }*/
               
             }, 600);
