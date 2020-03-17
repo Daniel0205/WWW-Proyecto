@@ -157,6 +157,7 @@ function Navigator(props) {
 
 
 const mapStateToProps = state => {
+  console.log(state)
   return { credentials: state.credentials };
 };
 

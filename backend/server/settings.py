@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'rest_framework.authtoken',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
     
     'rest_auth',
 
@@ -141,19 +146,32 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+   # 'DEFAULT_PERMISSION_CLASSES': [
+    #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    #]
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
 }
 
 CORS_ORIGIN_ALLOW_ALL=True
 
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = 'username' 
-ACCOUNT_EMAIL_REQUIRED=False
 
+#
+ACCOUNT_USER_MODEL_EMAIL_FIELD = None
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "id_user"
+ACCOUNT_EMAIL_VERIFICATION = None
+ACCOUNT_EMAIL_REQUIRED=False
+ACCOUNT_USERNAME_REQUIRED=True
+
+ACCOUNT_SIGNUP_FORM_CLASS = "facturas.forms.UserProfileForm"
+
+SITE_ID = 1
 
 AUTH_USER_MODEL = 'facturas.User'
