@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./components/store/";
 import Dashboard from "./App";
 import Login from "./components/Login";
+import AddUser from "./components/UserAdd";
 
 const routing = (
   <Provider store={store}>
