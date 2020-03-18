@@ -1,4 +1,3 @@
-
 export function setCredentials(payload) {
-    return { type: "SET_CREDENTIALS", payload }
-  };
+  return { type: "SET_CREDENTIALS", payload };
+}
