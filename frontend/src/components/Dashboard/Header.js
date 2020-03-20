@@ -49,9 +49,9 @@ function Header(props) {
   const [userLastName, setUserLastName] = useState("")
 
   useEffect(() => {
-    if (props.credentials.length) {
-      setUserName(props.credentials[1].name);
-      setUserLastName(props.credentials[1].last_name);
+    if (props.credentials.token.length) {
+      setUserName(props.credentials.name);
+      setUserLastName(props.credentials.last_name);
     } else {
       setUserName("Guest");
     }

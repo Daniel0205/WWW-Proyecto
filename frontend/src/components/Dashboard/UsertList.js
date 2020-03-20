@@ -70,7 +70,7 @@ export default function MaterialTableDemo() {
            
               axios
               .post(
-                "http://localhost:8000/api/user/create/",
+                "http://localhost:8000/api/register/",
                 {
                   id_user:newData.id_user,
                   password:"password1234",
@@ -78,7 +78,10 @@ export default function MaterialTableDemo() {
                   last_name: newData.last_name,
                   type:newData.type,
                   active: newData.active,
-                  
+                  last_login: null,
+                  is_admin: true,
+                  is_staff: true,
+                  is_superuser: true
              }
               )
               .then(response => {

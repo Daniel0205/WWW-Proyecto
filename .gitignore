@@ -137,3 +137,6 @@ dmypy.json
 .idea/
 
 venvDjango
+
+*__init__.py
+*_init_.py
