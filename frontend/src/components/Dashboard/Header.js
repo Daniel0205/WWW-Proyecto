@@ -1,52 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import HelpIcon from '@material-ui/icons/Help';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import HelpIcon from "@material-ui/icons/Help";
+import Hidden from "@material-ui/core/Hidden";
+import IconButton from "@material-ui/core/IconButton";
+import Link from "@material-ui/core/Link";
+import MenuIcon from "@material-ui/icons/Menu";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import Toolbar from "@material-ui/core/Toolbar";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
+import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 
-
-const lightColor = 'rgba(255, 255, 255, 0.7)';
+const lightColor = "rgba(255, 255, 255, 0.7)";
 
 const useStyles = makeStyles(theme => ({
   secondaryBar: {
-    zIndex: 0,
+    zIndex: 0
   },
   menuButton: {
-    marginLeft: -theme.spacing(1),
+    marginLeft: -theme.spacing(1)
   },
   iconButtonAvatar: {
-    padding: 4,
+    padding: 4
   },
   link: {
-    textDecoration: 'none',
+    textDecoration: "none",
     color: lightColor,
-    '&:hover': {
-      color: theme.palette.common.white,
-    },
+    "&:hover": {
+      color: theme.palette.common.white
+    }
   },
   button: {
-    borderColor: lightColor,
-  },
+    borderColor: lightColor
+  }
 }));
 
 function Header(props) {
   const classes = useStyles();
   const { onDrawerToggle } = props;
-  const [userName, setUserName] = useState("")
-  const [userLastName, setUserLastName] = useState("")
+  const [userName, setUserName] = useState("");
+  const [userLastName, setUserLastName] = useState("");
 
   useEffect(() => {
     if (props.credentials.length) {
@@ -55,7 +54,7 @@ function Header(props) {
     } else {
       setUserName("Guest");
     }
-  })
+  });
 
   return (
     <React.Fragment>
@@ -110,7 +109,12 @@ function Header(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Button className={classes.button} variant="outlined" color="inherit" size="small">
+              <Button
+                className={classes.button}
+                variant="outlined"
+                color="inherit"
+                size="small"
+              >
                 Web setup
               </Button>
             </Grid>
@@ -142,9 +146,8 @@ function Header(props) {
   );
 }
 
-
 const mapStateToProps = state => {
-  return { credentials: state.credentials };
+  return { credentials: state.loginReducer.credentials };
 };
 
 export default connect(mapStateToProps)(Header);
