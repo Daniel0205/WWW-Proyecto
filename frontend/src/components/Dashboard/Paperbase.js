@@ -9,9 +9,11 @@ import Navigator from "./Navigator";
 import Header from "./Header";
 import { connect } from "react-redux";
 
+
 //Options of content listed the Navigation Panel
 import UsertList from "./Content/UsertList";
 import Banks from "./Content/Banks";
+import Customers from "./Content/Customers";
 
 function Copyright() {
   return (
@@ -177,10 +179,13 @@ function Paperbase(props) {
   //Return a react component in th
   const contentElement = content => {
     switch (content) {
+      
       case "Users":
         return <UsertList />;
       case "Banks":
         return <Banks />;
+      case "SignIn":
+        return <Customers />;
       default:
         return (
           <div>

@@ -2,7 +2,7 @@ import React from "react";
 import MaterialTable from "material-table";
 
 import axios from "axios";
-import qs from "qs";
+
 
 
 export default function MaterialTableDemo() {
@@ -22,14 +22,6 @@ export default function MaterialTableDemo() {
     data: []
   });
   
-  function typeTo( type){
-    switch (type) {
-      case 'O': return "Operador"
-      case 'A': return "Administrador"
-      case 'G': return "Gerente"
-    }
-  }
-
   React.useEffect(() => {
     axios
     .get(

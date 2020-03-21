@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
-from facturas.models import User
+from facturas.models import (
+    User,
+    Client
+)
+
 from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):
@@ -27,4 +31,11 @@ class UserSerializer(serializers.ModelSerializer):
         )
         
         return user 
+    
+
+class ClientSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Client
+        fields = "__all__"
     

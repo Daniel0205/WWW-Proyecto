@@ -72,13 +72,12 @@ class Client(models.Model):
 
     id =  models.IntegerField(primary_key=True)
     name = models.TextField(null=False)
-    last_name = models.TextField(null=False)
+    last_name = models.TextField(null=True)
     email = models. EmailField(null=False,max_length=254)
-
 
     TYPE_CHOICES = {
         ("N", "natural"),
-        ("j", "juridica")
+        ("J", "juridica")
     }
 
     type = models.CharField(null=False,max_length=1, choices=TYPE_CHOICES,

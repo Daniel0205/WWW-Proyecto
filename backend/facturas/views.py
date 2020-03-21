@@ -9,36 +9,19 @@ from rest_framework.generics import (
     UpdateAPIView
 )
 
+from .models import ( 
+    User,
+    Client
+)
+
 from rest_framework.views import APIView 
-from .models import User
-from .serializers import UserSerializer
+from .serializers import (UserSerializer,ClientSerializer)
 
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import check_password
 
-
-class RegisterView(CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class UserListView(ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    #permission_classes = (permissions.AllowAny, )
-
-class UserDetailView(RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    #permission_classes = (permissions.AllowAny, )
-
-
-class UserUpdateView(UpdateAPIView):
-    queryset =User.objects.all()
-    serializer_class =UserSerializer
-    #permission_classes = (permissions.IsAuthenticated, )
-
+#########################LOGIN########################
 class Login(APIView):
   def post(self,request):
     id_user = request.data.get('id_user',None)
@@ -65,3 +48,38 @@ class Login(APIView):
     
     return Response({"message": message , "code": 500, 'data': {}})
 
+
+
+#####################USER#####################
+class RegisterView(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserListView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserUpdateView(UpdateAPIView):
+    queryset =User.objects.all()
+    serializer_class =UserSerializer
+
+###############################################
+
+#####################CLIENT#####################
+class  ClientCreateView(CreateAPIView):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+
+class ClientListView(ListAPIView):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+
+class ClientUpdateView(UpdateAPIView):
+    queryset =Client.objects.all()
+    serializer_class = ClientSerializer
+
+###############################################
