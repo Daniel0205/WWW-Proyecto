@@ -77,7 +77,7 @@ export default function MaterialTableDemo() {
              }
               )
               .then(response => {
-                console.log(response)
+                
                 setState(prevState => {
                   const data = [...prevState.data];
                   data.push(newData);
@@ -94,8 +94,6 @@ export default function MaterialTableDemo() {
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
-              console.log(newData)
-              console.log(oldData)
               axios
               .put(
                 "http://localhost:8000/api/user/update/"+oldData.id_user,
@@ -126,17 +124,6 @@ export default function MaterialTableDemo() {
               
             }, 600);
           }),
-       /* onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),*/
       }}
     />
   );

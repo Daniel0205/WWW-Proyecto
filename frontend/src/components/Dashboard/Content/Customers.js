@@ -1,43 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import MaterialTable from "material-table";
 
 import axios from "axios";
-import { withStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { setSelectedItem } from "../../store/selectedItem/action";
 
-const styles = theme => ({
-  paper: {
-    maxWidth: 936,
-    margin: "auto",
-    overflow: "hidden"
-  },
-  searchBar: {
-    borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
-  },
-  searchInput: {
-    fontSize: theme.typography.fontSize
-  },
-  block: {
-    display: "block"
-  },
-  addUser: {
-    marginRight: theme.spacing(1)
-  },
-  contentWrapper: {
-    margin: "40px 16px"
-  }
-});
-
-const TYPE_CHOICES = [
-    {value:"J", label:"Legal"},
-    {value:"N",label:"Natural"}
-]
-
-const WAY_CHOICES = [
-    {value:"L", label:"Online"},
-    {value:"F",label:"Physical"},
-    {value:"E",label: "Email"}
-]
 
 function Customers(props) {
   axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -125,8 +92,6 @@ function Customers(props) {
         new Promise(resolve => {
           setTimeout(() => {
             resolve();
-            console.log(newData)
-            console.log(oldData)
             axios
             .put(
               "http://localhost:8000/api/client/update/"+newData.id_user,
@@ -150,19 +115,33 @@ function Customers(props) {
             })
             .catch(error => {
               console.log(error)
-            });
-            /*
-            }*/
-            
+            });           
           }, 600);
         }),
     }}
+    actions={[
+      {
+        icon: 'house',
+        tooltip: 'add apartment',
+        onClick: (event, rowData) => props.setSelectedItem("Apartaments")
+      }
+    ]}
   />
   );
 }
 
-Customers.propTypes = {
-  classes: PropTypes.object.isRequired
+
+const mapStateToProps = state => {
+  return {
+    credentials: state.loginReducer.credentials,
+    item: state.itemReducer.item
+  };
 };
 
-export default withStyles(styles)(Customers);
+function mapDispatchToProps(dispatch) {
+  return {
+    setSelectedItem: item => dispatch(setSelectedItem(item))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Customers);
