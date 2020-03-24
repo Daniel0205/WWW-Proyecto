@@ -1,8 +1,8 @@
-import React from 'react';
-import MaterialTable from 'material-table';
+import React from "react";
+import MaterialTable from "material-table";
 
 import axios from "axios";
-import qs from "qs";
+
 
 
 export default function MaterialTableDemo() {
@@ -22,14 +22,6 @@ export default function MaterialTableDemo() {
     data: []
   });
   
-  function typeTo( type){
-    switch (type) {
-      case 'O': return "Operador"
-      case 'A': return "Administrador"
-      case 'G': return "Gerente"
-    }
-  }
-
   React.useEffect(() => {
     axios
     .get(
@@ -70,7 +62,7 @@ export default function MaterialTableDemo() {
            
               axios
               .post(
-                "http://localhost:8000/api/user/create/",
+                "http://localhost:8000/api/register/",
                 {
                   id_user:newData.id_user,
                   password:"password1234",
@@ -78,11 +70,14 @@ export default function MaterialTableDemo() {
                   last_name: newData.last_name,
                   type:newData.type,
                   active: newData.active,
-                  
+                  last_login: null,
+                  is_admin: true,
+                  is_staff: true,
+                  is_superuser: true
              }
               )
               .then(response => {
-                console.log(response)
+                
                 setState(prevState => {
                   const data = [...prevState.data];
                   data.push(newData);
@@ -99,8 +94,6 @@ export default function MaterialTableDemo() {
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
-              console.log(newData)
-              console.log(oldData)
               axios
               .put(
                 "http://localhost:8000/api/user/update/"+oldData.id_user,
@@ -131,17 +124,6 @@ export default function MaterialTableDemo() {
               
             }, 600);
           }),
-       /* onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),*/
       }}
     />
   );

@@ -1,11 +1,11 @@
 const initialState = {
-  credentials: []
+  credentials: {'type':'','name':'','token':''}
 };
 
 function loginReducer(state = initialState, action) {
   if (action.type === "SET_CREDENTIALS") {
     return Object.assign({}, state, {
-      credentials: state.credentials.concat(action.payload)
+      credentials: action.payload
     });
   }
   return state;

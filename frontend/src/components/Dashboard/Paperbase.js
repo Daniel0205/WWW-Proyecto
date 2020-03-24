@@ -1,24 +1,29 @@
-import React from 'react';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Hidden from '@material-ui/core/Hidden';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import Navigator from './Navigator';
-import Content from './Content';
-import Header from './Header';
+import React, { useState } from "react";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Hidden from "@material-ui/core/Hidden";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+import Navigator from "./Navigator";
+import Header from "./Header";
 import { connect } from "react-redux";
+
+
+//Options of content listed the Navigation Panel
+import UsertList from "./Content/UsertList";
+import Banks from "./Content/Banks";
+import Customers from "./Content/Customers";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="http://www.blankwebsite.com/">
         Antimateria
       </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -26,31 +31,31 @@ function Copyright() {
 let theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#63ccff',
-      main: '#009be5',
-      dark: '#006db3',
-    },
+      light: "#63ccff",
+      main: "#009be5",
+      dark: "#006db3"
+    }
   },
   typography: {
     h5: {
       fontWeight: 500,
       fontSize: 26,
-      letterSpacing: 0.5,
-    },
+      letterSpacing: 0.5
+    }
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 8
   },
   props: {
     MuiTab: {
-      disableRipple: true,
-    },
+      disableRipple: true
+    }
   },
   mixins: {
     toolbar: {
-      minHeight: 48,
-    },
-  },
+      minHeight: 48
+    }
+  }
 });
 
 theme = {
@@ -58,122 +63,141 @@ theme = {
   overrides: {
     MuiDrawer: {
       paper: {
-        backgroundColor: '#18202c',
-      },
+        backgroundColor: "#18202c"
+      }
     },
     MuiButton: {
       label: {
-        textTransform: 'none',
+        textTransform: "none"
       },
       contained: {
-        boxShadow: 'none',
-        '&:active': {
-          boxShadow: 'none',
-        },
-      },
+        boxShadow: "none",
+        "&:active": {
+          boxShadow: "none"
+        }
+      }
     },
     MuiTabs: {
       root: {
-        marginLeft: theme.spacing(1),
+        marginLeft: theme.spacing(1)
       },
       indicator: {
         height: 3,
         borderTopLeftRadius: 3,
         borderTopRightRadius: 3,
-        backgroundColor: theme.palette.common.white,
-      },
+        backgroundColor: theme.palette.common.white
+      }
     },
     MuiTab: {
       root: {
-        textTransform: 'none',
-        margin: '0 16px',
+        textTransform: "none",
+        margin: "0 16px",
         minWidth: 0,
         padding: 0,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up("md")]: {
           padding: 0,
-          minWidth: 0,
-        },
-      },
+          minWidth: 0
+        }
+      }
     },
     MuiIconButton: {
       root: {
-        padding: theme.spacing(1),
-      },
+        padding: theme.spacing(1)
+      }
     },
     MuiTooltip: {
       tooltip: {
-        borderRadius: 4,
-      },
+        borderRadius: 4
+      }
     },
     MuiDivider: {
       root: {
-        backgroundColor: '#404854',
-      },
+        backgroundColor: "#404854"
+      }
     },
     MuiListItemText: {
       primary: {
-        fontWeight: theme.typography.fontWeightMedium,
-      },
+        fontWeight: theme.typography.fontWeightMedium
+      }
     },
     MuiListItemIcon: {
       root: {
-        color: 'inherit',
+        color: "inherit",
         marginRight: 0,
-        '& svg': {
-          fontSize: 20,
-        },
-      },
+        "& svg": {
+          fontSize: 20
+        }
+      }
     },
     MuiAvatar: {
       root: {
         width: 32,
-        height: 32,
-      },
-    },
-  },
+        height: 32
+      }
+    }
+  }
 };
 
 const drawerWidth = 256;
 
-
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    minHeight: '100vh',
+    display: "flex",
+    minHeight: "100vh"
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0,
-    },
+      flexShrink: 0
+    }
   },
   app: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column"
   },
   main: {
     flex: 1,
     padding: theme.spacing(6, 4),
-    background: '#eaeff1',
+    background: "#eaeff1"
   },
   footer: {
     padding: theme.spacing(2),
-    background: '#eaeff1',
+    background: "#eaeff1"
   }
 }));
 
-
 function Paperbase(props) {
   const classes = useStyles();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const content = props.item;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  //Return a react component in th
+  const contentElement = content => {
+    switch (content) {
+      
+      case "Users":
+        return <UsertList />;
+      case "Banks":
+        return <Banks />;
+      case "SignIn":
+        return <Customers />;
+      default:
+        return (
+          <div>
+            <h1>{content}</h1>
+          </div>
+        );
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
+      {" "}
       <div className={classes.root}>
         <CssBaseline />
         <nav className={classes.drawer}>
@@ -192,7 +216,9 @@ function Paperbase(props) {
         <div className={classes.app}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
-            <Content />
+            {/* <Content /> */}
+            {/* <UsertList /> */}
+            {contentElement(content)}
           </main>
           <footer className={classes.footer}>
             <Copyright />
@@ -203,9 +229,11 @@ function Paperbase(props) {
   );
 }
 
-
 const mapStateToProps = state => {
- return { credentials: state.credentials };
+  return {
+    credentials: state.credentials,
+    item: state.itemReducer.item
+  };
 };
 
 export default connect(mapStateToProps)(Paperbase);
