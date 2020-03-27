@@ -184,7 +184,7 @@ function Paperbase(props) {
         return <UsertList />;
       case "Banks":
         return <Banks />;
-      case "SignIn":
+      case "Customers":
         return <Customers />;
       default:
         return (

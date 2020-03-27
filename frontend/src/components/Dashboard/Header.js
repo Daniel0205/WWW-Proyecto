@@ -58,12 +58,6 @@ function Header(props) {
     }
   });
 
-
-  function singIn(){
-    props.setSelectedItem("SignIn");
-    setSelect(1)
-  }
-
   return (
     <React.Fragment>
       <AppBar color="primary" position="sticky" elevation={0}>
@@ -145,7 +139,7 @@ function Header(props) {
       >
         <Tabs value={select} textColor="inherit">
           <Tab textColor="inherit" label="Users" />
-          <Tab textColor="inherit" onClick={singIn} label="Sign-in Client" />
+          <Tab textColor="inherit" label="Sign-in Client" />
           <Tab textColor="inherit" label="Templates" />
           <Tab textColor="inherit" label="Usage" />
         </Tabs>

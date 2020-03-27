@@ -80,29 +80,23 @@ function SignIn(props) {
     event.preventDefault();
 
     axios
-      .post(
-        "http://localhost:8000/api/login/",
-        {
-          id_user: userID,
-          password: password
-        }
-      )
+      .post("http://localhost:8000/api/login/", {
+        id_user: userID,
+        password: password
+      })
       .then(response => {
-        console.log(response)
+        console.log(response);
         if (response.data) {
-          
-          if(response.data.code===200){
-                   
+          if (response.data.code === 200) {
             props.setCredentials(response.data.data);
             setType("success");
+          } else setType("error");
 
-          }
-          else setType("error");
-          
           setMessaje(response.data.message);
           setOpen(true);
 
-          if(response.data.code===200)setTimeout(() => setRedirectToHome(true), 2000);
+          if (response.data.code === 200)
+            setTimeout(() => setRedirectToHome(true), 2000);
         }
       })
       .catch(error => {
