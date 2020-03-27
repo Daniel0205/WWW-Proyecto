@@ -32,10 +32,10 @@ Nota el `(venvDjango)` frente al prompt. Esto indica que el entono virtual esta 
 Inicialmente y cuando se modifiquen los modelos, debemos ejecutar los siguientes comandos:
 
 ```sh
-(venvDjango)$ makemigrations
-(venvDjango)$ migrate
+(venvDjango)$ python3 manage.py makemigrations
+(venvDjango)$ python3 manage.py migrate
 (venvDjango)$ # Opcionalmente cuando se presentan algunos problemas en la migracion
-(venvDjango)$ migrate --run-syncdb
+(venvDjango)$ python3 manage.py migrate --run-syncdb
 ```
 
 Una vez `pip` ha terminado de descargar las dependencias y hacer las migraciones, corrremos el servidor de Django:

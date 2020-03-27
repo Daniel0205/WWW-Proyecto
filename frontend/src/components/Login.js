@@ -76,39 +76,38 @@ function SignIn(props) {
     setOpen(false);
   };
 
-  async function fetchData(id_user) {
-    const response = await axios.get("http://localhost:8000/api/" + id_user);
-    let data = response.data;
-    props.setCredentials({ ...data });
-  }
-
   function onSubmit(event) {
     event.preventDefault();
 
     axios
       .post(
-        "http://localhost:8000/rest-auth/login/",
-        qs.stringify({
-          username: userID,
+        "http://localhost:8000/api/login/",
+        {
+          id_user: userID,
           password: password
-        })
+        }
       )
       .then(response => {
+        console.log(response)
         if (response.data) {
+          
+          if(response.data.code===200){
+                   
+            props.setCredentials(response.data.data);
+            setType("success");
 
-          let token = response.data.key;
-          props.setCredentials({ token });
-          fetchData(userID);
-
-          setType("success");
-          setMessaje("Succesfuly logged!");
+          }
+          else setType("error");
+          
+          setMessaje(response.data.message);
           setOpen(true);
-          setTimeout(() => setRedirectToHome(true), 2000);
+
+          if(response.data.code===200)setTimeout(() => setRedirectToHome(true), 2000);
         }
       })
       .catch(error => {
         setType("error");
-        setMessaje("User id not found!");
+        setMessaje("Server is not working");
         setOpen(true);
       });
   }

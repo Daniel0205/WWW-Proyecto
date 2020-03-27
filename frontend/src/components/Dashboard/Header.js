@@ -16,6 +16,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import { setSelectedItem } from "../store/selectedItem/action";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -46,15 +47,22 @@ function Header(props) {
   const { onDrawerToggle } = props;
   const [userName, setUserName] = useState("");
   const [userLastName, setUserLastName] = useState("");
+  const [select, setSelect] = useState(0);
 
   useEffect(() => {
-    if (props.credentials.length) {
-      setUserName(props.credentials[1].name);
-      setUserLastName(props.credentials[1].last_name);
+    if (props.credentials.token.length) {
+      setUserName(props.credentials.name);
+      setUserLastName(props.credentials.last_name);
     } else {
       setUserName("Guest");
     }
   });
+
+
+  function singIn(){
+    props.setSelectedItem("SignIn");
+    setSelect(1)
+  }
 
   return (
     <React.Fragment>
@@ -135,9 +143,9 @@ function Header(props) {
         position="static"
         elevation={0}
       >
-        <Tabs value={0} textColor="inherit">
+        <Tabs value={select} textColor="inherit">
           <Tab textColor="inherit" label="Users" />
-          <Tab textColor="inherit" label="Sign-in method" />
+          <Tab textColor="inherit" onClick={singIn} label="Sign-in Client" />
           <Tab textColor="inherit" label="Templates" />
           <Tab textColor="inherit" label="Usage" />
         </Tabs>
@@ -147,7 +155,16 @@ function Header(props) {
 }
 
 const mapStateToProps = state => {
-  return { credentials: state.loginReducer.credentials };
+  return {
+    credentials: state.loginReducer.credentials,
+    item: state.itemReducer.item
+  };
 };
 
-export default connect(mapStateToProps)(Header);
+function mapDispatchToProps(dispatch) {
+  return {
+    setSelectedItem: item => dispatch(setSelectedItem(item))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
