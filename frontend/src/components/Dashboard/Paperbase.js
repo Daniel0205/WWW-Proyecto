@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import UsertList from "./Content/UsertList";
 import Banks from "./Content/Banks";
 import Customers from "./Content/Customers";
+import Apartments from "./Content/Apartments";
 
 function Copyright() {
   return (
@@ -186,6 +187,8 @@ function Paperbase(props) {
         return <Banks />;
       case "SignIn":
         return <Customers />;
+      case "Apartments":
+        return <Apartments />;
       default:
         return (
           <div>

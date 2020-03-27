@@ -123,7 +123,7 @@ function Customers(props) {
       {
         icon: 'house',
         tooltip: 'add apartment',
-        onClick: (event, rowData) => props.setSelectedItem("Apartaments")
+        onClick: (event, rowData) => props.setSelectedItem("Apartments")
       }
     ]}
   />
