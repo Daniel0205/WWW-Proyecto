@@ -105,12 +105,12 @@ function Navigator(props) {
 
   //Welcome message depending on type of user logged in
   useEffect(() => {
-    if (props.credentials.length) {
-      if (props.credentials[1].type === "A") setUserType("Administrator");
-      if (props.credentials[1].type === "O") setUserType("Operator");
-      if (props.credentials[1].type === "G") setUserType("Manager");
-    } else {
+    if (sessionStorage.getItem("token") === null) {
       setUserType("Guest");
+    } else {
+      if (sessionStorage.getItem("type") === "A") setUserType("Administrator");
+      if (sessionStorage.getItem("type") === "O") setUserType("Operator");
+      if (sessionStorage.getItem("type") === "G") setUserType("Manager");
     }
   });
 

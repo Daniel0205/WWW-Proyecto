@@ -47,14 +47,20 @@ function Header(props) {
   const { onDrawerToggle } = props;
   const [userName, setUserName] = useState("");
   const [userLastName, setUserLastName] = useState("");
-  const [select, setSelect] = useState(0);
 
   useEffect(() => {
-    if (props.credentials.token.length) {
-      setUserName(props.credentials.name);
-      setUserLastName(props.credentials.last_name);
+    if (sessionStorage.getItem("token") === null) {
+      //if token is not found
+      if (props.credentials.name) {
+        setUserName(props.credentials.name);
+        //setUserLastName(props.credentials.last_name);
+      } else {
+        setUserName("Guest");
+      }
     } else {
-      setUserName("Guest");
+      //if token is found
+      var name = sessionStorage.getItem("name");
+      setUserName(name);
     }
   });
 
@@ -137,7 +143,7 @@ function Header(props) {
         position="static"
         elevation={0}
       >
-        <Tabs value={select} textColor="inherit">
+        <Tabs textColor="inherit">
           <Tab textColor="inherit" label="Users" />
           <Tab textColor="inherit" label="Sign-in Client" />
           <Tab textColor="inherit" label="Templates" />
