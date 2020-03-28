@@ -11,11 +11,12 @@ from rest_framework.generics import (
 
 from .models import ( 
     User,
-    Client
+    Client,
+    Bank
 )
 
 from rest_framework.views import APIView 
-from .serializers import (UserSerializer,ClientSerializer)
+from .serializers import (UserSerializer,ClientSerializer, BankSerializer)
 
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -83,3 +84,21 @@ class ClientUpdateView(UpdateAPIView):
     serializer_class = ClientSerializer
 
 ###############################################
+
+
+#####################BANK#####################
+class BankCreateView(CreateAPIView):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
+
+
+class BankListView(ListAPIView):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
+
+
+class BankUpdateView(UpdateAPIView):
+    queryset =Bank.objects.all()
+    serializer_class = BankSerializer
+
+##############################################
