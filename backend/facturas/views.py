@@ -11,11 +11,28 @@ from rest_framework.generics import (
 
 from .models import ( 
     User,
-    Client
+    Client,
+    Apartment,
+    Substation,
+    Transformer,
+    ElectricityMeter,
+    Bank,
+    Bill,
+    Payment,
 )
 
 from rest_framework.views import APIView 
-from .serializers import (UserSerializer,ClientSerializer)
+from .serializers import (
+    UserSerializer,
+    ClientSerializer,
+    ApartmentSerializer,
+    SubstationSerializer,
+    TransformerSerializer,
+    ElectricityMeterSerializer,
+    BankSerializer,
+    BillSerializer,
+    PaymentSerializer
+    )
 
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -81,5 +98,124 @@ class ClientListView(ListAPIView):
 class ClientUpdateView(UpdateAPIView):
     queryset =Client.objects.all()
     serializer_class = ClientSerializer
+
+###############################################
+
+#####################Apartment#####################
+class  ApartmentCreateView(CreateAPIView):
+    queryset = Apartment.objects.all()
+    serializer_class = ApartmentSerializer
+
+
+class ApartmentListView(ListAPIView):
+    queryset = Apartment.objects.all()
+    serializer_class = ApartmentSerializer
+
+
+class ApartmentUpdateView(UpdateAPIView):
+    queryset =Apartment.objects.all()
+    serializer_class = ApartmentSerializer
+
+###############################################
+
+#####################Substation#####################
+class  SubstationCreateView(CreateAPIView):
+    queryset = Substation.objects.all()
+    serializer_class = SubstationSerializer
+
+
+class SubstationListView(ListAPIView):
+    queryset = Substation.objects.all()
+    serializer_class = SubstationSerializer
+
+
+class SubstationUpdateView(UpdateAPIView):
+    queryset =Substation.objects.all()
+    serializer_class = SubstationSerializer
+
+###############################################
+
+#####################Transformer#####################
+class  TransformerCreateView(CreateAPIView):
+    queryset = Transformer.objects.all()
+    serializer_class = TransformerSerializer
+
+
+class TransformerListView(ListAPIView):
+    queryset = Transformer.objects.all()
+    serializer_class = TransformerSerializer
+
+
+class TransformerUpdateView(UpdateAPIView):
+    queryset =Transformer.objects.all()
+    serializer_class = TransformerSerializer
+
+###############################################
+
+#####################ElectricityMeter#####################
+class  ElectricityMeterCreateView(CreateAPIView):
+    queryset = ElectricityMeter.objects.all()
+    serializer_class = ElectricityMeterSerializer
+
+
+class ElectricityMeterListView(ListAPIView):
+    queryset = ElectricityMeter.objects.all()
+    serializer_class = ElectricityMeterSerializer
+
+
+class ElectricityMeterUpdateView(UpdateAPIView):
+    queryset =ElectricityMeter.objects.all()
+    serializer_class = ElectricityMeterSerializer
+
+###############################################
+
+#####################Bank#####################
+class  BankCreateView(CreateAPIView):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
+
+
+class BankListView(ListAPIView):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
+
+
+class BankUpdateView(UpdateAPIView):
+    queryset =Bank.objects.all()
+    serializer_class = BankSerializer
+
+###############################################
+
+#####################Bill#####################
+class  BillCreateView(CreateAPIView):
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer
+
+
+class BillListView(ListAPIView):
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer
+
+
+class BillUpdateView(UpdateAPIView):
+    queryset =Bill.objects.all()
+    serializer_class = BillSerializer
+
+###############################################
+
+#####################Payment#####################
+class  PaymentCreateView(CreateAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
+
+class PaymentListView(ListAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
+
+class PaymentUpdateView(UpdateAPIView):
+    queryset =Payment.objects.all()
+    serializer_class = PaymentSerializer
 
 ###############################################
