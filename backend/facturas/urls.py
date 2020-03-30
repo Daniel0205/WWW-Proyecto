@@ -13,6 +13,11 @@ from .views import (
    ClientUpdateView,
    ClientListView,
 
+   #Bank
+   BankCreateView,
+   BankUpdateView,
+   BankListView,
+
 )
 
 
@@ -30,5 +35,8 @@ urlpatterns = [
     path('user', UserListView.as_view()),
     path('user/update/<pk>',UserUpdateView.as_view()),
     
-
+    #User
+    path('bank', BankListView.as_view()),
+    path('bank/update/<pk>',BankUpdateView.as_view()),
+    path('bank/create/',BankCreateView.as_view()),
 ]

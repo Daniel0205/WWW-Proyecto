@@ -2,7 +2,8 @@ from rest_framework import serializers
 
 from facturas.models import (
     User,
-    Client
+    Client,
+    Bank
 )
 
 from django.contrib.auth.hashers import make_password
@@ -38,4 +39,10 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = "__all__"
+
+
+class BankSerializer(serializers.ModelSerializer):
     
+    class Meta:
+        model = Bank
+        fields = "__all__"
