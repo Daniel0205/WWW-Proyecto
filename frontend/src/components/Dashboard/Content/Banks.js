@@ -65,7 +65,7 @@ function Banks(props) {
   });
 
   React.useEffect(() => {
-    axios
+  axios
       .get("http://localhost:8000/api/bank")
       .then(response => {
         setState({

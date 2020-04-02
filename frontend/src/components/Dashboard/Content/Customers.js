@@ -3,6 +3,31 @@ import MaterialTable from "material-table";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setSelectedItem } from "../../store/selectedItem/action";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    maxWidth: 936,
+    margin: "auto",
+    overflow: "hidden"
+  },
+  searchBar: {
+    borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
+  },
+  searchInput: {
+    fontSize: theme.typography.fontSize
+  },
+  block: {
+    display: "block"
+  },
+  addUser: {
+    marginRight: theme.spacing(1)
+  },
+  contentWrapper: {
+    margin: "40px 16px"
+  }
+}));
 
 function Customers(props) {
   axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -57,79 +82,87 @@ function Customers(props) {
       });
   }, []);
 
-  return (
-    <MaterialTable
-      title="Customers"
-      columns={state.columns}
-      data={state.data}
-      editable={{
-        onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
+  const classes = useStyles();
 
-              axios
-                .post("http://localhost:8000/api/client/create/", {
-                  id: newData.id_user,
-                  name: newData.name,
-                  last_name: newData.last_name,
-                  type: newData.type,
-                  email: newData.email,
-                  shipping_way: newData.shipping_way
-                })
-                .then(response => {
-                  console.log(response);
-                  setState(prevState => {
-                    const data = [...prevState.data];
-                    data.push(newData);
-                    return { ...prevState, data };
-                  });
-                })
-                .catch(error => {
-                  console.log(error);
-                });
-            }, 600);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              axios
-                .put(
-                  "http://localhost:8000/api/client/update/" + newData.id_user,
-                  {
+  return (
+    <Paper className={classes.paper}>
+      <MaterialTable
+        style={{
+          padding: "0px 15px"
+        }}
+        title="Customers"
+        columns={state.columns}
+        data={state.data}
+        editable={{
+          onRowAdd: newData =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+
+                axios
+                  .post("http://localhost:8000/api/client/create/", {
                     id: newData.id_user,
                     name: newData.name,
                     last_name: newData.last_name,
                     type: newData.type,
                     email: newData.email,
                     shipping_way: newData.shipping_way
-                  }
-                )
-                .then(response => {
-                  console.log(response);
-                  if (oldData) {
+                  })
+                  .then(response => {
+                    console.log(response);
                     setState(prevState => {
                       const data = [...prevState.data];
-                      data[data.indexOf(oldData)] = newData;
+                      data.push(newData);
                       return { ...prevState, data };
                     });
-                  }
-                })
-                .catch(error => {
-                  console.log(error);
-                });
-            }, 600);
-          })
-      }}
-      actions={[
-        {
-          icon: "house",
-          tooltip: "add apartment",
-          onClick: (event, rowData) => props.setSelectedItem("Apartaments")
-        }
-      ]}
-    />
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              }, 600);
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                axios
+                  .put(
+                    "http://localhost:8000/api/client/update/" +
+                      newData.id_user,
+                    {
+                      id: newData.id_user,
+                      name: newData.name,
+                      last_name: newData.last_name,
+                      type: newData.type,
+                      email: newData.email,
+                      shipping_way: newData.shipping_way
+                    }
+                  )
+                  .then(response => {
+                    console.log(response);
+                    if (oldData) {
+                      setState(prevState => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                      });
+                    }
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              }, 600);
+            })
+        }}
+        actions={[
+          {
+            icon: "house",
+            tooltip: "add apartment",
+            onClick: (event, rowData) => props.setSelectedItem("Apartaments")
+          }
+        ]}
+      />
+    </Paper>
   );
 }
 
