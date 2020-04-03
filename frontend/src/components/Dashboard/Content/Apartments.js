@@ -134,12 +134,7 @@ function Apartments(props) {
             id_user_client:state.id_user_client
        })
         .then(response => {
-          console.log(response)
-          setState(prevState => {
-            const data = [...prevState.data];
-            data.push(state);
-            return { ...prevState, data };
-          });                
+          console.log(response)              
         })
         .catch(error => {
           console.log(error)

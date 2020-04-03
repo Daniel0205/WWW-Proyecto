@@ -37,16 +37,8 @@ class Mapa extends React.Component {
         .catch(err => {
           console.error(err);
         });
-      this.addMarker(e);
     });
   }
-
-  //Funcion para añadir marcadores al mapa dinamicamente
-  addMarker = e => {
-    const { markers } = this.state;
-    markers[0] = e.latlng;
-    this.setState({ markers });
-  };
 
   render() {
     const position = [this.state.lat, this.state.lng]
