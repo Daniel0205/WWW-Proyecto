@@ -38,7 +38,7 @@ class Login(APIView):
                 user= User.objects.filter(id_user__iexact= id_user)
 
                 token, created = Token.objects.get_or_create(user=user[0])
-                return Response({"message": "Succesfuly logged!",  "code": 200, "data":  {'name':user_objp['name'],'token':token.key,'type':user_objp['type']}})
+                return Response({"message": "Succesfuly logged!",  "code": 200, "data":  { "id_user":id_user,'name':user_objp['name'],'token':token.key,'type':user_objp['type']}})
             else:
                 message= "Incorrect password"
                 
