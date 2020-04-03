@@ -119,8 +119,8 @@ class ElectricityMeter(models.Model):
 #Apartments Model
 class Apartment(models.Model):
     num_contract =  models.AutoField(primary_key=True)
-    lat_address = models.DecimalField(null=True, max_digits=10, decimal_places=8)
-    long_address = models.DecimalField(null=True, max_digits=11, decimal_places=8)
+    lat_address = models.DecimalField(null=True, max_digits=18, decimal_places=16)
+    long_address = models.DecimalField(null=True, max_digits=19, decimal_places=16)
     stratum = models.IntegerField(null=True)
     id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who created the apartment", null=False)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Electricitymeter assigned to the apartment", null=False)
@@ -128,9 +128,10 @@ class Apartment(models.Model):
 
 
 #Bank Model
-class Bank(models.Model):
+class Bank(models.Model): 
     id_bank =  models.IntegerField(primary_key=True)
     name_bank = models.TextField(null=False)
+    active = models.BooleanField(default=True)
 
 #Bill Model
 class Bill(models.Model):
@@ -157,18 +158,4 @@ class Payment(models.Model):
     id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who made the pay", null=False)
 
 
-class Bank(models.Model):
 
-    id =  models.IntegerField(primary_key=True)
-    name = models.TextField(null=False)
-    
-    CITY_CHOICES = {
-        ("B", "Bogota"),
-        ("C", "Cali"),
-        ("M", "Medellin")
-    }
-
-    city = models.CharField(null=False,max_length=1, choices=CITY_CHOICES,
-        default="C")
-    
-    active = models.BooleanField(default=True)

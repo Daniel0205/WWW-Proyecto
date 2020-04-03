@@ -161,7 +161,7 @@ function Customers(props) {
             tooltip: "add apartment",
             onClick: (event, rowData) => {
               props.setSelectedUser(rowData.id_user)
-              props.setSelectedItem("Apartaments")}
+              props.setSelectedItem("Apartments")}
           }
         ]}
       />

@@ -19,6 +19,9 @@ import CardActions from '@material-ui/core/CardActions';
 import Mapa from "./Mapa.js";
 
 import axios from "axios";
+import { connect } from "react-redux";
+import { setSelectedItem } from "../../store/selectedItem/action";
+import { setSelectedUser } from "../../store/selectedUser/action";
 
 const styles = theme => ({
   paper: {
@@ -45,7 +48,6 @@ const styles = theme => ({
     marginBottom: "16px"
   },
   tomap: {
-    background: "red",
     margin: '0 auto',
     display: 'flex',
     height: 300,
@@ -54,6 +56,13 @@ const styles = theme => ({
 });
 
 function Apartments(props) {
+
+  axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.headers = {
+    "Content-Type": "application/json"
+  };
+  
   const { classes } = props;
   const [flagToAdd, setflagToAdd] = useState(false);
 
@@ -61,20 +70,21 @@ function Apartments(props) {
       latitud: "",
       longitud: "",
       stratum: "",
-      id_user:"",
+      id_user:props.credentials.id_user,
       id_electricity_meter:"",
-      id_user_client:"",
+      id_user_client:props.user,
       data: []
   }); 
 
-  /*
+  
   React.useEffect(() => {
     axios
     .get(
-      "http://localhost:8000/api/apartment"
+      "http://localhost:8000/api/apartments/"+state.id_user_client
     )
     .then(response => {
       setState({
+        ...state,
         data:response.data.map((x)=> {
           return({
           num_contract: x.num_contract,
@@ -92,13 +102,15 @@ function Apartments(props) {
       console.log(error)
     });
 
-  }, []);*/
+  }, []);
   
  function setPosition(event) {
-   setState({...state,
-    latitud: event.lat_address,
-    longitud: event.long_address,
-   })
+
+      setState({...state,
+        latitud: event.lat_address,
+        longitud: event.long_address,
+       })
+       console.log(state)
   }
 
   function nothing(event) {
@@ -135,6 +147,8 @@ function Apartments(props) {
        
       }, 600);
     })
+    setflagToAdd(false)
+
    }
 
   function AddApartment() {
@@ -143,16 +157,6 @@ function Apartments(props) {
             <div>
                 <Card className={classes.addWrapper}>
                     <CardContent>
-                        <TextField
-                            name="num_contract"
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            value={state.num_contract}
-                            label="Number of contract"
-                            onChange={(x)=>setState({...state,num_contract:x.target.value})}
-                        />
                         <TextField
                             name="Latitud"
                             variant="outlined"
@@ -326,4 +330,19 @@ Apartments.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Apartments);
+const mapStateToProps = state => {
+  return {
+    credentials: state.loginReducer.credentials,
+    item: state.itemReducer.item,
+    user: state.userReducer.user
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setSelectedItem: item => dispatch(setSelectedItem(item)),
+    setSelectedUser: item => dispatch(setSelectedUser(item))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Apartments));

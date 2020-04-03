@@ -17,6 +17,7 @@ from .views import (
    ApartmentCreateView,
    ApartmentUpdateView,
    ApartmentListView,
+   ApartmentsClass,
 
    #Substation
    SubstationCreateView,
@@ -69,6 +70,7 @@ urlpatterns = [
     path('apartment', ApartmentListView.as_view()),
     path('apartment/update/<pk>',ApartmentUpdateView.as_view()),
     path('apartment/create/',ApartmentCreateView.as_view()),
+    path('apartments/<id>', ApartmentsClass.as_view()),
 
     #Substation
     path('substation', SubstationListView.as_view()),

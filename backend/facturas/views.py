@@ -116,6 +116,13 @@ class ApartmentUpdateView(UpdateAPIView):
     queryset =Apartment.objects.all()
     serializer_class = ApartmentSerializer
 
+class ApartmentsClass(APIView):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id', 'Default Value if not there')
+        apartments = Apartment.objects.filter(id_user_client=id).values()
+        serializer_class = UserSerializer
+        return Response(apartments)
+
 ###############################################
 
 #####################Substation#####################
