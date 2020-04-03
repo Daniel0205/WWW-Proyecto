@@ -1,5 +1,5 @@
 const initialState = {
-  item: "SignIn" //Component to be displayed first on the home page
+  item: "Users" //Component to be displayed first on the home page
 };
 
 function itemReducer(state = initialState, action) {

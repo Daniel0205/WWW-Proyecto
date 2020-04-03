@@ -1,10 +1,13 @@
 import { createStore, combineReducers, compose } from "redux";
 import loginReducer from "./login/reducer";
 import itemReducer from "./selectedItem/reducer";
+import userReducer from "./selectedUser/reducer";
 
 const reducers = combineReducers({
   loginReducer,
-  itemReducer
+  itemReducer,
+  userReducer
+  
 });
 
 const enhancers = compose(

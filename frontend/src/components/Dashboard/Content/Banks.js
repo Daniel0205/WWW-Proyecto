@@ -1,17 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
+import MaterialTable from "material-table";
+import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import Paper from "@material-ui/core/Paper";
 
 const styles = theme => ({
   paper: {
@@ -36,43 +27,136 @@ const styles = theme => ({
   }
 });
 
-function Reports(props) {
+function Banks(props) {
+  axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.headers = {
+    "Content-Type": "application/json"
+  };
+
+  const [state, setState] = React.useState({
+    columns: [
+      {
+        title: "Identification",
+        field: "id_bank",
+        editable: "onAdd",
+        type: "numeric",
+        cellStyle: { textAlign: "center" },
+        headerStyle: { textAlign: "center" }
+      },
+      { title: "Name", field: "name" },
+      {
+        title: "City",
+        field: "city",
+
+        initialEditValue: "Cali",
+        lookup: { C: "Cali", B: "Bogota", M: "Medellin" }
+      },
+      {
+        title: "Active",
+        field: "active",
+        initialEditValue: "true",
+        lookup: { true: "True", false: "False" },
+        cellStyle: { textAlign: "left", width: 10, maxWidth: 10 },
+        headerStyle: { textAlign: "left", width: 10, maxWidth: 10 }
+      }
+    ],
+    data: []
+  });
+
+  React.useEffect(() => {
+  axios
+      .get("http://localhost:8000/api/bank")
+      .then(response => {
+        setState({
+          columns: state.columns,
+          data: response.data.map(x => {
+            return {
+              id_bank: x.id,
+              name: x.name,
+              active: x.active,
+              city: x.city
+            };
+          })
+        });
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
   const { classes } = props;
 
   return (
     <Paper className={classes.paper}>
-      <AppBar
-        className={classes.searchBar}
-        position="static"
-        color="default"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
-            </Grid>
-            <Grid item>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.contentWrapper}>
-        <Typography color="textSecondary" align="center">
-          Banks under construction
-        </Typography>
-      </div>
+      <MaterialTable
+        style={{
+          //backgroundColor: "#ddd",
+          padding: "0px 15px"
+        }}
+        title="Banks"
+        columns={state.columns}
+        data={state.data}
+        editable={{
+          onRowAdd: newData =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+
+                axios
+                  .post("http://localhost:8000/api/bank/create/", {
+                    id: newData.id_bank,
+                    name: newData.name,
+                    active: newData.active,
+                    city: newData.city
+                  })
+                  .then(response => {
+                    console.log(response);
+                    setState(prevState => {
+                      const data = [...prevState.data];
+                      data.push(newData);
+                      return { ...prevState, data };
+                    });
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              }, 600);
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                axios
+                  .put(
+                    "http://localhost:8000/api/bank/update/" + newData.id_bank,
+                    {
+                      id: newData.id_bank,
+                      name: newData.name,
+                      active: newData.active,
+                      city: newData.city
+                    }
+                  )
+                  .then(response => {
+                    console.log(response);
+                    if (oldData) {
+                      setState(prevState => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                      });
+                    }
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              }, 600);
+            })
+        }}
+      />
     </Paper>
   );
 }
 
-Reports.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Reports);
+export default withStyles(styles)(Banks);

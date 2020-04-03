@@ -16,7 +16,6 @@ import Background from "./Images/login.jpg";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarMesssages from "../components/SnackbarMesssages";
 import axios from "axios";
-import qs from "qs";
 import { connect } from "react-redux";
 import { setCredentials } from "./store/login/action";
 
@@ -80,29 +79,23 @@ function SignIn(props) {
     event.preventDefault();
 
     axios
-      .post(
-        "http://localhost:8000/api/login/",
-        {
-          id_user: userID,
-          password: password
-        }
-      )
+      .post("http://localhost:8000/api/login/", {
+        id_user: userID,
+        password: password
+      })
       .then(response => {
-        console.log(response)
+        console.log(response);
         if (response.data) {
-          
-          if(response.data.code===200){
-                   
-            props.setCredentials(response.data.data);
+          if (response.data.code === 200) {
+            props.setCredentials(response.data.data); //stored in the redux state
+            storeCredentialsInBroser(response.data.data); //store data in the browser
             setType("success");
-
-          }
-          else setType("error");
-          
+          } else setType("error");
           setMessaje(response.data.message);
           setOpen(true);
 
-          if(response.data.code===200)setTimeout(() => setRedirectToHome(true), 2000);
+          if (response.data.code === 200)
+            setTimeout(() => setRedirectToHome(true), 1000);
         }
       })
       .catch(error => {
@@ -110,6 +103,13 @@ function SignIn(props) {
         setMessaje("Server is not working");
         setOpen(true);
       });
+  }
+
+  function storeCredentialsInBroser(credentials) {
+    sessionStorage.setItem("id_user", credentials.id_user);
+    sessionStorage.setItem("name", credentials.name);
+    sessionStorage.setItem("token", credentials.token);
+    sessionStorage.setItem("type", credentials.type);
   }
 
   function CaptchaPassed() {

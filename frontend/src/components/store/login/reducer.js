@@ -1,5 +1,5 @@
 const initialState = {
-  credentials: {'type':'','name':'','token':''}
+  credentials: {'id_user:':'','type':'','name':'','token':''}
 };
 
 function loginReducer(state = initialState, action) {

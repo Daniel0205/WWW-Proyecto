@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import HelpIcon from "@material-ui/icons/Help";
 import Hidden from "@material-ui/core/Hidden";
@@ -46,23 +45,23 @@ function Header(props) {
   const classes = useStyles();
   const { onDrawerToggle } = props;
   const [userName, setUserName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
-  const [select, setSelect] = useState(0);
+  const [userLastName] = useState("");
 
   useEffect(() => {
-    if (props.credentials.token.length) {
-      setUserName(props.credentials.name);
-      setUserLastName(props.credentials.last_name);
+    if (sessionStorage.getItem("token") === null) {
+      //if token is not found
+      if (props.credentials.name) {
+        setUserName(props.credentials.name);
+        //setUserLastName(props.credentials.last_name);
+      } else {
+        setUserName("Guest");
+      }
     } else {
-      setUserName("Guest");
+      //if token is found
+      var name = sessionStorage.getItem("name");
+      setUserName(name);
     }
   });
-
-
-  function singIn(){
-    props.setSelectedItem("SignIn");
-    setSelect(1)
-  }
 
   return (
     <React.Fragment>
@@ -117,14 +116,16 @@ function Header(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Button
-                className={classes.button}
-                variant="outlined"
-                color="inherit"
-                size="small"
-              >
-                Web setup
-              </Button>
+            <Link 
+              className={classes.button}
+              variant="outlined"
+              color="inherit"
+              size="small" 
+              href="login"
+              onClick={console.log("hola")}>
+                Log out
+              </Link>
+              
             </Grid>
             <Grid item>
               <Tooltip title="Help">
@@ -143,9 +144,9 @@ function Header(props) {
         position="static"
         elevation={0}
       >
-        <Tabs value={select} textColor="inherit">
+        <Tabs textColor="inherit">
           <Tab textColor="inherit" label="Users" />
-          <Tab textColor="inherit" onClick={singIn} label="Sign-in Client" />
+          <Tab textColor="inherit" label="Sign-in Client" />
           <Tab textColor="inherit" label="Templates" />
           <Tab textColor="inherit" label="Usage" />
         </Tabs>

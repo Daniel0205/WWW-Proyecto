@@ -157,3 +157,18 @@ class Payment(models.Model):
     id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who made the pay", null=False)
 
 
+class Bank(models.Model):
+
+    id =  models.IntegerField(primary_key=True)
+    name = models.TextField(null=False)
+    
+    CITY_CHOICES = {
+        ("B", "Bogota"),
+        ("C", "Cali"),
+        ("M", "Medellin")
+    }
+
+    city = models.CharField(null=False,max_length=1, choices=CITY_CHOICES,
+        default="C")
+    
+    active = models.BooleanField(default=True)
