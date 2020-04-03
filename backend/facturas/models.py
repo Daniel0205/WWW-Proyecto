@@ -128,9 +128,19 @@ class Apartment(models.Model):
 
 
 #Bank Model
-class Bank(models.Model): 
+class Bank(models.Model):
     id_bank =  models.IntegerField(primary_key=True)
     name_bank = models.TextField(null=False)
+
+    CITY_CHOICES = {
+        ("B", "Bogota"),
+        ("C", "Cali"),
+        ("M", "Medellin")
+    }
+
+    city_bank = models.CharField(null=False,max_length=1, choices=CITY_CHOICES,
+        default="C")
+    
     active = models.BooleanField(default=True)
 
 #Bill Model
@@ -156,6 +166,5 @@ class Payment(models.Model):
     id_bill = models.ForeignKey(Bill,on_delete=models.CASCADE, verbose_name="Bill related payment", null=False)
     id_bank = models.ForeignKey(Bank,on_delete=models.CASCADE, verbose_name="Bank who made the pay", null=False)
     id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who made the pay", null=False)
-
 
 

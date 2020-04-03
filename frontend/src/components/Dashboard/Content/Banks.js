@@ -3,6 +3,8 @@ import MaterialTable from "material-table";
 import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarMesssages from "../../SnackbarMesssages";
 
 const styles = theme => ({
   paper: {
@@ -38,7 +40,7 @@ function Banks(props) {
     columns: [
       {
         title: "Identification",
-        field: "id_bank",
+        field: "id",
         editable: "onAdd",
         type: "numeric",
         cellStyle: { textAlign: "center" },
@@ -65,17 +67,17 @@ function Banks(props) {
   });
 
   React.useEffect(() => {
-  axios
+    axios
       .get("http://localhost:8000/api/bank")
       .then(response => {
         setState({
           columns: state.columns,
           data: response.data.map(x => {
             return {
-              id_bank: x.id,
-              name: x.name,
+              id: x.id_bank,
+              name: x.name_bank,
               active: x.active,
-              city: x.city
+              city: x.city_bank
             };
           })
         });
@@ -87,75 +89,119 @@ function Banks(props) {
   }, []);
 
   const { classes } = props;
+  const [messaje, setMessaje] = React.useState("");
+  const [type, setType] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
-    <Paper className={classes.paper}>
-      <MaterialTable
-        style={{
-          //backgroundColor: "#ddd",
-          padding: "0px 15px"
-        }}
-        title="Banks"
-        columns={state.columns}
-        data={state.data}
-        editable={{
-          onRowAdd: newData =>
-            new Promise(resolve => {
-              setTimeout(() => {
-                resolve();
+    <>
+      <Paper className={classes.paper}>
+        <MaterialTable
+          style={{
+            //backgroundColor: "#ddd",
+            padding: "0px 15px"
+          }}
+          title="Banks"
+          columns={state.columns}
+          data={state.data}
+          editable={{
+            onRowAdd: newData =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
 
-                axios
-                  .post("http://localhost:8000/api/bank/create/", {
-                    id: newData.id_bank,
-                    name: newData.name,
-                    active: newData.active,
-                    city: newData.city
-                  })
-                  .then(response => {
-                    console.log(response);
-                    setState(prevState => {
-                      const data = [...prevState.data];
-                      data.push(newData);
-                      return { ...prevState, data };
-                    });
-                  })
-                  .catch(error => {
-                    console.log(error);
-                  });
-              }, 600);
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise(resolve => {
-              setTimeout(() => {
-                resolve();
-                axios
-                  .put(
-                    "http://localhost:8000/api/bank/update/" + newData.id_bank,
-                    {
-                      id: newData.id_bank,
-                      name: newData.name,
-                      active: newData.active,
-                      city: newData.city
-                    }
-                  )
-                  .then(response => {
-                    console.log(response);
-                    if (oldData) {
+                  axios
+                    .post("http://localhost:8000/api/bank/create/", {
+                      id_bank: newData.id,
+                      name_bank: newData.name,
+                      city_bank: newData.city,
+                      active: newData.active
+                    })
+                    .then(response => {
+                      console.log(response);
                       setState(prevState => {
                         const data = [...prevState.data];
-                        data[data.indexOf(oldData)] = newData;
+                        data.push(newData);
+                        //Message Alert
+                        setType("success");
+                        setMessaje("The Bank was successfully created");
+                        setOpen(true);
+                        //-------------
                         return { ...prevState, data };
                       });
-                    }
-                  })
-                  .catch(error => {
-                    console.log(error);
-                  });
-              }, 600);
-            })
-        }}
-      />
-    </Paper>
+                    })
+                    .catch(error => {
+                      //Message Alert
+                      setType("error");
+                      setMessaje("All fields are required");
+                      setOpen(true);
+                      //-------------
+                      console.log(error);
+                    });
+                }, 600);
+              }),
+            onRowUpdate: (newData, oldData) =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  axios
+                    .put(
+                      "http://localhost:8000/api/bank/update/" + newData.id,
+                      {
+                        id_bank: newData.id,
+                        name_bank: newData.name,
+                        city_bank: newData.city,
+                        active: newData.active
+                      }
+                    )
+                    .then(response => {
+                      console.log(response);
+                      if (oldData) {
+                        setState(prevState => {
+                          const data = [...prevState.data];
+                          data[data.indexOf(oldData)] = newData;
+                          //Message Alert
+                          setType("success");
+                          setMessaje("The Bank was successfully updated");
+                          setOpen(true);
+                          //-------------
+                          return { ...prevState, data };
+                        });
+                      }
+                    })
+                    .catch(error => {
+                      //Message Alert
+                      setType("error");
+                      setMessaje("All fields are required");
+                      setOpen(true);
+                      //-------------
+                      console.log(error);
+                    });
+                }, 600);
+              })
+          }}
+        />
+      </Paper>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleClose}
+        open={open}
+        autoHideDuration={3000}
+      >
+        <SnackbarMesssages
+          variant={type}
+          onClose={handleClose}
+          message={messaje}
+        />
+      </Snackbar>
+    </>
   );
 }
 
