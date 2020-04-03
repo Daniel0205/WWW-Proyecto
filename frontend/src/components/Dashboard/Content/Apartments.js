@@ -16,6 +16,9 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import Mapa from "./Mapa.js";
+
+import axios from "axios";
 
 const styles = theme => ({
   paper: {
@@ -40,6 +43,13 @@ const styles = theme => ({
   },
   addWrapper: {
     marginBottom: "16px"
+  },
+  tomap: {
+    background: "red",
+    margin: '0 auto',
+    display: 'flex',
+    height: 300,
+    width: '90%',
   }
 });
 
@@ -48,30 +58,84 @@ function Apartments(props) {
   const [flagToAdd, setflagToAdd] = useState(false);
 
   const [state, setState] = React.useState({
-      num_contract: "",
-      addres: "",
+      latitud: "",
+      longitud: "",
       stratum: "",
       id_user:"",
       id_electricity_meter:"",
       id_user_client:"",
-      data: [
-          {
-            num_contract: "123",
-            addres: "safdz",
-            stratum: "2",
-            id_user:"124",
-            id_electricity_meter:"54",
-          },
-          {
-            num_contract: "152",
-            addres: "asf er qwr",
-            stratum: "1",
-            id_user:"1346",
-            id_electricity_meter:"14",
-          }
-      ]
+      data: []
   }); 
 
+  /*
+  React.useEffect(() => {
+    axios
+    .get(
+      "http://localhost:8000/api/apartment"
+    )
+    .then(response => {
+      setState({
+        data:response.data.map((x)=> {
+          return({
+          num_contract: x.num_contract,
+          lat_address: x.lat_address,
+          long_address: x.long_address,
+          stratum: x.stratum,
+          id_user:x.id_user,
+          id_electricity_meter: x.id_electricitymeter,
+          id_user_client:x.id_user_client
+        })})
+      })
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error)
+    });
+
+  }, []);*/
+  
+ function setPosition(event) {
+   setState({...state,
+    latitud: event.lat_address,
+    longitud: event.long_address,
+   })
+  }
+
+  function nothing(event) {
+    console.log("callback to not error")
+   }
+
+   function sending(event) {
+    new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+    
+        axios
+        .post(
+          "http://localhost:8000/api/apartment/create/",
+          {
+            lat_address:state.latitud,
+            long_address: state.longitud,
+            stratum: state.stratum,
+            id_user:state.id_user,
+            id_electricitymeter:state.id_electricity_meter,
+            id_user_client:state.id_user_client
+       })
+        .then(response => {
+          console.log(response)
+          setState(prevState => {
+            const data = [...prevState.data];
+            data.push(state);
+            return { ...prevState, data };
+          });                
+        })
+        .catch(error => {
+          console.log(error)
+        });
+       
+      }, 600);
+    })
+   }
 
   function AddApartment() {
     if(flagToAdd){
@@ -87,17 +151,27 @@ function Apartments(props) {
                             fullWidth
                             value={state.num_contract}
                             label="Number of contract"
-                            onChange={(x)=>setState({num_contract:x.target.value})}
+                            onChange={(x)=>setState({...state,num_contract:x.target.value})}
                         />
                         <TextField
-                            name="address"
+                            name="Latitud"
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
-                            value={state.address}
-                            label="Address"
-                            onChange={(x)=>setState({address:x.target.value})}
+                            value={state.latitud}
+                            label="Latitud"
+                            onChange={(x)=>setState({...state,latitud:x.target.value})}
+                        />
+                        <TextField
+                            name="Longitud"
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            value={state.longitud}
+                            label="Longitud"
+                            onChange={(x)=>setState({...state,longitud:x.target.value})}
                         />
                         <TextField
                             name="stratum"
@@ -108,7 +182,7 @@ function Apartments(props) {
                             fullWidth
                             value={state.stratum}
                             label="Stratum"
-                            onChange={(x)=>setState({stratum:x.target.value})}
+                            onChange={(x)=>setState({...state,stratum:x.target.value})}
                         />
                         <TextField
                             name="id_electricity_meter"
@@ -119,11 +193,12 @@ function Apartments(props) {
                             fullWidth
                             value={state.id_electricity_meter}
                             label="Electricity meter"
-                            onChange={(x)=>setState({id_electricity_meter:x.target.value})}
+                            onChange={(x)=>setState({...state,id_electricity_meter:x.target.value})}
                         />
+                        <Mapa lat={3.37512} long={-76.537189} callback={setPosition}/>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" onClick={() => alert("Deberia enviar los datos a la base jiji")}>Submit</Button>
+                        <Button size="small" onClick={sending}>Submit</Button>
                         <Button size="small" onClick={() => setflagToAdd(false)}>Cacel</Button>
                     </CardActions>
                 </Card>
@@ -132,9 +207,9 @@ function Apartments(props) {
     }
   }
 
-    let existentApartments = state.data.map(a => {
+    let existentApartments = state.data.map((a,i) => {
         return(
-            <Card className={classes.addWrapper}>
+            <Card className={classes.addWrapper} key={i}>
                 <CardContent>
                     <TextField
                         name="num_contract"
@@ -148,16 +223,25 @@ function Apartments(props) {
                         onChange={(x)=>setState({num_contract:x.target.value})}
                     />
                     <TextField
-                        name="address"
+                        name="Latitud"
                         variant="outlined"
                         margin="normal"
                         required
                         disabled
                         fullWidth
-                        value={a.address}
-                        label="Address"
-                        onChange={(x)=>setState({address:x.target.value})}
-                    />
+                        value={a.lat_address}
+                        label="Latitud"
+                        />
+                    <TextField
+                        name="Longitud"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        disabled
+                        fullWidth
+                        value={a.long_address}
+                        label="Longitud"
+                        />
                     <TextField
                         name="stratum"
                         variant="outlined"
@@ -168,7 +252,6 @@ function Apartments(props) {
                         fullWidth
                         value={a.stratum}
                         label="Stratum"
-                        onChange={(x)=>setState({stratum:x.target.value})}
                     />
                     <TextField
                         name="id_electricity_meter"
@@ -180,7 +263,6 @@ function Apartments(props) {
                         fullWidth
                         value={a.id_electricity_meter}
                         label="Electricity meter"
-                        onChange={(x)=>setState({id_electricity_meter:x.target.value})}
                     />
                     <TextField
                         name="id_user"
@@ -191,13 +273,14 @@ function Apartments(props) {
                         disabled
                         value={a.id_user}
                         label="Employee"
-                        onChange={(x)=>setState({id_user:x.target.value})}
                     />
+                    <Mapa lat={a.lat_address} long={a.long_address} callback={nothing}/>
                 </CardContent>
                 <CardActions>
                     <Button size="small" onClick={() => alert("Esto debería habilitar para edición")}>Edit</Button>
                 </CardActions>
             </Card>
+            
         );
       });
  
