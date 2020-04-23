@@ -96,15 +96,15 @@ class Client(models.Model):
 class Substation(models.Model):
     id_substation =  models.AutoField(primary_key=True)
     sector_name = models.TextField(null=False)
-    lat_substation = models.DecimalField(null=True, max_digits=10, decimal_places=8)
-    long_substation = models.DecimalField(null=True, max_digits=11, decimal_places=8)
+    lat_substation = models.DecimalField(null=True, max_digits=22, decimal_places=16)
+    long_substation = models.DecimalField(null=True, max_digits=22, decimal_places=16)
 
 #Transformer Model
 class Transformer(models.Model):
     id_transformer =  models.AutoField(primary_key=True)
     tension_level = models.IntegerField(null=False)
     lat_transformer = models.DecimalField(null=True, max_digits=10, decimal_places=8)
-    long_transformer = models.DecimalField(null=True, max_digits=11, decimal_places=8)
+    long_transformer = models.DecimalField(null=True, max_digits=10, decimal_places=8)
     id_substation = models.ForeignKey(Substation,on_delete=models.CASCADE, verbose_name="substation to which it belongs the transformer", null=False)
 
 #ElectricityMeter Model
@@ -119,8 +119,8 @@ class ElectricityMeter(models.Model):
 #Apartments Model
 class Apartment(models.Model):
     num_contract =  models.AutoField(primary_key=True)
-    lat_address = models.DecimalField(null=True, max_digits=18, decimal_places=16)
-    long_address = models.DecimalField(null=True, max_digits=19, decimal_places=16)
+    lat_address = models.DecimalField(null=True, max_digits=22, decimal_places=16)
+    long_address = models.DecimalField(null=True, max_digits=22, decimal_places=16)
     stratum = models.IntegerField(null=True)
     id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who created the apartment", null=False)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Electricitymeter assigned to the apartment", null=False)

@@ -121,7 +121,14 @@ function Apartments(props) {
     new Promise(resolve => {
       setTimeout(() => {
         resolve();
-    
+        console.log({
+          lat_address:state.latitud,
+          long_address: state.longitud,
+          stratum: state.stratum,
+          id_user:state.id_user,
+          id_electricitymeter:state.id_electricity_meter,
+          id_user_client:state.id_user_client
+     })
         axios
         .post(
           "http://localhost:8000/api/apartment/create/",

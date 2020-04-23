@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Navigator from "./Navigator";
 import Header from "./Header";
+import Substation from "./Content/Substation"
 import { connect } from "react-redux";
 
 
@@ -189,6 +190,8 @@ function Paperbase(props) {
         return <Customers />;
       case "Apartments":
         return <Apartments />;
+      case "Substations":
+        return <Substation />;
       default:
         return (
           <div>

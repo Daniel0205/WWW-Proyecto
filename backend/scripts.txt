@@ -1,4 +1,5 @@
 from facturas.models import (User,Client,Apartment,Substation,Transformer,ElectricityMeter,Bank,Bill,Payment)
+from django.contrib.auth.hashers import make_password
 
 User.objects.all().delete()
 Client.objects.all().delete()
@@ -10,9 +11,9 @@ Bank.objects.all().delete()
 Bill.objects.all().delete()
 Payment.objects.all().delete()
 
-User(id_user=1670129 ,name="Steban" ,last_name="Cadena" ,password='1234' ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
-User(id_user=1630536 ,name="Jem Pool" ,last_name="Suarez" ,password='1234' ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
-User(id_user=1629338 ,name="Daniel" ,last_name="Diaz" ,password='1234' ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
+User(id_user=1670129 ,name="Steban" ,last_name="Cadena" ,password=make_password('1234') ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
+User(id_user=1630536 ,name="Jem Pool" ,last_name="Suarez" ,password=make_password('1234') ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
+User(id_user=1629338 ,name="Daniel" ,last_name="Diaz" ,password=make_password('1234') ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
 
 Client(id=1234 ,name="Juan" ,last_name="Perez",email="juan.perez@hotmail.com", type="N", shipping_way="F").save()
 Client(id=9876 ,name="Maria" ,last_name="Lopez",email="maria.lopez@hotmail.com", type="N", shipping_way="E").save()
