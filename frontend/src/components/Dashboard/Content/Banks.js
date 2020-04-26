@@ -36,29 +36,31 @@ function Banks(props) {
     "Content-Type": "application/json"
   };
 
+  console.log(props)
+
   const [state, setState] = React.useState({
     columns: [
       {
-        title: "Identification",
+        title: window.app("Identification"),
         field: "id",
         editable: "onAdd",
         type: "numeric",
         cellStyle: { textAlign: "center" },
         headerStyle: { textAlign: "center" }
       },
-      { title: "Name", field: "name" },
+      { title: window.app("Name"), field: "name" },
       {
-        title: "City",
+        title: window.app("City"),
         field: "city",
 
         initialEditValue: "Cali",
         lookup: { C: "Cali", B: "Bogota", M: "Medellin" }
       },
       {
-        title: "Active",
+        title: window.app("Active"),
         field: "active",
         initialEditValue: "true",
-        lookup: { true: "True", false: "False" },
+        lookup: { true: window.app("True"), false: window.app("False") },
         cellStyle: { textAlign: "left", width: 10, maxWidth: 10 },
         headerStyle: { textAlign: "left", width: 10, maxWidth: 10 }
       }
@@ -71,7 +73,32 @@ function Banks(props) {
       .get("http://localhost:8000/api/bank")
       .then(response => {
         setState({
-          columns: state.columns,
+          columns:[
+            {
+              title: window.app("Identification"),
+              field: "id",
+              editable: "onAdd",
+              type: "numeric",
+              cellStyle: { textAlign: "center" },
+              headerStyle: { textAlign: "center" }
+            },
+            { title: window.app("Name"), field: "name" },
+            {
+              title: window.app("City"),
+              field: "city",
+      
+              initialEditValue: "C",
+              lookup: { C: "Cali", B: "Bogota", M: "Medellin" }
+            },
+            {
+              title: window.app("Active"),
+              field: "active",
+              initialEditValue: "true",
+              lookup: { true: window.app("True"), false: window.app("False") },
+              cellStyle: { textAlign: "left", width: 10, maxWidth: 10 },
+              headerStyle: { textAlign: "left", width: 10, maxWidth: 10 }
+            }
+          ],
           data: response.data.map(x => {
             return {
               id: x.id_bank,
@@ -81,12 +108,11 @@ function Banks(props) {
             };
           })
         });
-        console.log(response);
       })
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [props.language]);
 
   const { classes } = props;
   const [messaje, setMessaje] = React.useState("");
@@ -125,13 +151,13 @@ function Banks(props) {
                       active: newData.active
                     })
                     .then(response => {
-                      console.log(response);
+
                       setState(prevState => {
                         const data = [...prevState.data];
                         data.push(newData);
                         //Message Alert
                         setType("success");
-                        setMessaje("The Bank was successfully created");
+                        setMessaje(window.app("The Bank was successfully created"));
                         setOpen(true);
                         //-------------
                         return { ...prevState, data };
@@ -140,7 +166,7 @@ function Banks(props) {
                     .catch(error => {
                       //Message Alert
                       setType("error");
-                      setMessaje("All fields are required");
+                      setMessaje(window.app("All fields are required"));
                       setOpen(true);
                       //-------------
                       console.log(error);
@@ -162,14 +188,14 @@ function Banks(props) {
                       }
                     )
                     .then(response => {
-                      console.log(response);
+
                       if (oldData) {
                         setState(prevState => {
                           const data = [...prevState.data];
                           data[data.indexOf(oldData)] = newData;
                           //Message Alert
                           setType("success");
-                          setMessaje("The Bank was successfully updated");
+                          setMessaje(window.app("The Bank was successfully updated"));
                           setOpen(true);
                           //-------------
                           return { ...prevState, data };
@@ -179,7 +205,7 @@ function Banks(props) {
                     .catch(error => {
                       //Message Alert
                       setType("error");
-                      setMessaje("All fields are required");
+                      setMessaje(window.app("All fields are required"));
                       setOpen(true);
                       //-------------
                       console.log(error);

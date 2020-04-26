@@ -27,67 +27,88 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MaterialTableDemo() {
+export default function UserList(language) {
   axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
   axios.defaults.xsrfCookieName = "csrftoken";
   axios.defaults.headers = {
     "Content-Type": "application/json"
   };
+
   const [state, setState] = React.useState({
     columns: [
-      { title: "ID", field: "id_user", editable: "onAdd", type: "numeric" },
-      { title: "Name", field: "name", editable: "onAdd" },
-      { title: "Surname", field: "last_name", editable: "onAdd" },
+      { title: window.app("Identification"), field: "id_user", editable: "onAdd", type: "numeric" },
+      { title: window.app("Name"), field: "name", editable: "onAdd" },
+      { title: window.app("Surname"), field: "last_name", editable: "onAdd" },
       {
-        title: "Type",
+        title: window.app("Type"),
         field: "type",
         initialEditValue: "O",
-        lookup: { O: "Operator", A: "Administrator", G: "Manager" }
+        lookup: { O: window.app("Operator"), A: window.app("Administrator"), G: window.app("Manager") }
       },
       {
-        title: "Active",
+        title: window.app("Active"),
         field: "active",
         initialEditValue: "true",
-        lookup: { true: "True", false: "False" }
+        lookup: { true: window.app("True"), false:window.app( "False") }
       }
     ],
     data: []
   });
 
+
   React.useEffect(() => {
     axios
-      .get("http://localhost:8000/api/user")
-      .then(response => {
-        setState({
-          columns: state.columns,
-          data: response.data.map(x => {
-            return {
-              id_user: x.id_user,
-              name: x.name,
-              last_name: x.last_name,
-              active: x.active,
-              type: x.type
-            };
-          })
-        });
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
+    .get("http://localhost:8000/api/user")
+    .then(response => {
+      setState({
+        columns: [
+          { title: window.app("Identification"), field: "id_user", editable: "onAdd", type: "numeric" },
+          { title: window.app("Name"), field: "name", editable: "onAdd" },
+          { title: window.app("Surname"), field: "last_name", editable: "onAdd" },
+          {
+            title: window.app("Type"),
+            field: "type",
+            initialEditValue: "O",
+            lookup: { O: window.app("Operator"), A: window.app("Administrator"), G: window.app("Manager") }
+          },
+          {
+            title: window.app("Active"),
+            field: "active",
+            initialEditValue: "true",
+            lookup: { true: window.app("True"), false:window.app( "False") }
+          }
+        ],
+        data: response.data.map(x => {
+          return {
+            id_user: x.id_user,
+            name: x.name,
+            last_name: x.last_name,
+            active: x.active,
+            type: x.type
+          };
+        })
       });
-  }, []);
+console.log("ENtroe")
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
-  console.log(state);
+  },[language]);
+
 
   const classes = useStyles();
 
+  console.log(state)
+  console.log(language)
+
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper}>      
       <MaterialTable
         style={{
           padding: "0px 15px"
         }}
-        title="Users"
+        title={window.app("Users")}
         columns={state.columns}
         data={state.data}
         editable={{
@@ -125,12 +146,12 @@ export default function MaterialTableDemo() {
             new Promise(resolve => {
               setTimeout(() => {
                 resolve();
+               
                 axios
-                  .put(
+                  .patch(
                     "http://localhost:8000/api/user/update/" + oldData.id_user,
                     {
                       id_user: newData.id_user,
-                      password: "password1234",
                       name: newData.name,
                       last_name: newData.last_name,
                       type: newData.type,
@@ -138,7 +159,7 @@ export default function MaterialTableDemo() {
                     }
                   )
                   .then(response => {
-                    console.log(response);
+
                     if (oldData) {
                       setState(prevState => {
                         const data = [...prevState.data];

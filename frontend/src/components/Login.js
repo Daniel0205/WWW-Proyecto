@@ -84,7 +84,7 @@ function SignIn(props) {
         password: password
       })
       .then(response => {
-        console.log(response);
+
         if (response.data) {
           if (response.data.code === 200) {
             props.setCredentials(response.data.data); //stored in the redux state
@@ -113,7 +113,7 @@ function SignIn(props) {
   }
 
   function CaptchaPassed() {
-    console.log("Captcha passed!");
+
     setdisabledLogin(false);
   }
 
