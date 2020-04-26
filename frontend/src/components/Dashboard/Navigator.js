@@ -20,22 +20,25 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import { connect } from "react-redux";
 import { setSelectedItem } from "../store/selectedItem/action";
 
+
+import '../../services/localizationService';
+
 const categories = [
   {
-    id: "Company",
+    id:  "Company",
     children: [
-      { id: "Users", icon: <PeopleIcon />, active: true },
-      { id: "Reports", icon: <EqualizerIcon />, active: false },
-      { id: "Banks", icon: <AccountBalanceIcon />, active: false },
-      { id: "Bills", icon: <DescriptionIcon />, active: false },
-      { id: "Customers", icon: <PeopleAltIcon />, active: false }
+      { id:  "Users", icon: <PeopleIcon />, active: true },
+      { id:  "Reports", icon: <EqualizerIcon />, active: false },
+      { id:  "Banks", icon: <AccountBalanceIcon />, active: false },
+      { id:  "Bills", icon: <DescriptionIcon />, active: false },
+      { id:  "Customers", icon: <PeopleAltIcon />, active: false }
     ]
   },
   {
     id: "Inventory",
     children: [
-      { id: "Substations", icon: <AccountTreeIcon />, active: false },
-      { id: "Transformers", icon: <PowerIcon />, active: false }
+      { id:  "Substations", icon: <AccountTreeIcon />, active: false },
+      { id:  "Transformers", icon: <PowerIcon />, active: false }
       // { id: "Analytics", icon: <SettingsIcon />, active: false },
       // { id: "Performance", icon: <TimerIcon />, active: false }
     ]
@@ -45,32 +48,32 @@ const categories = [
 
 const categoriesManager = [
   {
-    id: "Company",
+    id:  "Company",
     children: [
-      { id: "Reports", icon: <EqualizerIcon />, active: false },
-      { id: "Banks", icon: <AccountBalanceIcon />, active: false },
+      { id:  "Reports", icon: <EqualizerIcon />, active: false },
+      { id:  "Banks", icon: <AccountBalanceIcon />, active: false },
     ]
   },
   {
-    id: "Inventory",
+    id:  "Inventory",
     children: [
-      { id: "Analytics", icon: <SettingsIcon />, active: false },
+      { id:  "Analytics", icon: <SettingsIcon />, active: false },
     ]
   }
 ];
 
 const categoriesAdministrator = [
   {
-    id: "Company",
+    id:  "Company",
     children: [
-      { id: "Users", icon: <PeopleIcon />, active: true }
+      { id:  "Users", icon: <PeopleIcon />, active: true }
     ]
   },
   {
-    id: "Inventory",
+    id:  "Inventory",
     children: [
-      { id: "Substations", icon: <AccountTreeIcon />, active: false },
-      { id: "Transformers", icon: <PowerIcon />, active: false }
+      { id:  "Substations", icon: <AccountTreeIcon />, active: false },
+      { id:  "Transformers", icon: <PowerIcon />, active: false }
       // { id: "Analytics", icon: <SettingsIcon />, active: false },
       // { id: "Performance", icon: <TimerIcon />, active: false }
     ]
@@ -80,12 +83,12 @@ const categoriesAdministrator = [
 
 const categoriesOperator = [
   {
-    id: "Company",
+    id:  "Company",
     children: [
 
-      { id: "Bills", icon: <DescriptionIcon />, active: false },
-      { id: "Customers", icon: <PeopleAltIcon />, active: false },
-      { id: "Record Payments", icon: <PaymentIcon />, active: false }
+      { id:  "Bills", icon: <DescriptionIcon />, active: false },
+      { id:  "Customers", icon: <PeopleAltIcon />, active: false },
+      { id:  "Record Payments", icon: <PaymentIcon />, active: false }
     ]
   }/*,
   {
@@ -142,7 +145,7 @@ const useStyles = makeStyles(theme => ({
 
 function Navigator(props) {
   const classes = useStyles();
-  const { ...other } = props;
+  const { ...other } = {PaperProps:props.PaperProps};
   const [userType, setUserType] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(()=>
   {
@@ -178,21 +181,22 @@ function Navigator(props) {
   //Welcome message depending on type of user logged in
   useEffect(() => {
     if (sessionStorage.getItem("token") === null) {
-      setUserType("Guest");
+      setUserType("Guest",[]);
     } else {
-      if (sessionStorage.getItem("type") === "A") setUserType("Administrator");
-      if (sessionStorage.getItem("type") === "O") setUserType("Operator");
-      if (sessionStorage.getItem("type") === "G") setUserType("Manager");
+      if (sessionStorage.getItem("type") === "A") setUserType("Administrator",[]);
+      if (sessionStorage.getItem("type") === "O") setUserType("Operator",[]);
+      if (sessionStorage.getItem("type") === "G") setUserType("Manager",[]);
     }
   });
 
+
   return (
-    <Drawer variant="permanent" {...other}>
+    <Drawer variant="permanent" { ...other } >
       <List disablePadding>
         <ListItem
           className={clsx(classes.firebase, classes.item, classes.itemCategory)}
         >
-          {userType}
+          {window.app(userType)}
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <ListItemIcon className={classes.itemIcon}>
@@ -203,7 +207,7 @@ function Navigator(props) {
               primary: classes.itemPrimary
             }}
           >
-            Company Overview
+            {window.app("Company Overview")}
           </ListItemText>
         </ListItem>
         {selectedCategory.map(({ id, children }) => (
@@ -214,7 +218,7 @@ function Navigator(props) {
                   primary: classes.categoryHeaderPrimary
                 }}
               >
-                {id}
+                {window.app(id)}
               </ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, active }) => (
@@ -232,7 +236,7 @@ function Navigator(props) {
                     primary: classes.itemPrimary
                   }}
                 >
-                  {childId}
+                  {window.app(childId)}
                 </ListItemText>
               </ListItem>
             ))}

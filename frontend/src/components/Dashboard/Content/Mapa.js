@@ -52,7 +52,7 @@ class Mapa extends React.Component {
 
   //Funcion para añadir marcadores al mapa dinamicamente
   addMarker = e => {
-    console.log(e)
+
     const { markers } = this.state;
     markers[0] = e.latlng;
     this.setState({ markers });
