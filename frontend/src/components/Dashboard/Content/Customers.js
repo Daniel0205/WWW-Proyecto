@@ -39,21 +39,21 @@ function Customers(props) {
 
   const [state, setState] = React.useState({
     columns: [
-      { title: "ID", field: "id_user", editable: "onAdd", type: "numeric" },
-      { title: "Name", field: "name" },
-      { title: "Surname", field: "last_name" },
+      { title: window.app("Identification"), field: "id_user", editable: "onAdd", type: "numeric" },
+      { title: window.app("Name"), field: "name" },
+      { title: window.app("Surname"), field: "last_name" },
       { title: "Email", field: "email" },
       {
-        title: "Type",
+        title: window.app("Type"),
         field: "type",
         initialEditValue: "N",
         lookup: { J: "Legal", N: "Natural" }
       },
       {
-        title: "Shipping way",
+        title: window.app("Shipping way"),
         field: "shipping_way",
         initialEditValue: "L",
-        lookup: { L: "Online", F: "Physical", E: "Email" }
+        lookup: { L: window.app("Online"), F: window.app("Physical"), E: "Email" }
       }
     ],
     data: []
@@ -76,7 +76,7 @@ function Customers(props) {
             };
           })
         });
-        console.log(response);
+        
       })
       .catch(error => {
         console.log(error);
@@ -85,14 +85,32 @@ function Customers(props) {
 
   const classes = useStyles();
 
+  console.log( state)
   return (
     <Paper className={classes.paper}>
       <MaterialTable
         style={{
           padding: "0px 15px"
         }}
-        title="Customers"
-        columns={state.columns}
+        title={window.app("Customers")}
+        columns={[
+          { title: "ID", field: "id_user", editable: "onAdd", type: "numeric" },
+          { title: window.app("Name"), field: "name" },
+          { title: window.app("Surname"), field: "last_name" },
+          { title: "Email", field: "email" },
+          {
+            title: window.app("Type"),
+            field: "type",
+            initialEditValue: "N",
+            lookup: { J: window.app("Legal"), N: window.app("Natural") }
+          },
+          {
+            title: window.app("Shipping way"),
+            field: "shipping_way",
+            initialEditValue: "L",
+            lookup: { L: window.app("Online"), F: window.app("Physical"), E: "Email" }
+          }
+        ]}
         data={state.data}
         editable={{
           onRowAdd: newData =>
@@ -110,7 +128,7 @@ function Customers(props) {
                     shipping_way: newData.shipping_way
                   })
                   .then(response => {
-                    console.log(response);
+
                     setState(prevState => {
                       const data = [...prevState.data];
                       data.push(newData);
@@ -140,7 +158,7 @@ function Customers(props) {
                     }
                   )
                   .then(response => {
-                    console.log(response);
+
                     if (oldData) {
                       setState(prevState => {
                         const data = [...prevState.data];

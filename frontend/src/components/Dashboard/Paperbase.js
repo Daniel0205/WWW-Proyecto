@@ -169,6 +169,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+//create your forceUpdate hook
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  let val = value +1
+  return () => setValue(val); // update the state to force render
+}
+
+
 function Paperbase(props) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -178,20 +186,29 @@ function Paperbase(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const forceUpdate = useForceUpdate();
+
+
+  let changeLanguage = (e) => {
+
+    window.changeLanguage(e.currentTarget.dataset.language);
+    forceUpdate()
+}
+
   //Return a react component in th
   const contentElement = content => {
     switch (content) {
       
       case "Users":
-        return <UsertList />;
+        return <UsertList language={window.language}/>;
       case "Banks":
-        return <Banks />;
+        return <Banks language={window.language}/>;
       case "Customers":
-        return <Customers />;
+        return <Customers language={window.language}/>;
       case "Apartments":
-        return <Apartments />;
+        return <Apartments language={window.language}/>;
       case "Substations":
-        return <Substation />;
+        return <Substation language={window.language}/>;
       default:
         return (
           <div>
@@ -220,7 +237,7 @@ function Paperbase(props) {
           </Hidden>
         </nav>
         <div className={classes.app}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header onDrawerToggle={handleDrawerToggle} callback={changeLanguage} />
           <main className={classes.main}>
             {/* <Content /> */}
             {/* <UsertList /> */}

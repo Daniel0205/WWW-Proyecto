@@ -17,8 +17,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
 import { connect } from "react-redux";
-import { setSelectedItem } from "../../store/selectedItem/action";
-import { setSelectedUser } from "../../store/selectedUser/action";
+
 
 const styles = theme => ({
   paper: {
@@ -112,7 +111,7 @@ function Substation(props) {
   function addSubstation(){
     var aux=state.data
     aux.push({
-      id_substation: "The id will be assigned automatically",
+      id_substation: window.app("The id will be assigned automatically"),
       sector_name: "",
       lat_substation: 3.375691261841165,
       long_substation: -76.53350830078125,
@@ -123,6 +122,14 @@ function Substation(props) {
   
     setState({data:aux})
     setFlagToAdd(true)
+  }
+
+
+  function changeFunction(index,x){
+    var aux = state.data[index]
+    aux.sector_name=x.target.value
+
+    setState({...state,data:aux})
   }
 
   
@@ -155,7 +162,7 @@ function Substation(props) {
         long_substation: x.long_substation
     })
     .then(response => {
-      console.log(response)
+
       if(response.status===201)   consultSubstation()           
     })
     .catch(error => {
@@ -186,7 +193,6 @@ function Substation(props) {
   const updateData= index => datos => {
     var aux=state.data;
     
-    console.log(datos)
 
     aux[index].sector_name= datos.description
     aux[index].lat_substation= datos.latitud
@@ -200,11 +206,11 @@ function Substation(props) {
   function map(showMap,long,lat,index,descrip){
     if(showMap){
       return [
-        <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,false)}>Hide map</Button>,
+        <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,false)}>{window.app("Hide map")}</Button>,
         <Mapa key="map" type={false} lat={lat} long={long} description={descrip}/>      
       ]
     }
-    else return <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,true)}>Show map</Button>
+    else return <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,true)}>{window.app("Show map")}</Button>
   }
 
 
@@ -213,16 +219,16 @@ function Substation(props) {
     if(!state.data[index].edit){
       var aux = [
       <Typography key="title" className={classes.title} color="textSecondary" gutterBottom>
-        Substation card
+        {window.app("Substation Card")}
       </Typography>,
       <Typography key="id"  variant="h5" component="h2">
-        Substation id: #{a.id_substation}
+        {window.app("Substation")} id: #{a.id_substation}
       </Typography>,
       <Typography key="data" className={classes.pos} color="textSecondary">
-        <b>Sector Name: </b> {a.sector_name}
+        <b>{window.app("Address")}:</b> {a.sector_name}
         <br/>
-        <b>Latitud: </b> {a.lat_substation} &ensp;
-        <b>Longitud: </b> {a.long_substation}
+        <b>{window.app("Latitud")}: </b> {a.lat_substation} &ensp;
+        <b>{window.app("Longitud")}: </b> {a.long_substation}
       </Typography>]
       aux.push(map(a.map,a.long_substation,a.lat_substation,index,a.sector_name))
 
@@ -239,7 +245,7 @@ function Substation(props) {
                   disabled 
                   fullWidth
                   value={a.id_substation}
-                  label="ID Substation"
+                  label={"ID"+window.app("Substation")}
               />,
               <TextField
                   key="sector_name"
@@ -248,7 +254,8 @@ function Substation(props) {
                   fullWidth
                   autoFocus
                   value={a.sector_name}
-                  label="Sector Name"
+                  onChange={(x)=>changeFunction(index,x)}
+                  label={window.app("Address")}
               />,
               <TextField
                   key="Latitud"
@@ -257,7 +264,7 @@ function Substation(props) {
                   disabled
                   fullWidth
                   value={a.lat_substation}
-                  label="Latitud"
+                  label={window.app("Latitud")}
               />,
               <TextField
                   key="long_substation"
@@ -266,10 +273,10 @@ function Substation(props) {
                   disabled  
                   fullWidth
                   value={a.long_substation}
-                  label="Longitud"
+                  label={window.app("Longitud")}
               /> ,
               <Typography key="title1"  variant="h5" component="h2">
-                Select the position of the substation 
+                {window.app("Select the position of the substation ")}
               </Typography>,
               <Mapa  key="map" type={true} lat={a.lat_substation} long={a.long_substation} callback={updateData(index)}/>
             ]
@@ -315,7 +322,7 @@ function Substation(props) {
       );
     });
 
-    console.log(state)
+  
  
   return (
     <div>

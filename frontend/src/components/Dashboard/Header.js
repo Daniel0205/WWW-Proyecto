@@ -3,11 +3,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import HelpIcon from "@material-ui/icons/Help";
-import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,6 +14,11 @@ import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { setSelectedItem } from "../store/selectedItem/action";
+
+
+
+import '../../services/localizationService';
+
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -38,14 +41,18 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     borderColor: lightColor
-  }
+  },
+
 }));
+
 
 function Header(props) {
   const classes = useStyles();
   const { onDrawerToggle } = props;
   const [userName, setUserName] = useState("");
   const [userLastName] = useState("");
+
+  
 
   useEffect(() => {
     if (sessionStorage.getItem("token") === null) {
@@ -63,12 +70,14 @@ function Header(props) {
     }
   });
 
+
+
   return (
     <React.Fragment>
       <AppBar color="primary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
-            <Hidden smUp>
+            
               <Grid item>
                 <IconButton
                   color="inherit"
@@ -79,24 +88,20 @@ function Header(props) {
                   <MenuIcon />
                 </IconButton>
               </Grid>
-            </Hidden>
+           
             <Grid item xs />
             <Grid item>
               <Link className={classes.link} href="#" variant="body2">
-                Go to docs
+                {window.app("Language:")}
               </Link>
             </Grid>
-            <Grid item>
-              <Tooltip title="Alerts • No alerts">
-                <IconButton color="inherit">
-                  <NotificationsIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-            <Grid item>
-              <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
-              </IconButton>
+            <Grid item >
+              <div id="lenguage" style={{display:'flex'}}>
+                <Avatar src="es.png" width="3%" alt="es" data-language="es" onClick={props.callback}/>
+                <Avatar src="de.png" width="3%" alt="de" data-language="de" onClick={props.callback}/>
+                <Avatar src="pt.png" width="3%" alt="pt" data-language="pt" onClick={props.callback}/>
+                <Avatar src="en.png" width="3%" alt="en" data-language="en" onClick={props.callback}/>
+              </div>
             </Grid>
           </Grid>
         </Toolbar>
@@ -112,18 +117,17 @@ function Header(props) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Welcome {userName} {userLastName}
+                {window.app("Welcome")} {userName} {userLastName}
               </Typography>
             </Grid>
             <Grid item>
             <Link 
               className={classes.button}
-              variant="outlined"
+              
               color="inherit"
               size="small" 
-              href="login"
-              onClick={console.log("hola")}>
-                Log out
+              href="login">
+              {window.app("Log out")}
               </Link>
               
             </Grid>
@@ -144,12 +148,12 @@ function Header(props) {
         position="static"
         elevation={0}
       >
-        <Tabs textColor="inherit">
-          <Tab textColor="inherit" label="Users" />
-          <Tab textColor="inherit" label="Sign-in Client" />
-          <Tab textColor="inherit" label="Templates" />
-          <Tab textColor="inherit" label="Usage" />
-        </Tabs>
+        {/*<Tabs textColor="inherit">
+          <Tab textColor="inherit" value={"0"} label="Users" />
+          <Tab textColor="inherit" value={"2"}label="Sign-in Client" />
+          <Tab textColor="inherit" value={"3"}label="Templates" />
+  <Tab textColor="inherit" value={"4"} label="Usage" />
+  </Tabs>*/}
       </AppBar>
     </React.Fragment>
   );

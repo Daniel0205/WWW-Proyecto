@@ -65,7 +65,6 @@ export default function SignUp() {
     }
   
     function CaptchaPassed() {
-      console.log("Captcha passed!");
       setdisabledLogin(false);
     }
   
