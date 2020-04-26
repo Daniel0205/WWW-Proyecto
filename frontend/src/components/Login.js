@@ -16,7 +16,6 @@ import Background from "./Images/login.jpg";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarMesssages from "../components/SnackbarMesssages";
 import axios from "axios";
-import qs from "qs";
 import { connect } from "react-redux";
 import { setCredentials } from "./store/login/action";
 
@@ -107,6 +106,7 @@ function SignIn(props) {
   }
 
   function storeCredentialsInBroser(credentials) {
+    sessionStorage.setItem("id_user", credentials.id_user);
     sessionStorage.setItem("name", credentials.name);
     sessionStorage.setItem("token", credentials.token);
     sessionStorage.setItem("type", credentials.type);

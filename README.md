@@ -46,6 +46,13 @@ Podemos acceder al servidor de Django a través de un navegador, en la ruta  `ht
 
 Para correr el proyecto posteriormente solo se debe activar el entorno virtual como se indicó en el primer paso.
 
+Para añadir los scripts de ejemplo de la base de datos ubicarse en una terminal diferente a la de Django y
+$ cd WWW-Proyecto
+$ cd backend
+$ python manage.py shell
+
+Se abrirá un terminal de python, copiar y pegar todo el contenido del archivo scripts.txt
+
 ## React
 
 En una terminal diferente a la de Django:

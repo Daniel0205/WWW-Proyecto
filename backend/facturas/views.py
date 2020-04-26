@@ -54,7 +54,7 @@ class Login(APIView):
                 user= User.objects.filter(id_user__iexact= id_user)
 
                 token, created = Token.objects.get_or_create(user=user[0])
-                return Response({"message": "Succesfuly logged!",  "code": 200, "data":  {'name':user_objp['name'],'token':token.key,'type':user_objp['type']}})
+                return Response({"message": "Succesfuly logged!",  "code": 200, "data":  { "id_user":id_user,'name':user_objp['name'],'token':token.key,'type':user_objp['type']}})
             else:
                 message= "Incorrect password"
                 
@@ -115,6 +115,13 @@ class ApartmentListView(ListAPIView):
 class ApartmentUpdateView(UpdateAPIView):
     queryset =Apartment.objects.all()
     serializer_class = ApartmentSerializer
+
+class ApartmentsClass(APIView):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id', 'Default Value if not there')
+        apartments = Apartment.objects.filter(id_user_client=id).values()
+        serializer_class = UserSerializer
+        return Response(apartments)
 
 ###############################################
 

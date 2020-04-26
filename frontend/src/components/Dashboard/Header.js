@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import HelpIcon from "@material-ui/icons/Help";
 import Hidden from "@material-ui/core/Hidden";
@@ -46,7 +45,7 @@ function Header(props) {
   const classes = useStyles();
   const { onDrawerToggle } = props;
   const [userName, setUserName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
+  const [userLastName] = useState("");
 
   useEffect(() => {
     if (sessionStorage.getItem("token") === null) {
@@ -117,14 +116,16 @@ function Header(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Button
-                className={classes.button}
-                variant="outlined"
-                color="inherit"
-                size="small"
-              >
-                Web setup
-              </Button>
+            <Link 
+              className={classes.button}
+              variant="outlined"
+              color="inherit"
+              size="small" 
+              href="login"
+              onClick={console.log("hola")}>
+                Log out
+              </Link>
+              
             </Grid>
             <Grid item>
               <Tooltip title="Help">

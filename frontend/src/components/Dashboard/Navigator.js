@@ -14,7 +14,9 @@ import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import PowerIcon from "@material-ui/icons/Power";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
+import PaymentIcon from "@material-ui/icons/Payment";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import SettingsIcon from "@material-ui/icons/Settings";
 import { connect } from "react-redux";
 import { setSelectedItem } from "../store/selectedItem/action";
 
@@ -38,6 +40,63 @@ const categories = [
       // { id: "Performance", icon: <TimerIcon />, active: false }
     ]
   }
+];
+
+
+const categoriesManager = [
+  {
+    id: "Company",
+    children: [
+      { id: "Reports", icon: <EqualizerIcon />, active: false },
+      { id: "Banks", icon: <AccountBalanceIcon />, active: false },
+    ]
+  },
+  {
+    id: "Inventory",
+    children: [
+      { id: "Analytics", icon: <SettingsIcon />, active: false },
+    ]
+  }
+];
+
+const categoriesAdministrator = [
+  {
+    id: "Company",
+    children: [
+      { id: "Users", icon: <PeopleIcon />, active: true }
+    ]
+  },
+  {
+    id: "Inventory",
+    children: [
+      { id: "Substations", icon: <AccountTreeIcon />, active: false },
+      { id: "Transformers", icon: <PowerIcon />, active: false }
+      // { id: "Analytics", icon: <SettingsIcon />, active: false },
+      // { id: "Performance", icon: <TimerIcon />, active: false }
+    ]
+  }
+];
+
+
+const categoriesOperator = [
+  {
+    id: "Company",
+    children: [
+
+      { id: "Bills", icon: <DescriptionIcon />, active: false },
+      { id: "Customers", icon: <PeopleAltIcon />, active: false },
+      { id: "Record Payments", icon: <PaymentIcon />, active: false }
+    ]
+  }/*,
+  {
+    id: "Inventory",
+    children: [
+      { id: "Substations", icon: <AccountTreeIcon />, active: false },
+      { id: "Transformers", icon: <PowerIcon />, active: false }
+      // { id: "Analytics", icon: <SettingsIcon />, active: false },
+      // { id: "Performance", icon: <TimerIcon />, active: false }
+    ]
+  }*/
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -85,11 +144,24 @@ function Navigator(props) {
   const classes = useStyles();
   const { ...other } = props;
   const [userType, setUserType] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(categories);
+  const [selectedCategory, setSelectedCategory] = useState(()=>
+  {
+    switch (sessionStorage.getItem("type")) {
+      case "A":
+        return categoriesAdministrator;
+      case "O":
+        return categoriesOperator;
+      case "G":
+        return categoriesManager;
+      default:
+          return categories;
+    }
+  });
 
   //Returns all elements with active=false, except "item"
   function activateItem(itemId, categories) {
     props.setSelectedItem(itemId);
+    
     var result = categories.map(({ id, children }) => {
       let object = {
         id: id,
@@ -148,7 +220,7 @@ function Navigator(props) {
             {children.map(({ id: childId, icon, active }) => (
               <ListItem
                 onClick={() =>
-                  setSelectedCategory(activateItem(childId, categories))
+                  setSelectedCategory(activateItem(childId, selectedCategory))
                 }
                 key={childId}
                 button

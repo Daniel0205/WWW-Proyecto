@@ -3,6 +3,7 @@ import MaterialTable from "material-table";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setSelectedItem } from "../../store/selectedItem/action";
+import { setSelectedUser } from "../../store/selectedUser/action";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 
@@ -158,7 +159,9 @@ function Customers(props) {
           {
             icon: "house",
             tooltip: "add apartment",
-            onClick: (event, rowData) => props.setSelectedItem("Apartaments")
+            onClick: (event, rowData) => {
+              props.setSelectedUser(rowData.id_user)
+              props.setSelectedItem("Apartments")}
           }
         ]}
       />
@@ -169,13 +172,15 @@ function Customers(props) {
 const mapStateToProps = state => {
   return {
     credentials: state.loginReducer.credentials,
-    item: state.itemReducer.item
+    item: state.itemReducer.item,
+    user: state.userReducer.user
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSelectedItem: item => dispatch(setSelectedItem(item))
+    setSelectedItem: item => dispatch(setSelectedItem(item)),
+    setSelectedUser: item => dispatch(setSelectedUser(item))
   };
 }
 

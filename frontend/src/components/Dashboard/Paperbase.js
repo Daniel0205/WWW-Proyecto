@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Navigator from "./Navigator";
 import Header from "./Header";
+import Substation from "./Content/Substation"
 import { connect } from "react-redux";
 
 
@@ -14,6 +15,7 @@ import { connect } from "react-redux";
 import UsertList from "./Content/UsertList";
 import Banks from "./Content/Banks";
 import Customers from "./Content/Customers";
+import Apartments from "./Content/Apartments";
 
 function Copyright() {
   return (
@@ -186,6 +188,10 @@ function Paperbase(props) {
         return <Banks />;
       case "Customers":
         return <Customers />;
+      case "Apartments":
+        return <Apartments />;
+      case "Substations":
+        return <Substation />;
       default:
         return (
           <div>
