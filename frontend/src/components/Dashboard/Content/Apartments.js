@@ -14,7 +14,14 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DoneIcon from '@material-ui/icons/Done';
+import SearchIcon from '@material-ui/icons/Search';
 import Mapa from "./Mapa.js";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
+import { EsriProvider } from 'leaflet-geosearch';
 
 import axios from "axios";
 import { connect } from "react-redux";
@@ -57,6 +64,10 @@ const styles = theme => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
+  addwidth: {
+    width: '100%',
+    marginTop: "6px"
+  },
 });
 
 const title = (bool)=>{
@@ -81,6 +92,7 @@ function Apartments(props) {
     data: []
   }); 
 
+  const provider = new EsriProvider();
   
   React.useEffect(consultApartments, []);
 
@@ -108,6 +120,7 @@ function Apartments(props) {
             new:false
         })})
       })
+      setFlagToAdd(false)
       console.log("Esta es la respuesta")
       console.log(response)
     })
@@ -207,6 +220,17 @@ function Apartments(props) {
     setState({...state,data:aux})
   } 
 
+  function updateAuxiliar(index,datos){
+    var aux=state.data;
+    
+    console.log(datos)
+
+    aux[index].lat_address= datos.latitud
+    aux[index].long_address= datos.longitud
+
+    setState({...state,data:aux})
+  }
+
   const handleChange= index => e =>{
     var aux=state.data;
 
@@ -226,6 +250,30 @@ function Apartments(props) {
 
     setState({...state,data:aux})
   }
+
+  function searchAddress(input){
+
+    var aux=state.data;
+    var ads = aux[input].address + ", Cali, Valle del Cauca"
+    var arr = {}
+
+    provider.search({ query: ads })
+    .then(function(result) { 
+      console.log(result)
+
+      arr = {latitud: result[0].y,
+        longitud:result[0].x,
+        descrption:result[0].raw.name}
+      
+      updateAuxiliar(input,arr)
+    });
+
+    
+  };
+
+  const handleMouseDown = (event) => {
+    event.preventDefault();
+  };
 
   function actualApartment(index,a){
     if(!state.data[index].edit){
@@ -283,16 +331,29 @@ function Apartments(props) {
                   value={a.long_address}
                   label="Longitud"
               /> ,
-              <TextField
-                  id="address"
-                  variant="outlined"
-                  margin="normal"
-                  disabled  
-                  fullWidth
-                  value={a.address}
-                  label="Address"
-                  onChange = {handleChange(index)}
-              /> ,
+              <FormControl className={classes.addwidth} variant="outlined">
+                <InputLabel htmlFor="address">Address</InputLabel>
+                <OutlinedInput
+                    id="address"
+                    variant="outlined"
+                    margin="normal"  
+                    fullWidth
+                    value={a.address}
+                    label="Address"
+                    onChange = {handleChange(index)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Search the address in the map"
+                          onClick={() => {searchAddress(index)}}
+                          onMouseDown={handleMouseDown}
+                        >
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                /> 
+              </FormControl>,
               <TextField
                   id="stratum"
                   variant="outlined"
@@ -379,6 +440,7 @@ function Apartments(props) {
     );
   });
  
+  console.log(state)
   return (
     <div>
       {existentApartments}

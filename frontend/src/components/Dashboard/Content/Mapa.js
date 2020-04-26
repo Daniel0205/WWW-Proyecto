@@ -20,6 +20,12 @@ class Mapa extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.lat !== this.props.lat && prevProps.long !== this.props.long) {
+      this.setState({...this.state, lat: this.props.lat ,lng :this.props.long, markers: [{lat: this.props.lat,lng:this.props.long}] });
+    }
+  }
+
   //Funcion para capturar la latitud, la longitud y la direccion
   //respecto a un click en el mapa
   handleClick(e) {
