@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Fab from '@material-ui/core/Fab';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -7,15 +8,12 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import AddIcon from '@material-ui/icons/Add';
-import SearchIcon from "@material-ui/icons/Search";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import EditIcon from '@material-ui/icons/Edit';
+import CancelIcon from '@material-ui/icons/Cancel';
+import DoneIcon from '@material-ui/icons/Done';
 import Mapa from "./Mapa.js";
 
 import axios from "axios";
@@ -27,7 +25,8 @@ const styles = theme => ({
   paper: {
     maxWidth: 936,
     margin: "auto",
-    overflow: "hidden"
+    overflow: "hidden",
+    marginBottom: '5%'
   },
   searchBar: {
     borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
@@ -52,8 +51,18 @@ const styles = theme => ({
     display: 'flex',
     height: 300,
     width: '90%',
-  }
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 });
+
+const title = (bool)=>{
+  if(!bool) return "Edit Substation card"
+  else return  "New Substation card"
+}
 
 function Apartments(props) {
 
@@ -64,234 +73,276 @@ function Apartments(props) {
   };
   
   const { classes } = props;
-  const [flagToAdd, setflagToAdd] = useState(false);
+  const [flagToAdd, setFlagToAdd] = useState(false);
 
   const [state, setState] = React.useState({
-      latitud: "",
-      longitud: "",
-      stratum: "",
-      id_user:props.credentials.id_user,
-      id_electricity_meter:"",
-      id_user_client:props.user,
-      data: []
+    id_user:props.credentials.id_user,
+    id_user_client:props.user,
+    data: []
   }); 
 
   
-  React.useEffect(() => {
+  React.useEffect(consultApartments, []);
+
+  //Action buttons 
+  function consultApartments(){
     axios
     .get(
-      "http://localhost:8000/api/apartments/"+state.id_user_client
+      "http://localhost:8000/api/apartments/"+props.user
     )
     .then(response => {
       setState({
         ...state,
         data:response.data.map((x)=> {
           return({
-          num_contract: x.num_contract,
-          lat_address: x.lat_address,
-          long_address: x.long_address,
-          stratum: x.stratum,
-          id_user:x.id_user,
-          id_electricity_meter: x.id_electricitymeter,
-          id_user_client:x.id_user_client
+            num_contract: x.num_contract,
+            lat_address: x.lat_address,
+            long_address: x.long_address,
+            address: x.address,
+            stratum: x.stratum,
+            id_user:x.id_user_id,
+            id_electricity_meter: x.id_electricitymeter_id,
+            id_user_client:x.id_user_client_id,
+            map:false,
+            edit:false,
+            new:false
         })})
       })
+      console.log("Esta es la respuesta")
       console.log(response)
     })
     .catch(error => {
       console.log(error)
     });
-
-  }, []);
+  }
   
- function setPosition(event) {
-
-      setState({...state,
-        latitud: event.lat_address,
-        longitud: event.long_address,
-       })
-       console.log(state)
+  function editApartment(index,edit){
+    
+    var aux=state.data
+    aux[index].edit=edit
+    setState({...state,data:aux})
   }
 
-  function nothing(event) {
-    console.log("callback to not error")
-   }
+  function takeChoise(data){
+    if(data.new)create(data)
+    else update(data)
+  }
+  //--------------------------------------------------------------------------------------------
+  //to the server
 
-   function sending(event) {
-    new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-        console.log({
-          lat_address:state.latitud,
-          long_address: state.longitud,
-          stratum: state.stratum,
-          id_user:state.id_user,
-          id_electricitymeter:state.id_electricity_meter,
-          id_user_client:state.id_user_client
-     })
-        axios
-        .post(
-          "http://localhost:8000/api/apartment/create/",
-          {
-            lat_address:state.latitud,
-            long_address: state.longitud,
-            stratum: state.stratum,
-            id_user:state.id_user,
-            id_electricitymeter:state.id_electricity_meter,
-            id_user_client:state.id_user_client
-       })
-        .then(response => {
-          console.log(response)              
-        })
-        .catch(error => {
-          console.log(error)
-        });
-       
-      }, 600);
+  function create(x){
+
+    console.log("Datos a enviar jijiji")
+    console.log(x)
+
+    axios
+    .post(
+      "http://localhost:8000/api/apartment/create/",
+      {
+        lat_address:x.lat_address,
+        long_address: x.long_address,
+        address: x.address,
+        stratum: x.stratum,
+        id_user: state.id_user,
+        id_electricitymeter: x.id_electricity_meter,
+        id_user_client: state.id_user_client
     })
-    setflagToAdd(false)
+    .then(response => {
+      console.log(response)
+      if(response.status===201)   consultApartments()           
+    })
+    .catch(error => {
+      console.log(error)
+    });
+  }
 
-   }
+  function update(x){
+  
+    axios
+    .put(
+      "http://localhost:8000/api/apartment/update/"+x.num_contract,
+      {
+        lat_address:x.lat_address,
+        long_address: x.long_address,
+        address: x.address,
+        stratum: x.stratum,
+        id_user: state.id_user,
+        id_electricitymeter: x.id_electricity_meter,
+        id_user_client: state.id_user_client
+    })
+    .then(response => {
+      if(response.status===200) consultApartments()          
+    })
+    .catch(error => {
+      console.log(error)
+    });    
+  }
+  //--------------------------------------------------------------------------------------------
 
-  function AddApartment() {
-    if(flagToAdd){
-        return(
-            <div>
-                <Card className={classes.addWrapper}>
-                    <CardContent>
-                        <TextField
-                            name="Latitud"
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            value={state.latitud}
-                            label="Latitud"
-                            onChange={(x)=>setState({...state,latitud:x.target.value})}
-                        />
-                        <TextField
-                            name="Longitud"
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            value={state.longitud}
-                            label="Longitud"
-                            onChange={(x)=>setState({...state,longitud:x.target.value})}
-                        />
-                        <TextField
-                            name="stratum"
-                            variant="outlined"
-                            margin="normal"
-                            type="number"
-                            required
-                            fullWidth
-                            value={state.stratum}
-                            label="Stratum"
-                            onChange={(x)=>setState({...state,stratum:x.target.value})}
-                        />
-                        <TextField
-                            name="id_electricity_meter"
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            type="number"
-                            fullWidth
-                            value={state.id_electricity_meter}
-                            label="Electricity meter"
-                            onChange={(x)=>setState({...state,id_electricity_meter:x.target.value})}
-                        />
-                        <Mapa lat={3.37512} long={-76.537189} callback={setPosition}/>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small" onClick={sending}>Submit</Button>
-                        <Button size="small" onClick={() => setflagToAdd(false)}>Cacel</Button>
-                    </CardActions>
-                </Card>
-            </div>
-        )
+  function showMapFunc(event,map){
+    var aux=state.data
+    aux[event].map=map
+    setState({...state,data:aux})
+  }
+
+  function map(showMap,long,lat,index,descrip){
+    if(showMap){
+      return [
+        <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,false)}>Hide map</Button>,
+        <Mapa key="map" type={false} lat={lat} long={long} description={descrip}/>      
+      ]
+    }
+    else return <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,true)}>Show map</Button>
+  }
+
+  const updateData= index => datos => {
+    var aux=state.data;
+    
+    console.log(datos)
+
+    aux[index].address= datos.description
+    aux[index].lat_address= datos.latitud
+    aux[index].long_address= datos.longitud
+
+    setState({...state,data:aux})
+  } 
+
+  const handleChange= index => e =>{
+    var aux=state.data;
+
+    switch (e.target.id) {
+      case 'stratum':
+        aux[index].stratum= e.target.value
+        break;
+      case 'id_electricity_meter':
+        aux[index].id_electricity_meter= e.target.value
+        break;
+      case 'address':
+        aux[index].address= e.target.value
+        break;
+      default:
+        break;
+      }
+
+    setState({...state,data:aux})
+  }
+
+  function actualApartment(index,a){
+    if(!state.data[index].edit){
+      var aux = [
+      <Typography key="title" className={classes.title} color="textSecondary" gutterBottom>
+        Apartment card
+      </Typography>,
+      <Typography key="id"  variant="h5" component="h2">
+        Contract number: #{a.num_contract}
+      </Typography>,
+      <Typography key="data" className={classes.pos} color="textSecondary">
+        <b>Latitud: </b> {a.lat_address} &ensp;
+        <b>Longitud: </b> {a.long_address}
+        <br/>
+        <b>Address: </b> {a.address}
+        <br/>
+        <b>Stratum: </b> {a.stratum}
+        <br/>
+        <b>Electricitymeter: </b> {a.id_electricity_meter}
+        <br/>
+        <b>Operator: </b> {a.id_user}
+      </Typography>]
+      aux.push(map(a.map,a.long_address,a.lat_address,index,a.num_contract))
+
+      return aux
+    }
+    else{
+      return [<Typography key="title"  variant="h5" component="h2">
+                {title(a.new)}
+              </Typography>,
+              <TextField
+                  key="num_contract"
+                  variant="outlined"
+                  margin="normal"
+                  disabled 
+                  fullWidth
+                  value={a.num_contract}
+                  label="Contract number"
+              />,
+              <TextField
+                  key="Latitud"
+                  variant="outlined"
+                  margin="normal"
+                  disabled
+                  fullWidth
+                  value={a.lat_address}
+                  label="Latitud"
+              />,
+              <TextField
+                  key="long_substation"
+                  variant="outlined"
+                  margin="normal"
+                  disabled  
+                  fullWidth
+                  value={a.long_address}
+                  label="Longitud"
+              /> ,
+              <TextField
+                  id="address"
+                  variant="outlined"
+                  margin="normal"
+                  disabled  
+                  fullWidth
+                  value={a.address}
+                  label="Address"
+                  onChange = {handleChange(index)}
+              /> ,
+              <TextField
+                  id="stratum"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  type="number"
+                  autoFocus
+                  value={a.stratum}
+                  label="Stratum"
+                  onChange = {handleChange(index)}
+              />,
+              <TextField
+                  id="id_electricity_meter"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  autoFocus
+                  value={a.id_electricity_meter}
+                  label="Electriciymeter"
+                  onChange = {handleChange(index)}
+              />,
+              <Typography key="title1"  variant="h5" component="h2">
+                Select the position of the Apartment 
+              </Typography>,
+              <Mapa  key="map" type={true} lat={a.lat_address} long={a.long_address} callback={updateData(index)}/>
+            ]
     }
   }
 
-    let existentApartments = state.data.map((a,i) => {
-        return(
-            <Card className={classes.addWrapper} key={i}>
-                <CardContent>
-                    <TextField
-                        name="num_contract"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        disabled
-                        fullWidth
-                        value={a.num_contract}
-                        label="Number of contract"
-                        onChange={(x)=>setState({num_contract:x.target.value})}
-                    />
-                    <TextField
-                        name="Latitud"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        disabled
-                        fullWidth
-                        value={a.lat_address}
-                        label="Latitud"
-                        />
-                    <TextField
-                        name="Longitud"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        disabled
-                        fullWidth
-                        value={a.long_address}
-                        label="Longitud"
-                        />
-                    <TextField
-                        name="stratum"
-                        variant="outlined"
-                        margin="normal"
-                        type="number"
-                        required
-                        disabled
-                        fullWidth
-                        value={a.stratum}
-                        label="Stratum"
-                    />
-                    <TextField
-                        name="id_electricity_meter"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        disabled
-                        type="number"
-                        fullWidth
-                        value={a.id_electricity_meter}
-                        label="Electricity meter"
-                    />
-                    <TextField
-                        name="id_user"
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        disabled
-                        value={a.id_user}
-                        label="Employee"
-                    />
-                    <Mapa lat={a.lat_address} long={a.long_address} callback={nothing}/>
-                </CardContent>
-                <CardActions>
-                    <Button size="small" onClick={() => alert("Esto debería habilitar para edición")}>Edit</Button>
-                </CardActions>
-            </Card>
-            
-        );
-      });
- 
-  return (
-    <Paper className={classes.paper}>
+  function AddApartment(){
+    var aux=state.data
+    aux.push({
+      num_contract: "The id will be assigned automatically",
+      lat_address: 3.375691261841165,
+      long_address: -76.53350830078125,
+      address: "",
+      stratum: "",
+      id_electricity_meter: "",
+      map:false,
+      edit:true,
+      new:true
+    })
+
+    setState({...state,data:aux})
+    setFlagToAdd(true)
+  }
+
+  let existentApartments = state.data.map((a,i) => {
+    return(
+      <Paper className={classes.paper} key={i}>
       <AppBar
         className={classes.searchBar}
         position="static"
@@ -301,30 +352,40 @@ function Apartments(props) {
         <Toolbar>
           <Grid container spacing={3} alignItems="center">
             <Grid item>
-                <IconButton
-                    onClick={() => setflagToAdd(true)}
+                <IconButton disabled={a.edit}
+                    onClick={() => editApartment(i,true)}
                 >
-                    <AddIcon color="inherit" />
+                    <EditIcon color="inherit" />
+                </IconButton>
+                <IconButton disabled={!a.edit}
+                    onClick={() => takeChoise(state.data[i])}
+                >
+                    <DoneIcon color="inherit" />
+                </IconButton>
+                <IconButton disabled={!a.edit}
+                    onClick={consultApartments}
+                >
+                    <CancelIcon color="inherit" />
                 </IconButton>
             </Grid>
-            <Grid item>
-                <SearchIcon className={classes.block} color="inherit" />
-            </Grid>
-            <Grid item>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+            
           </Grid>
         </Toolbar>
       </AppBar>
       <div className={classes.contentWrapper}>
-        {AddApartment()}
-        {existentApartments}
+        {actualApartment(i,a)}                
       </div>
     </Paper>
+    );
+  });
+ 
+  return (
+    <div>
+      {existentApartments}
+      <Fab aria-label='Add' disabled={flagToAdd} onClick={AddApartment}  className={classes.fab} color='primary'>
+        <AddIcon />
+      </Fab>
+    </div>
   );
 }
 

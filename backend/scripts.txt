@@ -30,9 +30,9 @@ ElectricityMeter(previous_measuring=0 ,previous_measuring_date='2020-02-24' ,act
 ElectricityMeter(previous_measuring=4666 ,previous_measuring_date='2020-02-25' ,actual_measuring=4680 ,actual_measuring_date='2020-03-25' , id_transformer=Transformer.objects.get(id_transformer=1)).save()
 ElectricityMeter(previous_measuring=0 ,previous_measuring_date='2020-02-25',actual_measuring=146 ,actual_measuring_date='2020-03-25' , id_transformer=Transformer.objects.get(id_transformer=2)).save()
 
-Apartment(lat_address=3.382319 ,long_address=-76.536244 ,stratum=2 ,id_user=User.objects.get(id_user=1670129) ,id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) ,id_user_client=Client.objects.get(id=1234)).save()
-Apartment(lat_address=3.382307 ,long_address=-76.536536 ,stratum=2 ,id_user=User.objects.get(id_user=1670129) ,id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) ,id_user_client=Client.objects.get(id=9876)).save()
-Apartment(lat_address=3.418793 ,long_address=-76.501930 ,stratum=1 ,id_user=User.objects.get(id_user=1630536) ,id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) ,id_user_client=Client.objects.get(id=2468)).save()
+Apartment(lat_address=3.382319 ,long_address=-76.536244 ,address="Cra x #y-z" ,stratum=2 ,id_user=User.objects.get(id_user=1670129) ,id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) ,id_user_client=Client.objects.get(id=1234)).save()
+Apartment(lat_address=3.382307 ,long_address=-76.536536 ,address="Cll a #b-c" ,stratum=2 ,id_user=User.objects.get(id_user=1670129) ,id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) ,id_user_client=Client.objects.get(id=9876)).save()
+Apartment(lat_address=3.418793 ,long_address=-76.501930 ,address="Cra i #j-k" ,stratum=1 ,id_user=User.objects.get(id_user=1630536) ,id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) ,id_user_client=Client.objects.get(id=2468)).save()
 
 Bank(id_bank=555 ,name_bank="Banco popular").save()
 Bank(id_bank=444 ,name_bank="Banco de Bogota").save()

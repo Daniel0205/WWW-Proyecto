@@ -121,6 +121,7 @@ class Apartment(models.Model):
     num_contract =  models.AutoField(primary_key=True)
     lat_address = models.DecimalField(null=True, max_digits=22, decimal_places=16)
     long_address = models.DecimalField(null=True, max_digits=22, decimal_places=16)
+    address = models.TextField()
     stratum = models.IntegerField(null=True)
     id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who created the apartment", null=False)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Electricitymeter assigned to the apartment", null=False)
