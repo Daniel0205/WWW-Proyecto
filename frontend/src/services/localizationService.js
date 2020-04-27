@@ -2,13 +2,15 @@
 import en from '../translate/en'
 import es from '../translate/es'
 import pt from '../translate/pt'
+import de from '../translate/de'
 
 
 
 const languages = {
   en,
   es,
-  pt
+  pt,
+  de
 };
 
 let defaultLanguage = window.navigator.language === 'es' ? 'es' : 'en';
