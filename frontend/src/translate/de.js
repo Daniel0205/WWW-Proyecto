@@ -28,8 +28,10 @@ export default {
     "Natural":"Natürlich",
     "Online":"Online",
     "Physical":"Körperlich",
-    "True":"wahr",
-    "False":"falsch",
+    "True":"Wahr",
+    "true":"wahr",
+    "False":"Falsch",
+    "false":"falsch",
     "Active":"Aktiv",
     "Address":"Adresse",
     "Longitud":"Länge",
@@ -42,5 +44,13 @@ export default {
     "City":"Stadt",
     "The Bank was successfully updated":"Die Bank wurde erfolgreich aktualisiert!",
     "All fields are required":"alle Felder sind erforderlich",
-    "The Bank was successfully created":"Die Bank wurde erfolgreich gegründet!"
+    "The Bank was successfully created":"Die Bank wurde erfolgreich gegründet!",
+    "Apartment card":"Wohnungskarte",
+    "Contract number":"Vertragsnummer",
+    "Stratum":"Stratum",
+    "Electricitymeter":"Stromzähler",
+    "New Apartament card":"Neue Wohnungskarte",
+    "Edit Apartament card":"Wohnungskarte bearbeiten",
+    "Search the address in the map":"Suche die Adresse in der Karte",
+    "Select the position of the Apartment":"Wählen Sie die Position der Wohnung"
 };

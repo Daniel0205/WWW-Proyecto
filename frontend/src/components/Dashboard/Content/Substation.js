@@ -94,6 +94,7 @@ function Substation(props) {
               sector_name: x.sector_name,
               lat_substation: x.lat_substation,
               long_substation: x.long_substation,
+              active:x.active,
               map:false,
               edit:false,
               new:false
@@ -115,6 +116,7 @@ function Substation(props) {
       sector_name: "",
       lat_substation: 3.375691261841165,
       long_substation: -76.53350830078125,
+      active:"true",
       map:false,
       edit:true,
       new:true
@@ -141,7 +143,8 @@ function Substation(props) {
       {
         sector_name: x.sector_name,
         lat_substation: x.lat_substation,
-        long_substation: x.long_substation
+        long_substation: x.long_substation,
+        active:x.active
     })
     .then(response => {
       if(response.status===200) consultSubstation()          
@@ -159,7 +162,8 @@ function Substation(props) {
       {
         sector_name: x.sector_name,
         lat_substation: x.lat_substation,
-        long_substation: x.long_substation
+        long_substation: x.long_substation,
+        active:x.active
     })
     .then(response => {
 
@@ -200,7 +204,16 @@ function Substation(props) {
 
     setState({...state,data:aux})
   
-} 
+  } 
+
+  const handleChange= index => event => {
+    var aux=state.data;
+    aux[index].active= event.target.value
+
+    setState({...state,data:aux})
+  };
+
+
 
 
   function map(showMap,long,lat,index,descrip){
@@ -227,6 +240,8 @@ function Substation(props) {
       <Typography key="data" className={classes.pos} color="textSecondary">
         <b>{window.app("Address")}:</b> {a.sector_name}
         <br/>
+        <b>{window.app("Active")}:</b> {window.app(a.active)}
+        <br/>
         <b>{window.app("Latitud")}: </b> {a.lat_substation} &ensp;
         <b>{window.app("Longitud")}: </b> {a.long_substation}
       </Typography>]
@@ -248,12 +263,29 @@ function Substation(props) {
                   label={"ID"+window.app("Substation")}
               />,
               <TextField
+                key="active"
+                variant="outlined"
+                margin="normal"
+                select
+                fullWidth
+                InputProps={{
+                  defaultValue:a.active
+                }}
+                
+                onChange={handleChange(index)}
+                label={window.app("Active")}
+                >
+                <option value="true">{window.app("True")}</option>
+                <option value="false">{window.app("False")}</option>
+              </TextField>,
+              <TextField
                   key="sector_name"
                   variant="outlined"
                   margin="normal"
                   fullWidth
                   autoFocus
                   value={a.sector_name}
+                  defaultValue={a.sector_name}
                   onChange={(x)=>changeFunction(index,x)}
                   label={window.app("Address")}
               />,

@@ -30,6 +30,8 @@ export default {
     "Physical":"Fisica",
     "True":"Verdade",
     "False":"Falso",
+    "true":"Verdade",
+    "false":"Falso",
     "Active":"Ativo",
     "Address":"Endereço",
     "Longitud":"Longitude",
@@ -42,7 +44,15 @@ export default {
     "City":"Cidade",
     "The Bank was successfully updated":"O Banco foi atualizado com sucesso!",
     "All fields are required":"Todos os campos são necessários",
-    "The Bank was successfully created":"O Banco foi criado com sucesso!"
+    "The Bank was successfully created":"O Banco foi criado com sucesso!",
+    "Apartment card":"Cartão de apartamento",
+    "Contract number":"Número do contrato",
+    "Stratum":"Estrato",
+    "Electricitymeter":"Medidor de eletricidade",
+    "New Apartament card":"Cartão Novo Apartamento",
+    "Edit Apartament card":"Editar cartão do apartamento",
+    "Search the address in the map":"Pesquise o endereço no mapa",
+    "Select the position of the Apartment":"Selecione a posição do apartamento"
 };
 
 

@@ -31,6 +31,8 @@ export default {
     "Physical":"Physical",
     "True":"True",
     "False": "False",
+    "true":"true",
+    "false": "false",
     "Active":"Active",
     "Longitud":"Longitud",
     "Latitud":"Latitud",
@@ -42,5 +44,13 @@ export default {
     "City":"City",
     "The Bank was successfully updated":"The Bank was successfully updated",
     "All fields are required":"All fields are required",
-    "The Bank was successfully created":"The Bank was successfully created"
+    "The Bank was successfully created":"The Bank was successfully created",
+    "Apartment card":"Apartment card",
+    "Contract number":"Contract number",
+    "Stratum":"Stratum",
+    "Electricitymeter":"Electricitymeter",
+    "New Apartament card":"New Apartament card",
+    "Edit Apartament card":"Edit Apartament card",
+    "Search the address in the map":"Search the address in the map",
+    "Select the position of the Apartment":"Select the position of the Apartment"
 };

@@ -98,6 +98,7 @@ class Substation(models.Model):
     sector_name = models.TextField(null=False)
     lat_substation = models.DecimalField(null=True, max_digits=22, decimal_places=16)
     long_substation = models.DecimalField(null=True, max_digits=22, decimal_places=16)
+    active = models.BooleanField(default=True)
 
 #Transformer Model
 class Transformer(models.Model):
@@ -126,7 +127,7 @@ class Apartment(models.Model):
     id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who created the apartment", null=False)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Electricitymeter assigned to the apartment", null=False)
     id_user_client = models.ForeignKey(Client,on_delete=models.CASCADE, verbose_name="Client owner of the apartment", null=False)
-
+    active = models.BooleanField(default=True)
 
 #Bank Model
 class Bank(models.Model):

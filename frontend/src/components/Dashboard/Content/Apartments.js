@@ -71,8 +71,8 @@ const styles = theme => ({
 });
 
 const title = (bool)=>{
-  if(!bool) return "Edit Substation card"
-  else return  "New Substation card"
+  if(!bool) return "Edit Apartament card"
+  else return  "New Apartament card"
 }
 
 function Apartments(props) {
@@ -112,6 +112,7 @@ function Apartments(props) {
             long_address: x.long_address,
             address: x.address,
             stratum: x.stratum,
+            active:x.active,
             id_user:x.id_user_id,
             id_electricity_meter: x.id_electricitymeter_id,
             id_user_client:x.id_user_client_id,
@@ -121,8 +122,7 @@ function Apartments(props) {
         })})
       })
       setFlagToAdd(false)
-      console.log("Esta es la respuesta")
-      console.log(response)
+  
     })
     .catch(error => {
       console.log(error)
@@ -145,8 +145,7 @@ function Apartments(props) {
 
   function create(x){
 
-    console.log("Datos a enviar jijiji")
-    console.log(x)
+   
 
     axios
     .post(
@@ -156,12 +155,13 @@ function Apartments(props) {
         long_address: x.long_address,
         address: x.address,
         stratum: x.stratum,
+        active:x.active,
         id_user: state.id_user,
         id_electricitymeter: x.id_electricity_meter,
         id_user_client: state.id_user_client
     })
     .then(response => {
-      console.log(response)
+
       if(response.status===201)   consultApartments()           
     })
     .catch(error => {
@@ -179,6 +179,7 @@ function Apartments(props) {
         long_address: x.long_address,
         address: x.address,
         stratum: x.stratum,
+        active:x.active,
         id_user: state.id_user,
         id_electricitymeter: x.id_electricity_meter,
         id_user_client: state.id_user_client
@@ -201,17 +202,17 @@ function Apartments(props) {
   function map(showMap,long,lat,index,descrip){
     if(showMap){
       return [
-        <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,false)}>Hide map</Button>,
+        <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,false)}>{window.app("Hide map")}</Button>,
         <Mapa key="map" type={false} lat={lat} long={long} description={descrip}/>      
       ]
     }
-    else return <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,true)}>Show map</Button>
+    else return <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,true)}>{window.app("Show map")}</Button>
   }
 
   const updateData= index => datos => {
     var aux=state.data;
     
-    console.log(datos)
+    
 
     aux[index].address= datos.description
     aux[index].lat_address= datos.latitud
@@ -223,7 +224,7 @@ function Apartments(props) {
   function updateAuxiliar(index,datos){
     var aux=state.data;
     
-    console.log(datos)
+
 
     aux[index].lat_address= datos.latitud
     aux[index].long_address= datos.longitud
@@ -275,26 +276,38 @@ function Apartments(props) {
     event.preventDefault();
   };
 
+  const handleChangeActive= index => event => {
+    
+    var aux=state.data;
+    aux[index].active= event.target.value
+
+    setState({...state,data:aux})
+  };
+
+
   function actualApartment(index,a){
+
     if(!state.data[index].edit){
       var aux = [
       <Typography key="title" className={classes.title} color="textSecondary" gutterBottom>
-        Apartment card
+        {window.app("Apartment card")}
       </Typography>,
       <Typography key="id"  variant="h5" component="h2">
-        Contract number: #{a.num_contract}
+        {window.app("Contract number")}: #{a.num_contract}
       </Typography>,
       <Typography key="data" className={classes.pos} color="textSecondary">
-        <b>Latitud: </b> {a.lat_address} &ensp;
-        <b>Longitud: </b> {a.long_address}
+        <b>{window.app("Latitud")}: </b> {a.lat_address} &ensp;
+        <b>{window.app("Longitud")}: </b> {a.long_address}
         <br/>
-        <b>Address: </b> {a.address}
+        <b>{window.app("Address")}: </b> {a.address}
         <br/>
-        <b>Stratum: </b> {a.stratum}
+        <b>{window.app("Stratum")}: </b> {a.stratum}
         <br/>
-        <b>Electricitymeter: </b> {a.id_electricity_meter}
+        <b>{window.app("Active")}: </b> {window.app(a.active)}
         <br/>
-        <b>Operator: </b> {a.id_user}
+        <b>{window.app("Electricitymeter")}: </b> {a.id_electricity_meter}
+        <br/>
+        <b>{window.app("Operator")}: </b> {a.id_user}
       </Typography>]
       aux.push(map(a.map,a.long_address,a.lat_address,index,a.num_contract))
 
@@ -302,7 +315,7 @@ function Apartments(props) {
     }
     else{
       return [<Typography key="title"  variant="h5" component="h2">
-                {title(a.new)}
+                {window.app(title(a.new))}
               </Typography>,
               <TextField
                   key="num_contract"
@@ -311,7 +324,7 @@ function Apartments(props) {
                   disabled 
                   fullWidth
                   value={a.num_contract}
-                  label="Contract number"
+                  label={window.app("Contract number")}
               />,
               <TextField
                   key="Latitud"
@@ -320,7 +333,7 @@ function Apartments(props) {
                   disabled
                   fullWidth
                   value={a.lat_address}
-                  label="Latitud"
+                  label={window.app("Latitud")}
               />,
               <TextField
                   key="long_substation"
@@ -329,22 +342,22 @@ function Apartments(props) {
                   disabled  
                   fullWidth
                   value={a.long_address}
-                  label="Longitud"
+                  label={window.app("Longitud")}
               /> ,
               <FormControl className={classes.addwidth} variant="outlined">
-                <InputLabel htmlFor="address">Address</InputLabel>
+                <InputLabel htmlFor="address">{window.app("Address")}</InputLabel>
                 <OutlinedInput
                     id="address"
                     variant="outlined"
                     margin="normal"  
                     fullWidth
                     value={a.address}
-                    label="Address"
+                    label={window.app("Address")}
                     onChange = {handleChange(index)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
-                          aria-label="Search the address in the map"
+                          aria-label={window.app("Search the address in the map")}
                           onClick={() => {searchAddress(index)}}
                           onMouseDown={handleMouseDown}
                         >
@@ -362,9 +375,25 @@ function Apartments(props) {
                   type="number"
                   autoFocus
                   value={a.stratum}
-                  label="Stratum"
+                  label={window.app("Stratum")}
                   onChange = {handleChange(index)}
               />,
+              <TextField
+                key="active"
+                variant="outlined"
+                margin="normal"
+                select
+                fullWidth
+                InputProps={{
+                  defaultValue:a.active
+                }}
+                
+                onChange={handleChangeActive(index)}
+                label={window.app("Active")}
+                >
+                <option value="true">{window.app("True")}</option>
+                <option value="false">{window.app("False")}</option>
+              </TextField>,
               <TextField
                   id="id_electricity_meter"
                   variant="outlined"
@@ -372,11 +401,11 @@ function Apartments(props) {
                   fullWidth
                   autoFocus
                   value={a.id_electricity_meter}
-                  label="Electriciymeter"
+                  label={window.app("Electricitymeter")}
                   onChange = {handleChange(index)}
               />,
               <Typography key="title1"  variant="h5" component="h2">
-                Select the position of the Apartment 
+                {window.app("Select the position of the Apartment")}
               </Typography>,
               <Mapa  key="map" type={true} lat={a.lat_address} long={a.long_address} callback={updateData(index)}/>
             ]
@@ -386,12 +415,13 @@ function Apartments(props) {
   function AddApartment(){
     var aux=state.data
     aux.push({
-      num_contract: "The id will be assigned automatically",
+      num_contract: window.app("The id will be assigned automatically"),
       lat_address: 3.375691261841165,
       long_address: -76.53350830078125,
       address: "",
       stratum: "",
       id_electricity_meter: "",
+      active:"true",
       map:false,
       edit:true,
       new:true
@@ -400,6 +430,7 @@ function Apartments(props) {
     setState({...state,data:aux})
     setFlagToAdd(true)
   }
+
 
   let existentApartments = state.data.map((a,i) => {
     return(
