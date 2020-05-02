@@ -8,6 +8,7 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
+import Hidden from "@material-ui/core/Hidden";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -77,7 +78,7 @@ function Header(props) {
       <AppBar color="primary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
-            
+          <Hidden smUp>
               <Grid item>
                 <IconButton
                   color="inherit"
@@ -88,7 +89,7 @@ function Header(props) {
                   <MenuIcon />
                 </IconButton>
               </Grid>
-           
+              </Hidden>
             <Grid item xs />
             <Grid item>
               <Link className={classes.link} href="#" variant="body2">

@@ -145,7 +145,8 @@ const useStyles = makeStyles(theme => ({
 
 function Navigator(props) {
   const classes = useStyles();
-  const { ...other } = {PaperProps:props.PaperProps};
+  //const { ...other } = {PaperProps:props.PaperProps};
+  const { ...other } = props;
   const [userType, setUserType] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(()=>
   {

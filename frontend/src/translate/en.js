@@ -31,6 +31,8 @@ export default {
     "Physical":"Physical",
     "True":"True",
     "False": "False",
+    "true":"true",
+    "false": "false",
     "Active":"Active",
     "Longitud":"Longitud",
     "Latitud":"Latitud",
@@ -47,5 +49,13 @@ export default {
     "Save to PDF":"Save to PDF",
     "Close": "Close",
     "print pdf": "print pdf",
-    "add apartment" : "add apartment"
+    "add apartment" : "add apartment",
+    "Apartment card":"Apartment card",
+    "Contract number":"Contract number",
+    "Stratum":"Stratum",
+    "Electricitymeter":"Electricitymeter",
+    "New Apartament card":"New Apartament card",
+    "Edit Apartament card":"Edit Apartament card",
+    "Search the address in the map":"Search the address in the map",
+    "Select the position of the Apartment":"Select the position of the Apartment",
 };
