@@ -1,0 +1,56 @@
+:root {
+  --font-color: red; /*este es el verdadero color #181850*/
+  --font: bold 14px/45px Helvetica, Sans-Serif;
+  --letter-spacing: -1px;
+}
+
+.container img {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+}
+
+#service {
+  position: absolute;
+  top: 184px;
+  left: 46px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#name {
+  position: absolute;
+  top: 198px;
+  left: 46px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#address {
+  position: absolute;
+  top: 211px;
+  left: 46px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#due_date {
+  position: absolute;
+  top: 101px;
+  left: 685px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#amount_due {
+  position: absolute;
+  top: 101px;
+  left: 802px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}

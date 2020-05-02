@@ -42,5 +42,10 @@ export default {
     "City":"Ciudad",
     "The Bank was successfully updated":"El banco fue actualizado exitosamente!",
     "All fields are required":"Todos los campos son requeridos",
-    "The Bank was successfully created":"El banco fue creado exitosamente"
+    "The Bank was successfully created":"El banco fue creado exitosamente",
+    "Exit":"Salir",
+    "Save to PDF":"Guardar en PDF",
+    "Close": "Cerrar",
+    "print pdf": "imprimir pdf",
+    "add apartment" : "agregar apartamento"
 };
