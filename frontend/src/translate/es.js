@@ -52,5 +52,12 @@ export default {
     "New Apartament card":"Nueva tarjeta de Apartamento",
     "Edit Apartament card":"Editar tarjeta del Apartamento",
     "Search the address in the map":"Buscar la direccion en el mapa",
-    "Select the position of the Apartment":"Selecciona la posicion del apartamento"
+    "Select the position of the Apartment":"Selecciona la posicion del apartamento",
+    "Portuguese":"Portugues",
+    "German":"Aleman",
+    "Spanish":"Español",
+    "English":"Ingles",
+    "Log In":"Iniciar Sesion",
+    "User ID" :"Identificacion",
+    "Password":"Contraseña"
 };

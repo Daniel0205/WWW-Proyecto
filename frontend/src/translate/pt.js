@@ -52,7 +52,14 @@ export default {
     "New Apartament card":"Cartão Novo Apartamento",
     "Edit Apartament card":"Editar cartão do apartamento",
     "Search the address in the map":"Pesquise o endereço no mapa",
-    "Select the position of the Apartment":"Selecione a posição do apartamento"
+    "Select the position of the Apartment":"Selecione a posição do apartamento",
+    "Portuguese":"Português",
+    "German":"Alemão",
+    "Spanish":"Espanhol",
+    "English":"Inglês",
+    "Log In":"Conecte-se",
+    "User ID":"identificação",
+    "Password":"Senha"
 };
 
 
