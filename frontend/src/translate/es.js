@@ -57,5 +57,13 @@ export default {
     "New Apartament card":"Nueva tarjeta de Apartamento",
     "Edit Apartament card":"Editar tarjeta del Apartamento",
     "Search the address in the map":"Buscar la direccion en el mapa",
-    "Select the position of the Apartment":"Selecciona la posicion del apartamento"
+    "Select the position of the Apartment":"Selecciona la posicion del apartamento",
+
+    //Transformador
+    "Tension Level" : "Nivel de Tensión",
+    "Transformer Card" : "Ficha de Transformador",
+    "Transformer": "Transformador",
+    "Substation Id": "Subestacion Id",
+    "Longitude":"Longitud",
+    "Latitude":"Latitud",
 };

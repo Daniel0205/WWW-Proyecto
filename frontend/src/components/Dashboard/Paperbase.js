@@ -15,6 +15,7 @@ import UsertList from "./Content/UsertList";
 import Banks from "./Content/Banks";
 import Customers from "./Content/Customers";
 import Apartments from "./Content/Apartments";
+import Transformer from "./Content/Transformer";
 import SingleBill from "./Content/Bills/SingleBill";
 
 function Copyright() {
@@ -193,7 +194,7 @@ function Paperbase(props) {
   };
 
   //Return a react component in th
-  const contentElement = (content) => {  
+  const contentElement = (content) => {
     switch (content) {
       case "Users":
         return <UsertList language={window.language} />;
@@ -207,6 +208,8 @@ function Paperbase(props) {
         return <Substation language={window.language} />;
       case "SingleBill":
         return <SingleBill language={window.language} />;
+      case "Transformers":
+        return <Transformer language={window.language} />;
       default:
         return (
           <div>

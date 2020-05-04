@@ -58,4 +58,13 @@ export default {
     "Edit Apartament card":"Edit Apartament card",
     "Search the address in the map":"Search the address in the map",
     "Select the position of the Apartment":"Select the position of the Apartment",
+    
+    //Transformer
+    "Tension Level" : "Tension Level",
+    "Transformer Card" : "Transformer Card",
+    "Transformer": "Transformer",
+    "Substation Id": "Substation Id",
+    "Longitude":"Longitude",
+    "Latitude":"Latitude",
+    
 };

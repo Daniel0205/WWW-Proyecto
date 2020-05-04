@@ -220,7 +220,7 @@ function Substation(props) {
     if(showMap){
       return [
         <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,false)}>{window.app("Hide map")}</Button>,
-        <Mapa key="map" type={false} lat={lat} long={long} description={descrip}/>      
+        <Mapa key="map" type={false} lat={lat} long={long} description={descrip} iconUrl={"station.png"}/>      
       ]
     }
     else return <Button key="button" id={index} onClick={x=>showMapFunc(x.currentTarget.id,true)}>{window.app("Show map")}</Button>
@@ -310,7 +310,7 @@ function Substation(props) {
               <Typography key="title1"  variant="h5" component="h2">
                 {window.app("Select the position of the substation ")}
               </Typography>,
-              <Mapa  key="map" type={true} lat={a.lat_substation} long={a.long_substation} callback={updateData(index)}/>
+              <Mapa  key="map" type={true} lat={a.lat_substation} long={a.long_substation} callback={updateData(index)} iconUrl={"station.png"}/>
             ]
     }
   }
