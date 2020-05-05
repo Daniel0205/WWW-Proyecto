@@ -59,5 +59,14 @@ export default {
     "English":"Englisch",
     "Log In":"Anmeldung",
     "User ID":"Identifizierung",
-    "Password":"Passwort"
+    "Password":"Passwort",
+    "Welcome to":"Willkommen bei",
+    "Please select the kind of user that you are":"Bitte wählen Sie den Benutzertyp aus, den Sie sind",
+    "Consult services bill":"Überprüfen Sie Ihre Servicerechnung online",
+    "Select option to consult":"Wählen Sie die Option aus, mit der Sie sich beraten und bezahlen möchten:",
+    "With document":"Mit Dokument",
+    "With contract":"Mit Vertrag",
+    "Info terms":"Durch Drücken von BERATEN akzeptieren Sie die Allgemeinen Geschäftsbedingungen",
+    "Consult":"BERATEN",
+    "Document or NIT":"Dokument oder NIT"
 };

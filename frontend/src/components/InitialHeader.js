@@ -1,17 +1,34 @@
 import React, {useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
+import OfflineBoltRoundedIcon from '@material-ui/icons/OfflineBoltRounded';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from "@material-ui/core/TextField";
+import Avatar from "@material-ui/core/Avatar";
+import Grid from "@material-ui/core/Grid";
+import IconButton from '@material-ui/core/IconButton';
 
 
 const useStyles = makeStyles((theme) => ({
   header:{
-    display: "-webkit-box"
-    
-  }
+    display: "-webkit-box" 
+  },
+  languages:{
+    display:'flex',
+    paddingTop:"5%",
+    paddingLeft:"00%"
+  },
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 
@@ -33,31 +50,25 @@ export default function InitialHeader(props) {
     }
 
     return (
-    <AppBar position="relative" className={classes.header}>
-    <Toolbar>
-      <CameraIcon className={classes.icon} />
-      <Typography variant="h6" color="inherit" noWrap>
-        Album layout
-      </Typography>
-    </Toolbar>
-    <div>
-    <TextField
-            key="active"
-            variant="outlined"
-            margin="normal"
-            select
-            InputProps={{
-              defaultValue:"en"
-            }}
-            
-            onChange={send}
-            label={window.app("Language")}
-            >
-            <option value="en">{window.app("English")}</option>
-            <option value="es">{window.app("Spanish")}</option>
-            <option value="de">{window.app("German")}</option>
-            <option value="pt">{window.app("Portuguese")}</option>
-          </TextField>
-      </div>
-  </AppBar>)
+      <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <OfflineBoltRoundedIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            EnergyUnivalle
+          </Typography>
+          <Grid item >
+            <div id="lenguage" className={classes.languages}>
+              <Avatar src="es.png" width="3%" alt="es" data-language="es" onClick={props.callback}/>
+              <Avatar src="de.png" width="3%" alt="de" data-language="de" onClick={props.callback}/>
+              <Avatar src="pt.png" width="3%" alt="pt" data-language="pt" onClick={props.callback}/>
+              <Avatar src="en.png" width="3%" alt="en" data-language="en" onClick={props.callback}/>
+            </div>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+    </div>
+    )
 }

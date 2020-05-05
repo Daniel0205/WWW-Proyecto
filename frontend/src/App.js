@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { Link } from 'react-router-dom';
+import Background from "./components/Images/background.jpg";
 
 import './services/localizationService';
 import InitialHeader from './components/InitialHeader';
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundImage: `url(${Background})`,
     padding: theme.spacing(8, 0, 6),
   },
   heroButtons: {
@@ -134,7 +135,7 @@ export default function App() {
 
   let changeLanguage = (e) => {
 
-    window.changeLanguage(e.target.value);
+    window.changeLanguage(e.currentTarget.dataset.language);
     forceUpdate()
 }
 
@@ -147,10 +148,13 @@ export default function App() {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Welcome to Energy-Univalle
+              {window.app("Welcome to")}
+            </Typography>
+            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+              Energy-Univalle
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Please select thw kind of user that you are:
+              {window.app("Please select the kind of user that you are")}
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} className={classes.Grid} justify="center">
@@ -159,7 +163,7 @@ export default function App() {
                   <ButtonBase
                       button
                       component={Link}
-                      to="/"
+                      to="/client"
                       focusRipple
                       key="Client"
                       className={classes.image}

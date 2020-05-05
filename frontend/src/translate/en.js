@@ -59,5 +59,14 @@ export default {
     "English":"English",
     "Log In":"Log In",
     "User ID" :"User ID",
-    "Password":"Password"
+    "Password":"Password",
+    "Welcome to":"Welcome to",
+    "Please select the kind of user that you are":"Please select the kind of user that you are",
+    "Consult services bill":"Check your service bill online",
+    "Select option to consult":"Select the option with which you want to consult and pay:",
+    "With document":"With document",
+    "With contract":"With contract",
+    "Info terms":"By pressing CONSULT you are accepting the terms and conditions",
+    "Consult":"CONSULT",
+    "Document or NIT":"Documento or NIT"
 };

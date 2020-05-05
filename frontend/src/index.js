@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./components/store/";
 import Dashboard from "./App";
 import Login from "./components/Login";
+import Client from "./components/Client";
 
 
 const routing = (
@@ -13,6 +14,7 @@ const routing = (
       <Router>
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/client" component={Client} />
       </Router>
     </div>
   </Provider>

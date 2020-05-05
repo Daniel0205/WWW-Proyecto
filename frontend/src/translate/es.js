@@ -59,5 +59,14 @@ export default {
     "English":"Ingles",
     "Log In":"Iniciar Sesion",
     "User ID" :"Identificacion",
-    "Password":"Contraseña"
+    "Password":"Contraseña",
+    "Welcome to":"Bienvenidos a",
+    "Please select the kind of user that you are":"Por favor seleccione el tipo de usuario que es",
+    "Consult services bill":"Consulta tu factura de servicios en linea",
+    "Select option to consult":"Selecciona la opción con la que deseas consultar y pagar:",
+    "With document":"Por documento",
+    "With contract":"Por contrato",
+    "Info terms":"Al presionar CONSULTAR estás aceptando los términos y condiciones",
+    "Consult":"CONSULTAR",
+    "Document or NIT":"Documento o NIT"
 };
