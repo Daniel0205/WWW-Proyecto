@@ -107,6 +107,7 @@ class Transformer(models.Model):
     lat_transformer = models.DecimalField(null=True, max_digits=22, decimal_places=16)
     long_transformer = models.DecimalField(null=True, max_digits=22, decimal_places=16)
     id_substation = models.ForeignKey(Substation,on_delete=models.CASCADE, verbose_name="substation to which it belongs the transformer", null=False)
+    active = models.BooleanField(default=True)
 
 #ElectricityMeter Model
 class ElectricityMeter(models.Model):

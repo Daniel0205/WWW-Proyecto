@@ -64,6 +64,5 @@ export default {
     "Transformer Card" : "Ficha de Transformador",
     "Transformer": "Transformador",
     "Substation Id": "Subestacion Id",
-    "Longitude":"Longitud",
-    "Latitude":"Latitud",
+    "Substation Address" : "Dirección de Subestacion",
 };

@@ -45,6 +45,11 @@ export default {
     "The Bank was successfully updated":"O Banco foi atualizado com sucesso!",
     "All fields are required":"Todos os campos são necessários",
     "The Bank was successfully created":"O Banco foi criado com sucesso!",
+    "Exit":"Sair",
+    "Save to PDF":"Salvar em PDF",
+    "Close": "Fechar",
+    "print pdf": "impressão pdf",
+    "add apartment" : "adicionar apartamento",
     "Apartment card":"Cartão de apartamento",
     "Contract number":"Número do contrato",
     "Stratum":"Estrato",
@@ -59,8 +64,7 @@ export default {
     "Transformer Card" : "Cartão do transformador",
     "Transformer": "Transformador",
     "Substation Id": "Id da subestação",
-    "Longitude":"Longitude",
-    "Latitude":"Latitude",
+    "Substation Address" : "Endereço da Subestação",
 };
 
 

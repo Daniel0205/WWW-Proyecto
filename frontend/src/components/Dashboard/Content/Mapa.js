@@ -16,7 +16,7 @@ class Mapa extends React.Component {
       currentPos: null,
       markers: [{lat:props.lat,lng:props.long}],
       address: props.description,
-      iconUrl: props.iconUrl
+      iconUrl: "station.png"
     };
     this.handleClick = this.handleClick.bind(this);
   }

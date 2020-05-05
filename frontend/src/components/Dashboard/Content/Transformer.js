@@ -4,17 +4,16 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
-import Mapa from "./Mapa.js";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 import CancelIcon from "@material-ui/icons/Cancel";
 import DoneIcon from "@material-ui/icons/Done";
+import Divider from "@material-ui/core/Divider";
 import axios from "axios";
 import { connect } from "react-redux";
 
@@ -71,7 +70,7 @@ function Transformer(props) {
   const { classes } = props;
   const [flagToAdd, setFlagToAdd] = useState(false);
   const [state, setState] = React.useState({ data: [] });
-  const [substationsIds, setSubstationsIds] = React.useState([]);
+  const [substations, setSubstations] = React.useState([]);
 
   //Fetch Transformers
   React.useEffect(consultTransformer, []);
@@ -88,7 +87,7 @@ function Transformer(props) {
                 lat_transformer: x.lat_transformer,
                 long_transformer: x.long_transformer,
                 id_substation: x.id_substation,
-                map: false,
+                active: x.active,
                 edit: false,
                 new: false,
               };
@@ -110,8 +109,10 @@ function Transformer(props) {
       .then((response) => {
         if (response.status === 200) {
           let a = [];
-          response.data.map((x) => a.push(parseInt(x.id_substation)));
-          setSubstationsIds(a);
+          response.data.map((x) =>
+            a.push({ id: parseInt(x.id_substation), address: x.sector_name })
+          );
+          setSubstations(a);
         }
       })
       .catch((error) => {
@@ -124,11 +125,11 @@ function Transformer(props) {
     var aux = state.data;
     aux.push({
       id_transformer: window.app("The id will be assigned automatically"),
-      tension_level: 1,
-      lat_transformer: 3.375691261841165,
-      long_transformer: -76.53350830078125,
-      id_substation: 1, 
-      map: false,
+      tension_level: 100,
+      lat_transformer: 3.3745408041078666,
+      long_transformer: -76.53610467910768,
+      id_substation: 1,
+      active: "true",
       edit: true,
       new: true,
     });
@@ -153,7 +154,8 @@ function Transformer(props) {
           tension_level: transformer.tension_level,
           lat_transformer: transformer.lat_transformer,
           long_transformer: transformer.long_transformer,
-          id_substation: transformer.id_substation, //important! is a foreing key
+          id_substation: transformer.id_substation, //foreing key
+          active: transformer.active,
         }
       )
       .then((response) => {
@@ -172,6 +174,7 @@ function Transformer(props) {
         lat_transformer: parseFloat(transformer.lat_transformer),
         long_transformer: parseFloat(transformer.long_transformer),
         id_substation: parseInt(transformer.id_substation),
+        active: transformer.active,
       })
       .then((response) => {
         if (response.status === 201) consultTransformer();
@@ -187,65 +190,25 @@ function Transformer(props) {
     else update(transformer);
   }
 
-  function showMapFunc(event, map) {
-    var aux = state.data;
-    aux[event].map = map;
-    setState({ ...state, data: aux });
-  }
-
   function editTransformer(index, edit) {
     var aux = state.data;
     aux[index].edit = edit;
     setState({ ...state, data: aux });
   }
 
-  const updateData = (index) => (datos) => {
-    var aux = state.data;
-
-    // datos.description; // Return an address from Lan-Long <-----
-    aux[index].lat_transformer = datos.latitud;
-    aux[index].long_transformer = datos.longitud;
-
-    setState({ ...state, data: aux });
-  };
-
-  const handleChange = (index) => (event) => {
+  const handleChangeIdSub = (index) => (event) => {
     var aux = state.data;
     aux[index].id_substation = event.target.value;
 
     setState({ ...state, data: aux });
   };
 
-  function map(showMap, long, lat, index, descrip) {
-    if (showMap) {
-      return [
-        <Button
-          key="button"
-          id={index}
-          onClick={(event) => showMapFunc(event.currentTarget.id, false)}
-        >
-          {window.app("Hide map")}
-        </Button>,
-        <Mapa
-          key="map"
-          type={false}
-          lat={lat}
-          long={long}
-          description={descrip}
-          iconUrl={"transformer.png"}
-        />,
-      ];
-    } else
-      return (
-        <Button
-          key="button"
-          id={index}
-          onClick={(x) => showMapFunc(x.currentTarget.id, true)}
-        >
-          {window.app("Show map")}
-        </Button>
-      );
-  }
+  const handleChangeActive = (index) => (event) => {
+    var aux = state.data;
+    aux[index].active = event.target.value;
+
+    setState({ ...state, data: aux });
+  };
 
   //--
   function actualTransformer(index, transformer) {
@@ -265,21 +228,19 @@ function Transformer(props) {
         <Typography key="data" className={classes.pos} color="textSecondary">
           <b>{window.app("Tension Level")}:</b> {transformer.tension_level}
           <br />
+          <b>{window.app("Active")}:</b> {window.app(transformer.active)}
+          <br />
+          <br />
+          <Divider variant="fullwitdh" light={true} />
+          <br />
           <b>{window.app("Substation Id")}:</b> {transformer.id_substation}
           <br />
-          <b>{window.app("Latitude")}: </b> {transformer.lat_transformer} &ensp;
-          <b>{window.app("Longitude")}: </b> {transformer.long_transformer}
+          <b>{window.app("Substation Address")}: </b>{" "}
+          {substations.map((sub) =>
+            sub.id === transformer.id_substation ? sub.address : ""
+          )}
         </Typography>,
       ];
-      aux.push(
-        map(
-          transformer.map,
-          transformer.long_transformer,
-          transformer.lat_transformer,
-          index,
-          transformer.tension_level
-        )
-      );
 
       return aux;
     } else {
@@ -307,51 +268,55 @@ function Transformer(props) {
           label={window.app("Tension Level")}
         />,
         <TextField
+          key="active"
+          variant="outlined"
+          margin="normal"
+          select
+          fullWidth
+          InputProps={{
+            defaultValue: transformer.active,
+          }}
+          onChange={handleChangeActive(index)}
+          label={window.app("Active")}
+        >
+          <option value="true">{window.app("True")}</option>
+          <option value="false">{window.app("False")}</option>
+        </TextField>,
+
+        <br />,
+        <br />,
+        <Divider variant="fullwitdh" light={true} />,
+        <br />,
+        <TextField
           key="id_substation"
           variant="outlined"
           margin="normal"
           select
           fullWidth
           InputProps={{
-            defaultValue: substationsIds.length ? `${substationsIds[0]}` : "",
+            defaultValue: transformer.new
+              ? `${substations[0].id}`
+              : transformer.id_substation,
           }}
-          onChange={handleChange(index)}
+          onChange={handleChangeIdSub(index)}
           label={window.app("Substation Id")}
         >
-          {substationsIds.map((Id) => (
-            <option value={Id} key={Id}>
-              {Id}
+          {substations.map((sub) => (
+            <option value={sub.id} key={sub.id}>
+              {sub.id}
             </option>
           ))}
         </TextField>,
         <TextField
-          key="Latitude"
+          key="Address"
           variant="outlined"
           margin="normal"
           disabled
           fullWidth
-          value={transformer.lat_transformer}
-          label={window.app("Latitude")}
-        />,
-        <TextField
-          key="long_transformer"
-          variant="outlined"
-          margin="normal"
-          disabled
-          fullWidth
-          value={transformer.long_transformer}
-          label={window.app("Longitude")}
-        />,
-        <Typography key="title1" variant="h5" component="h2">
-          {window.app("Select the position of the transformer ")}
-        </Typography>,
-        <Mapa
-          key="map"
-          type={true}
-          lat={transformer.lat_transformer}
-          long={transformer.long_transformer}
-          callback={updateData(index)}
-          iconUrl={"transformer.png"}
+          value={substations.map((sub) =>
+            sub.id === transformer.id_substation ? sub.address : ""
+          )}
+          label={window.app("Address")}
         />,
       ];
     }
