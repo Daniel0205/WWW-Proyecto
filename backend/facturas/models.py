@@ -107,6 +107,7 @@ class Transformer(models.Model):
     lat_transformer = models.DecimalField(null=True, max_digits=10, decimal_places=8)
     long_transformer = models.DecimalField(null=True, max_digits=10, decimal_places=8)
     id_substation = models.ForeignKey(Substation,on_delete=models.CASCADE, verbose_name="substation to which it belongs the transformer", null=False)
+    active = models.BooleanField(default=True)
 
 #ElectricityMeter Model
 class ElectricityMeter(models.Model):
@@ -145,19 +146,21 @@ class Bank(models.Model):
     
     active = models.BooleanField(default=True)
 
-#Bill Model
+#Bill Model 
 class Bill(models.Model):
     id_bill = models.AutoField(primary_key=True)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Bill's electricitymeter ", null=False)
     expedition_date = models.DateTimeField(auto_now=False)
     due_date = models.DateTimeField(auto_now=False)
     payment_status = models.BooleanField(default=False)
+    quantity = models.IntegerField(null=False)
+    
 
 #Payment Model
 class Payment(models.Model):
     id_payment = models.AutoField(primary_key=True)
     payment_date = models.DateTimeField(auto_now=False)
-    cuantity = models.IntegerField(null=False)
+    quantity = models.IntegerField(null=False)
 
     PAYMENT_CHOICES = {
         ("B", "bank"),

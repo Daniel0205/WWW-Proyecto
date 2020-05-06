@@ -16,6 +16,7 @@ import UsertList from "./Content/UsertList";
 import Banks from "./Content/Banks";
 import Customers from "./Content/Customers";
 import Apartments from "./Content/Apartments";
+import Reports from "./Content/reports";
 
 function Copyright() {
   return (
@@ -209,6 +210,14 @@ function Paperbase(props) {
         return <Apartments language={window.language}/>;
       case "Substations":
         return <Substation language={window.language}/>;
+      case "Income":
+        return <Reports language={window.language} type="Income"/>;
+      case "Clients":
+        return <Reports language={window.language} type="Clients"/>;
+      case "Assets":
+        return <Reports language={window.language} type="Assets"/>;
+      case "Employees":
+        return <Reports language={window.language} type="Employees"/>;
       default:
         return (
           <div>

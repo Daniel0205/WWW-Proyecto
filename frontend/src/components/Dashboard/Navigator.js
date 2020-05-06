@@ -16,7 +16,10 @@ import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import PaymentIcon from "@material-ui/icons/Payment";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
-import SettingsIcon from "@material-ui/icons/Settings";
+import BusinessIcon from "@material-ui/icons/Business";
+import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import BarChartIcon from "@material-ui/icons/BarChart";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { connect } from "react-redux";
 import { setSelectedItem } from "../store/selectedItem/action";
 
@@ -50,14 +53,16 @@ const categoriesManager = [
   {
     id:  "Company",
     children: [
-      { id:  "Reports", icon: <EqualizerIcon />, active: false },
       { id:  "Banks", icon: <AccountBalanceIcon />, active: false },
     ]
   },
   {
-    id:  "Inventory",
+    id:  "Reports",
     children: [
-      { id:  "Analytics", icon: <SettingsIcon />, active: false },
+      { id:  "Income", icon: <AttachMoneyIcon />, active: false },
+      { id:  "Clients", icon: <BarChartIcon />, active: false },
+      { id:  "Employees", icon: <SupervisedUserCircleIcon />, active: false },
+      { id:  "Assets", icon: <BusinessIcon />, active: false },
     ]
   }
 ];

@@ -59,7 +59,11 @@ export default {
     "English":"Inglês",
     "Log In":"Conecte-se",
     "User ID":"identificação",
-    "Password":"Senha"
+    "Password":"Senha",
+    "Income":"Renda",
+    "Employees":"Empregados",
+    "Assets":"Ativos",
+    "Clients":"Clientes"
 };
 
 

@@ -59,5 +59,9 @@ export default {
     "English":"Ingles",
     "Log In":"Iniciar Sesion",
     "User ID" :"Identificacion",
-    "Password":"Contraseña"
+    "Password":"Contraseña",
+    "Income":"Ingresos",
+    "Employees":"Empleados",
+    "Assets":"Activos",
+    "Clients":"Clientes"
 };
