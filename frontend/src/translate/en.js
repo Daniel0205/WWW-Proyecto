@@ -45,6 +45,11 @@ export default {
     "The Bank was successfully updated":"The Bank was successfully updated",
     "All fields are required":"All fields are required",
     "The Bank was successfully created":"The Bank was successfully created",
+    "Exit":"Exit",
+    "Save to PDF":"Save to PDF",
+    "Close": "Close",
+    "print pdf": "print pdf",
+    "add apartment" : "add apartment",
     "Apartment card":"Apartment card",
     "Contract number":"Contract number",
     "Stratum":"Stratum",
@@ -68,5 +73,12 @@ export default {
     "With contract":"With contract",
     "Info terms":"By pressing CONSULT you are accepting the terms and conditions",
     "Consult":"CONSULT",
-    "Document or NIT":"Documento or NIT"
+    "Document or NIT":"Documento or NIT",
+    
+    //Transformer
+    "Tension Level" : "Tension Level",
+    "Transformer Card" : "Transformer Card",
+    "Transformer": "Transformer",
+    "Substation Id": "Substation Id",
+    "Substation Address" : "Substation Address",    
 };

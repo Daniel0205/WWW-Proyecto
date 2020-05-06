@@ -45,6 +45,11 @@ export default {
     "The Bank was successfully updated":"Die Bank wurde erfolgreich aktualisiert!",
     "All fields are required":"alle Felder sind erforderlich",
     "The Bank was successfully created":"Die Bank wurde erfolgreich gegründet!",
+    "Exit":"Beenden",
+    "Save to PDF":"In PDF speichern",
+    "Close": "Schließen",
+    "print pdf": "pdf drucken",
+    "add apartment" : "Wohnung hinzufügen",
     "Apartment card":"Wohnungskarte",
     "Contract number":"Vertragsnummer",
     "Stratum":"Stratum",
@@ -68,5 +73,11 @@ export default {
     "With contract":"Mit Vertrag",
     "Info terms":"Durch Drücken von BERATEN akzeptieren Sie die Allgemeinen Geschäftsbedingungen",
     "Consult":"BERATEN",
-    "Document or NIT":"Dokument oder NIT"
+    "Document or NIT":"Dokument oder NIT",
+    //Transformator
+    "Tension Level" : "Spannungsniveau",
+    "Transformer Card" : "Transformator-Karte",
+    "Transformer": "Transformator",
+    "Substation Id": "Unterstation Id",
+    "Substation Address" : "Unterstationsadresse",
 };

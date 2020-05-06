@@ -15,7 +15,8 @@ class Mapa extends React.Component {
       zoom: 15,
       currentPos: null,
       markers: [{lat:props.lat,lng:props.long}],
-      address: props.description
+      address: props.description,
+      iconUrl: "station.png"
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -61,7 +62,7 @@ class Mapa extends React.Component {
  render() {
     const position = [this.state.lat, this.state.lng];
     const taxi = L.icon({
-      iconUrl: "station.png",
+      iconUrl: this.state.iconUrl,
       iconSize: [60, 70],
       popupAnchor: [-10, -10]
     });

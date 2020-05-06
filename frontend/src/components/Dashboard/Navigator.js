@@ -86,8 +86,8 @@ const categoriesOperator = [
     id:  "Company",
     children: [
 
+      { id:  "Customers", icon: <PeopleAltIcon />, active: true },
       { id:  "Bills", icon: <DescriptionIcon />, active: false },
-      { id:  "Customers", icon: <PeopleAltIcon />, active: false },
       { id:  "Record Payments", icon: <PaymentIcon />, active: false }
     ]
   }/*,
@@ -154,10 +154,11 @@ function Navigator(props) {
       case "A":
         return categoriesAdministrator;
       case "O":
+        props.setSelectedItem("Customers");
         return categoriesOperator;
       case "G":
         return categoriesManager;
-      default:
+      default:  
           return categories;
     }
   });
