@@ -170,6 +170,6 @@ class Payment(models.Model):
     payment_method = models.CharField(null=False,max_length=1, choices=PAYMENT_CHOICES,default="O")
     id_bill = models.ForeignKey(Bill,on_delete=models.CASCADE, verbose_name="Bill related payment", null=False)
     id_bank = models.ForeignKey(Bank,on_delete=models.CASCADE, verbose_name="Bank who made the pay", null=False)
-    id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who made the pay", null=False)
+    id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who made the pay", null=True)
 
 

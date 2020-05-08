@@ -2,7 +2,7 @@ from rest_framework import permissions
 from django.db.models.functions import ExtractMonth,ExtractYear
 from django.db.models import Count,Sum,F,Case,When
 from datetime import datetime, timedelta
-
+from random import randrange
 
 from rest_framework.generics import (
     ListAPIView,
@@ -261,17 +261,19 @@ class BankUpdateView(UpdateAPIView):
 
 class  BankNumberList(APIView):
     def get(self,request):
-        queryset = list(Payment.objects.filter(payment_method="O").annotate(c=Count("quantity"),s=Sum("quantity")).annotate(name_bank=F("id_bank__name_bank")).values("name_bank","c","s"))
-        bankPaids = Payment.objects.filter(payment_method="O").values("id_bank")
+        queryset = list(Payment.objects.filter(payment_method="B").annotate(name_bank=F("id_bank__name_bank")).values("name_bank").annotate(c=Count("quantity"),s=Sum("quantity")).values("name_bank","c","s"))
+        bankPaids = Payment.objects.filter(payment_method="B").values("id_bank").distinct()
 
         otherBanks = list(Bank.objects.exclude(id_bank__in=bankPaids).values("name_bank"))
-
+        
+        
         for x in otherBanks:
             print(x)
             queryset.extend([{"name_bank":x["name_bank"],"c":0,"su":0}])
-        
+
 
         return Response(queryset)
+
 ###############################################
 
 #####################Bill#####################
@@ -320,7 +322,7 @@ class  PaymentCreateView(CreateAPIView):
 
 class  PaymentTypeList(APIView):
     def get(self,request):
-        queryset = Payment.objects.annotate(c=Count('payment_method')).values('payment_method', 'c') 
+        queryset = Payment.objects.values('payment_method').annotate(c=Count('payment_method')).values('payment_method', 'c') 
         
         return Response(queryset)
 
@@ -332,5 +334,61 @@ class PaymentListView(ListAPIView):
 class PaymentUpdateView(UpdateAPIView):
     queryset =Payment.objects.all()
     serializer_class = PaymentSerializer
+
+###############################################
+
+#####################Simulation#####################
+
+class  SimulateBillPayment(APIView):
+    def post(self,request):
+        date = Apartment.objects.filter(active=True).order_by('-id_electricitymeter__actual_measuring_date').values("id_electricitymeter__actual_measuring_date")[0]
+        date = date["id_electricitymeter__actual_measuring_date"]
+
+        if((date.month+2)>12):
+            month = datetime(date.year, 1, date.day)
+            month1 = datetime(date.year, 2, date.day)
+        else:            
+            month = datetime(date.year, date.month+1, date.day)
+            
+            month1 = datetime(date.year, date.month+2, date.day)
+
+        queryId= Apartment.objects.filter(active=True).values("num_contract","id_electricitymeter","id_electricitymeter__previous_measuring","id_electricitymeter__actual_measuring")
+
+        for x in queryId:
+            query= ElectricityMeter.objects.filter(
+                apartment__active=True,
+                apartment__num_contract=x["num_contract"]
+            ).update(
+                previous_measuring=F("actual_measuring"),
+                previous_measuring_date=F("actual_measuring_date"),
+                actual_measuring=F("actual_measuring")+randrange(60),
+                actual_measuring_date=month)
+            
+            Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=x["id_electricitymeter"]),
+                quantity = x["id_electricitymeter__actual_measuring"]*1000-x["id_electricitymeter__previous_measuring"]*1000 ,
+                expedition_date=month,
+                due_date=month1 ,
+                payment_status=False).save()               
+
+        
+        bills = Bill.objects.filter(payment_status=False).order_by('due_date').values("id_bill","quantity","due_date")
+
+        banks = Bank.objects.filter(active=True).values("id_bank")
+
+        for x in range(randrange(len(bills))):
+
+            id = banks[randrange(len(banks))]["id_bank"]
+
+            Payment(payment_date=bills[x]["due_date"],
+                    quantity=bills[x]["quantity"] ,
+                    payment_method="B",
+                    id_bill=Bill.objects.get(id_bill=bills[x]["id_bill"]),
+                    id_bank=Bank.objects.get(id_bank=id)).save()
+
+            Bill.objects.filter(id_bill=bills[x]["id_bill"]).update(payment_status=True) 
+
+
+        return Response({"state":True})
+
 
 ###############################################

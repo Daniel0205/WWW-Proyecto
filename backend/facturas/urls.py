@@ -59,7 +59,10 @@ from .views import (
    PaymentCreateView,
    PaymentUpdateView,
    PaymentListView,
-   PaymentTypeList
+   PaymentTypeList,
+
+   #Simulation
+   SimulateBillPayment
 
 )
 
@@ -126,4 +129,6 @@ urlpatterns = [
     path('payment/update/<pk>',PaymentUpdateView.as_view()),
     path('payment/create/',PaymentCreateView.as_view()),
 
+    #Simulation
+    path('simulate', SimulateBillPayment.as_view()),
 ]
