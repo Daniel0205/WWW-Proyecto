@@ -10,7 +10,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Background from "./Images/login.jpg";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -18,6 +17,9 @@ import SnackbarMesssages from "../components/SnackbarMesssages";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setCredentials } from "./store/login/action";
+import { Redirect } from "react-router-dom";
+import '../services/localizationService';
+import InitialHeader from './InitialHeader';
 
 function Copyright() {
   return (
@@ -57,6 +59,14 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }));
+
+//create your forceUpdate hook
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  let val = value +1
+  return () => setValue(val); // update the state to force render
+}
+
 
 function SignIn(props) {
   const classes = useStyles();
@@ -117,98 +127,99 @@ function SignIn(props) {
     setdisabledLogin(false);
   }
 
+  const forceUpdate = useForceUpdate();
+
+
+  let changeLanguage = (e) => {
+
+    window.changeLanguage(e.target.value);
+    forceUpdate()
+}
+
   if (RedirectToHome) {
-    return <Redirect to="/" />;
+    return <Redirect from="/login" to="/dashboard" />
   } else {
     return (
-      <Grid container component="main" className={classes.root}>
+      <React.Fragment>
         <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} className={classes.image} />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form className={classes.form} noValidate onSubmit={onSubmit}>
-              <TextField
-                value={userID}
-                onChange={event => setUserID(event.target.value)}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="id"
-                label="User ID"
-                name="id"
-                autoComplete="id"
-                autoFocus
-              />
-              <TextField
-                value={password}
-                onChange={event => setPassword(event.target.value)}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <br />
-              <br />
-              <ReCAPTCHA
-                align="center"
-                sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
-                onChange={CaptchaPassed}
-              />
-              <Button
-                disabled={disabledLogin}
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
-            <Snackbar
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              onClose={handleClose}
-              open={open}
-              autoHideDuration={3000}
-            >
-              <SnackbarMesssages
-                variant={type}
+        <InitialHeader callback={changeLanguage}/>
+        <Grid container component="main" className={classes.root}>
+          <CssBaseline />
+          <Grid item xs={false} sm={4} md={7} className={classes.image} />
+          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                {window.app("Log In")}
+              </Typography>
+              <form className={classes.form} noValidate onSubmit={onSubmit}>
+                <TextField
+                  value={userID}
+                  onChange={event => setUserID(event.target.value)}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="id"
+                  label={window.app("User ID")}
+                  name="id"
+                  autoComplete="id"
+                  autoFocus
+                />
+                <TextField
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label={window.app("Password")}
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <br />
+                <br />
+                <ReCAPTCHA
+                  align="center"
+                  sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
+                  onChange={CaptchaPassed}
+                />
+                <Button
+                  disabled={disabledLogin}
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  {window.app("Log In")}
+                </Button>
+              </form>
+              <Snackbar
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 onClose={handleClose}
-                message={messaje}
-              />
-            </Snackbar>
-          </div>
-          <Box mt={8}>
-            <Copyright />
-          </Box>
-          <br />
-          <br />
+                open={open}
+                autoHideDuration={3000}
+              >
+                <SnackbarMesssages
+                  variant={type}
+                  onClose={handleClose}
+                  message={messaje}
+                />
+              </Snackbar>
+            </div>
+            <Box mt={8}>
+              <Copyright />
+            </Box>
+            <br />
+            <br />
+          </Grid>
         </Grid>
-      </Grid>
+      </React.Fragment>
     );
   }
 }

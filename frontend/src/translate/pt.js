@@ -58,13 +58,22 @@ export default {
     "Edit Apartament card":"Editar cartão do apartamento",
     "Search the address in the map":"Pesquise o endereço no mapa",
     "Select the position of the Apartment":"Selecione a posição do apartamento",
-
-    //Transformador
     "Tension Level" : "Nível de tensão",
     "Transformer Card" : "Cartão do transformador",
     "Transformer": "Transformador",
     "Substation Id": "Id da subestação",
     "Substation Address" : "Endereço da Subestação",
+    "Portuguese":"Português",
+    "German":"Alemão",
+    "Spanish":"Espanhol",
+    "English":"Inglês",
+    "Log In":"Conecte-se",
+    "User ID":"identificação",
+    "Password":"Senha",
+    "Income":"Renda",
+    "Employees":"Empregados",
+    "Assets":"Ativos",
+    "Clients":"Clientes",
 };
 
 

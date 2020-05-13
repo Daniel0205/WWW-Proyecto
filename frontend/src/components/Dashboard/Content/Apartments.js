@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createElement } from "react";
 import PropTypes from "prop-types";
 import Fab from '@material-ui/core/Fab';
 import AppBar from "@material-ui/core/AppBar";
@@ -89,7 +89,8 @@ function Apartments(props) {
   const [state, setState] = React.useState({
     id_user:props.credentials.id_user,
     id_user_client:props.user,
-    data: []
+    data: [],
+    dataTransformes: []
   }); 
 
   const provider = new EsriProvider();
@@ -137,15 +138,117 @@ function Apartments(props) {
   }
 
   function takeChoise(data){
-    if(data.new)create(data)
+    if(data.new)createEM(data)
     else update(data)
   }
   //--------------------------------------------------------------------------------------------
   //to the server
 
-  function create(x){
+  function consultTransformer(){
+    axios
+    .get(
+      "http://localhost:8000/api/transformer"
+    )
+    .then(response => {
+      setState({
+        ...state,
+        dataTransformes:response.data.map((x)=> {
+          return({
+            id_transformer: x.id_transformer,
+            lat_transformer: x.lat_transformer,
+            long_transformer: x.long_transformer,
+        })})
+      })
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error)
+    });
+  }
 
-   
+  //Esta función me obtiene la distancia entre 2 puntos
+  function getDistance(lat1,lon1,lat2,lon2){
+    function rad(x) {
+      return x * Math.PI / 180;
+    }
+
+    var R = 6378.137;//Radio de la tierra en km
+    var dLat = rad(lat2 - lat1);
+    var dLong = rad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d
+  }
+
+  //Esta función me ubica el tranformador más cercalo a la ubicación del apartamento
+  function getCloserTransformer(x,y) {
+
+    var actualId = 0
+    var actualDistance = 6378.137
+    
+    for(var i=0 ; i<state.dataTransformes.length ;i++){
+      var d = getDistance(x,y,state.dataTransformes[i].lat_transformer,state.dataTransformes[i].long_transformer)
+      if(d < actualDistance){
+        actualDistance = d
+        actualId = state.dataTransformes[i].id_transformer
+      }
+    }
+
+    return actualId
+  }
+
+  function addZero(i) {
+    if (i < 10) {
+        i = '0' + i;
+    }
+    return i;
+}
+
+  function hoyFecha(){
+    var hoy = new Date();
+        var dd = hoy.getDate();
+        var mm = hoy.getMonth()+1;
+        var yyyy = hoy.getFullYear();
+        
+        dd = addZero(dd);
+        mm = addZero(mm);
+ 
+        return yyyy+'-'+mm+'-'+dd;
+}
+
+  //Function to create the Electricitymeter
+  function createEM(x){
+
+    var lati = x.lat_address
+    var longi = x.long_address
+
+    var transf = getCloserTransformer(lati,longi)
+
+    var fecha = hoyFecha()
+
+    axios
+    .post(
+      "http://localhost:8000/api/electricitymeter/create/",
+      {
+        previous_measuring: 0,
+        previous_measuring_date: fecha,
+        actual_measuring: 0,
+        actual_measuring_date: fecha,
+        id_transformer: transf
+    })
+    .then(response => {
+      console.log(response)
+      if(response.status===201){
+        create(x,response.data.id_electricitymeter)
+      }      
+    })
+    .catch(error => {
+      console.log(error)
+    });
+  }
+
+  function create(x,id_em){
 
     axios
     .post(
@@ -157,7 +260,7 @@ function Apartments(props) {
         stratum: x.stratum,
         active:x.active,
         id_user: state.id_user,
-        id_electricitymeter: x.id_electricity_meter,
+        id_electricitymeter: id_em,
         id_user_client: state.id_user_client
     })
     .then(response => {
@@ -268,7 +371,6 @@ function Apartments(props) {
       
       updateAuxiliar(input,arr)
     });
-
     
   };
 
@@ -399,6 +501,7 @@ function Apartments(props) {
                   variant="outlined"
                   margin="normal"
                   fullWidth
+                  disabled
                   autoFocus
                   value={a.id_electricity_meter}
                   label={window.app("Electricitymeter")}
@@ -413,6 +516,9 @@ function Apartments(props) {
   }
 
   function AddApartment(){
+    
+    consultTransformer()
+
     var aux=state.data
     aux.push({
       num_contract: window.app("The id will be assigned automatically"),
@@ -420,7 +526,7 @@ function Apartments(props) {
       long_address: -76.53350830078125,
       address: "",
       stratum: "",
-      id_electricity_meter: "",
+      id_electricity_meter: "The electricitymeter will be assigned automatically",
       active:"true",
       map:false,
       edit:true,

@@ -1,5 +1,8 @@
 from rest_framework import permissions
-
+from django.db.models.functions import ExtractMonth,ExtractYear
+from django.db.models import Count,Sum,F,Case,When
+from datetime import datetime, timedelta
+from random import randrange
 
 from rest_framework.generics import (
     ListAPIView,
@@ -82,6 +85,24 @@ class UserUpdateView(UpdateAPIView):
     queryset =User.objects.all()
     serializer_class =UserSerializer
 
+
+class  UserTypeListView(APIView):
+    def get(self,request):
+        queryset1 = User.objects.filter(active=True).values("type").annotate(c=Count("type")).values("type","c")
+    
+        return Response(queryset1)
+
+class  UserActiveListView(APIView):
+    def get(self,request):
+        queryset1 = list(User.objects.values("active").annotate(c=Count("active")).values("type","active","c"))
+        queryset2 = User.objects.filter(active=True).values("active").annotate(c=Count("active")).values("c")
+        queryset3 = User.objects.filter(active=False).values("active").annotate(c=Count("active")).values("c")
+
+        queryset1.extend([{"type":"totalActive","c":queryset2[0]["c"]}])
+        queryset1.extend([{"type":"totalInactive","c":queryset3[0]["c"]}])
+
+        return Response(queryset1)
+
 ###############################################
 
 #####################CLIENT#####################
@@ -98,6 +119,8 @@ class ClientListView(ListAPIView):
 class ClientUpdateView(UpdateAPIView):
     queryset =Client.objects.all()
     serializer_class = ClientSerializer
+
+
 
 ###############################################
 
@@ -123,6 +146,21 @@ class ApartmentsClass(APIView):
         serializer_class = UserSerializer
         return Response(apartments)
 
+class  ApartmentsActiveList(APIView):
+    def get(self,request):
+        queryset1 = Apartment.objects.filter(active=True)
+        queryset2 = Apartment.objects.all()
+
+        return Response([{"state":"Active","c":len(queryset1)},{"state":"inactive","c":len(queryset2)-len(queryset1)}])
+
+class  ApartmentsPayList(APIView):
+    def get(self,request):
+        queryset1 = Bill.objects.filter(payment_status=False).values("id_electricitymeter")
+        queryset2 = list(ElectricityMeter.objects.exclude(id_electricitymeter__in=queryset1).values("id_electricitymeter"))
+
+
+        return Response([{"state":"up_to_date","c":len(queryset2)},{"state":"delayed","c":len(queryset1)}])
+
 ###############################################
 
 #####################Substation#####################
@@ -140,6 +178,22 @@ class SubstationUpdateView(UpdateAPIView):
     queryset =Substation.objects.all()
     serializer_class = SubstationSerializer
 
+
+class SubstationActiveView(APIView):
+    def get(self,request):
+        queryset =Substation.objects.values("active").annotate(c=Count("active")).values("active","c")
+
+        return Response(queryset)
+
+class  SubActiveTransListView(APIView):
+    def get(self,request):
+        queryset = Substation.objects.filter(active=True).values("active").annotate(c=Count("active")).values("active","c")
+        queryset2 = Substation.objects.values("active").annotate(c=Count("active")).values("c")
+
+
+        return Response([{"state":"Active","c":queryset[0]["c"]},{"state":"Inactive","c":queryset2[0]["c"]-queryset[0]["c"]},{"state":"Total","c":queryset2[0]["c"]}])
+
+
 ###############################################
 
 #####################Transformer#####################
@@ -156,6 +210,20 @@ class TransformerListView(ListAPIView):
 class TransformerUpdateView(UpdateAPIView):
     queryset =Transformer.objects.all()
     serializer_class = TransformerSerializer
+
+class TransformerActiveView(APIView):
+    def get(self,request):
+        queryset =Transformer.objects.values("active").annotate(c=Count("active")).values("active","c")
+        serializer_class = TransformerSerializer
+
+        return Response(queryset)
+
+class TransformerSubView(APIView):
+    def get(self,request):
+        queryset = Transformer.objects.values("id_substation").annotate(c=Count("id_substation")).values("id_substation","c")
+        serializer_class = TransformerSerializer
+
+        return Response(queryset)
 
 ###############################################
 
@@ -191,6 +259,21 @@ class BankUpdateView(UpdateAPIView):
     queryset =Bank.objects.all()
     serializer_class = BankSerializer
 
+class  BankNumberList(APIView):
+    def get(self,request):
+        queryset = list(Payment.objects.filter(payment_method="B").annotate(name_bank=F("id_bank__name_bank")).values("name_bank").annotate(c=Count("quantity"),s=Sum("quantity")).values("name_bank","c","s"))
+        bankPaids = Payment.objects.filter(payment_method="B").values("id_bank").distinct()
+
+        otherBanks = list(Bank.objects.exclude(id_bank__in=bankPaids).values("name_bank"))
+        
+        
+        for x in otherBanks:
+            print(x)
+            queryset.extend([{"name_bank":x["name_bank"],"c":0,"su":0}])
+
+
+        return Response(queryset)
+
 ###############################################
 
 #####################Bill#####################
@@ -198,6 +281,28 @@ class  BillCreateView(CreateAPIView):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
 
+class  BillListViewMonth(APIView):
+    def get(self,request):
+
+        today = datetime.now()
+
+        queryset = Bill.objects.filter(payment_status=True,expedition_date__year=today.year).annotate(month=ExtractMonth('expedition_date')).values('month').annotate(c=Sum('quantity')).values('month', 'c') 
+        
+
+        return Response(queryset)
+
+
+class  BillPayListView(APIView):
+    def get(self,request):
+
+        today = datetime.now()
+
+        queryset = list(Bill.objects.filter(payment_status=False,expedition_date__year=today.year).annotate(month=ExtractMonth('expedition_date')).values('month').annotate(c=Sum('quantity')).values('month', 'c') )
+        queryset1= list(Bill.objects.filter(payment_status=False,expedition_date__year=today.year).values('payment_status').annotate(c=Sum('quantity')).values('payment_status', 'c') )
+        
+        queryset.extend([{"month":"total","c":queryset1[0]["c"]}])
+
+        return Response(queryset)
 
 class BillListView(ListAPIView):
     queryset = Bill.objects.all()
@@ -215,6 +320,11 @@ class  PaymentCreateView(CreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
+class  PaymentTypeList(APIView):
+    def get(self,request):
+        queryset = Payment.objects.values('payment_method').annotate(c=Count('payment_method')).values('payment_method', 'c') 
+        
+        return Response(queryset)
 
 class PaymentListView(ListAPIView):
     queryset = Payment.objects.all()
@@ -224,5 +334,61 @@ class PaymentListView(ListAPIView):
 class PaymentUpdateView(UpdateAPIView):
     queryset =Payment.objects.all()
     serializer_class = PaymentSerializer
+
+###############################################
+
+#####################Simulation#####################
+
+class  SimulateBillPayment(APIView):
+    def post(self,request):
+        date = Apartment.objects.filter(active=True).order_by('-id_electricitymeter__actual_measuring_date').values("id_electricitymeter__actual_measuring_date")[0]
+        date = date["id_electricitymeter__actual_measuring_date"]
+
+        if((date.month+2)>12):
+            month = datetime(date.year, 1, date.day)
+            month1 = datetime(date.year, 2, date.day)
+        else:            
+            month = datetime(date.year, date.month+1, date.day)
+            
+            month1 = datetime(date.year, date.month+2, date.day)
+
+        queryId= Apartment.objects.filter(active=True).values("num_contract","id_electricitymeter","id_electricitymeter__previous_measuring","id_electricitymeter__actual_measuring")
+
+        for x in queryId:
+            query= ElectricityMeter.objects.filter(
+                apartment__active=True,
+                apartment__num_contract=x["num_contract"]
+            ).update(
+                previous_measuring=F("actual_measuring"),
+                previous_measuring_date=F("actual_measuring_date"),
+                actual_measuring=F("actual_measuring")+randrange(60),
+                actual_measuring_date=month)
+            
+            Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=x["id_electricitymeter"]),
+                quantity = x["id_electricitymeter__actual_measuring"]*1000-x["id_electricitymeter__previous_measuring"]*1000 ,
+                expedition_date=month,
+                due_date=month1 ,
+                payment_status=False).save()               
+
+        
+        bills = Bill.objects.filter(payment_status=False).order_by('due_date').values("id_bill","quantity","due_date")
+
+        banks = Bank.objects.filter(active=True).values("id_bank")
+
+        for x in range(randrange(len(bills))):
+
+            id = banks[randrange(len(banks))]["id_bank"]
+
+            Payment(payment_date=bills[x]["due_date"],
+                    quantity=bills[x]["quantity"] ,
+                    payment_method="B",
+                    id_bill=Bill.objects.get(id_bill=bills[x]["id_bill"]),
+                    id_bank=Bank.objects.get(id_bank=id)).save()
+
+            Bill.objects.filter(id_bill=bills[x]["id_bill"]).update(payment_status=True) 
+
+
+        return Response({"state":True})
+
 
 ###############################################

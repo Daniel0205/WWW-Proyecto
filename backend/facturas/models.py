@@ -146,19 +146,21 @@ class Bank(models.Model):
     
     active = models.BooleanField(default=True)
 
-#Bill Model
+#Bill Model 
 class Bill(models.Model):
     id_bill = models.AutoField(primary_key=True)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Bill's electricitymeter ", null=False)
     expedition_date = models.DateTimeField(auto_now=False)
     due_date = models.DateTimeField(auto_now=False)
     payment_status = models.BooleanField(default=False)
+    quantity = models.IntegerField(null=False)
+    
 
 #Payment Model
 class Payment(models.Model):
     id_payment = models.AutoField(primary_key=True)
     payment_date = models.DateTimeField(auto_now=False)
-    cuantity = models.IntegerField(null=False)
+    quantity = models.IntegerField(null=False)
 
     PAYMENT_CHOICES = {
         ("B", "bank"),
@@ -168,6 +170,6 @@ class Payment(models.Model):
     payment_method = models.CharField(null=False,max_length=1, choices=PAYMENT_CHOICES,default="O")
     id_bill = models.ForeignKey(Bill,on_delete=models.CASCADE, verbose_name="Bill related payment", null=False)
     id_bank = models.ForeignKey(Bank,on_delete=models.CASCADE, verbose_name="Bank who made the pay", null=False)
-    id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who made the pay", null=False)
+    id_user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="User who made the pay", null=True)
 
 
