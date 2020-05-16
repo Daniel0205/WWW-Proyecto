@@ -3,11 +3,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import HelpIcon from "@material-ui/icons/Help";
+import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
+import Hidden from "@material-ui/core/Hidden";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -15,7 +17,7 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { setSelectedItem } from "../store/selectedItem/action";
 
-
+import axios from "axios";
 
 import '../../services/localizationService';
 
@@ -71,13 +73,40 @@ function Header(props) {
   });
 
 
+  function simulation(){
+    if(props.credentials.type==='O'){
+      return (
+      <Grid item>
+        <Tooltip title="Simulation">
+          <IconButton onClick={start } color="inherit">
+            <PlayCircleFilledWhiteIcon />
+          </IconButton>
+        </Tooltip>
+      </Grid>)
+    }
+  }
+
+  function start(){
+    axios
+    .post("http://localhost:8000/api/simulate")
+    .then(response => {
+      console.log(response)
+      if(response.status===200)props.simu({type:"success",msj:"The simulation worked well"})
+      else props.simu({type:"error",msj:"The simulation didn't work"})
+    })
+    .catch(error => {
+      console.log(error);
+      props.simu({type:"error",msj:"The simulation didn't work"})
+    });
+  }
+
 
   return (
     <React.Fragment>
       <AppBar color="primary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
-            
+          <Hidden smUp>
               <Grid item>
                 <IconButton
                   color="inherit"
@@ -88,7 +117,7 @@ function Header(props) {
                   <MenuIcon />
                 </IconButton>
               </Grid>
-           
+              </Hidden>
             <Grid item xs />
             <Grid item>
               <Link className={classes.link} href="#" variant="body2">
@@ -126,18 +155,12 @@ function Header(props) {
               
               color="inherit"
               size="small" 
-              href="login">
+              href="/login">
               {window.app("Log out")}
               </Link>
               
             </Grid>
-            <Grid item>
-              <Tooltip title="Help">
-                <IconButton color="inherit">
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+            {simulation()}
           </Grid>
         </Toolbar>
       </AppBar>
