@@ -15,14 +15,16 @@ import { setModalCustomer } from "../../../store/selectedModal/action";
 //function to save/export in pdf
 function saveToPDF(element) {
   var opt = {
-    margin: 0,
+    margin: [0.2, 0, 0, -0.6],
     filename: "Bill.pdf",
     image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2, width: 950, height: 1050 },
+        html2canvas: { scale: 2, width: 990, height: 1050 },
     jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
   };
+
   html2pdf().set(opt).from(element).save();
 }
+
 
 //Settings for Modal/Dialog
 function getModalStyle() {

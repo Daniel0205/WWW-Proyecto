@@ -9,6 +9,8 @@ import Navigator from "./Navigator";
 import Header from "./Header";
 import Substation from "./Content/Substation";
 import { connect } from "react-redux";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarMesssages from "../SnackbarMesssages";
 
 //Options of content listed the Navigation Panel
 import UsertList from "./Content/UsertList";
@@ -17,6 +19,7 @@ import Customers from "./Content/Customers";
 import Apartments from "./Content/Apartments";
 import Transformer from "./Content/Transformer";
 import SingleBill from "./Content/Bills/SingleBill";
+import Reports from "./Content/reports";
 
 function Copyright() {
   return (
@@ -180,6 +183,9 @@ function useForceUpdate() {
 function Paperbase(props) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [messaje, setMessaje] = React.useState("");
+  const [type, setType] = React.useState("");
   const content = props.item;
 
   const handleDrawerToggle = () => {
@@ -210,6 +216,14 @@ function Paperbase(props) {
         return <SingleBill language={window.language} />;
       case "Transformers":
         return <Transformer language={window.language} />;
+      case "Income":
+        return <Reports language={window.language} type="Income" />;
+      case "Clients":
+        return <Reports language={window.language} type="Clients" />;
+      case "Assets":
+        return <Reports language={window.language} type="Assets" />;
+      case "Employees":
+        return <Reports language={window.language} type="Employees" />;
       default:
         return (
           <div>
@@ -218,6 +232,20 @@ function Paperbase(props) {
         );
     }
   };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  function showMsj(x) {
+    console.log(x);
+    setType(x.type);
+    setMessaje(x.msj);
+    setOpen(true);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -241,12 +269,25 @@ function Paperbase(props) {
           <Header
             onDrawerToggle={handleDrawerToggle}
             callback={changeLanguage}
+            simu={showMsj}
           />
           <main className={classes.main}>
             {/* <Content /> */}
             {/* <UsertList /> */}
             {contentElement(content)}
           </main>
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            onClose={handleClose}
+            open={open}
+            autoHideDuration={3000}
+          >
+            <SnackbarMesssages
+              variant={type}
+              onClose={handleClose}
+              message={messaje}
+            />
+          </Snackbar>
           <footer className={classes.footer}>
             <Copyright />
           </footer>

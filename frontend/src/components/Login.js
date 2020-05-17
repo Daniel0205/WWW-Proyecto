@@ -10,7 +10,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Background from "./Images/login.jpg";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -18,7 +17,7 @@ import SnackbarMesssages from "../components/SnackbarMesssages";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setCredentials } from "./store/login/action";
-
+import { Redirect } from "react-router-dom";
 import '../services/localizationService';
 import InitialHeader from './InitialHeader';
 
@@ -138,7 +137,11 @@ function SignIn(props) {
 }
 
   if (RedirectToHome) {
+<<<<<<< HEAD
     return <Redirect to="/dashboard" />;
+=======
+    return <Redirect from="/login" to="/dashboard" />
+>>>>>>> ff85b05b0b94ab3b5b647774b1cb9700903737bd
   } else {
     return (
       <React.Fragment>
