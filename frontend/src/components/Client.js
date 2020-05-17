@@ -10,6 +10,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Background from "./Images/background.jpg";
+import SingleBill from "./Dashboard/Content/Bills/SingleBill";
+import Dialog from "@material-ui/core/Dialog";
 
 import '../services/localizationService';
 import InitialHeader from './InitialHeader';
@@ -99,6 +101,7 @@ export default function Client() {
   const [consultType, setConsultType] = React.useState("document")
   const [document, setDocument] = React.useState("")
   const [contract, setContract] = React.useState("")
+  const [openBill, setOpenBill] = React.useState(false)
 
 
   const forceUpdate = useForceUpdate();
@@ -112,6 +115,7 @@ export default function Client() {
 
 const handleChange = (event) => {
     setConsultType(event.target.value);
+    setOpenBill(false)
   };
 
 function consultForm() {
@@ -144,6 +148,22 @@ function consultForm() {
     }
 }
 
+function onConsult(){
+
+  if(openBill){
+    if(consultType=="document"){
+      return(
+        <SingleBill></SingleBill>
+      )
+    }else if(consultType=="contract"){
+      return(
+        <SingleBill></SingleBill>
+      )
+    }
+  }
+  
+}
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -167,8 +187,21 @@ function consultForm() {
               <Typography variant="p" paragraph className={classes.tabTerms}>
                 {window.app("Info terms")}
               </Typography>
-              <Button className={classes.but} variant="contained" color="primary">{window.app("Consult")}</Button>
+              <Button 
+                className={classes.but} 
+                variant="contained" 
+                color="primary" 
+                onClick={
+                  ()=>{
+                    setOpenBill(true)
+                  }
+                }
+              >
+                {window.app("Consult")}
+              </Button>
           </Paper>
+
+          {onConsult()}
 
         </div>
        

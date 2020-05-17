@@ -74,7 +74,6 @@ export default {
     "Info terms":"Al presionar CONSULTAR estás aceptando los términos y condiciones",
     "Consult":"CONSULTAR",
     "Document or NIT":"Documento o NIT",
-
     //Transformador
     "Tension Level" : "Nivel de Tensión",
     "Transformer Card" : "Ficha de Transformador",
