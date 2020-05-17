@@ -9,6 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import PdfIcon from "@material-ui/icons/PictureAsPdf";
 import SingleBill from "./Bills/SingleBill";
 import { setModalCustomer } from "../../store/selectedModal/action";
+import { setSelectedCustomer } from "../../store/selectedCustomer/action";
 import Dialog from "@material-ui/core/Dialog";
 import { useSelector } from "react-redux";
 
@@ -198,7 +199,8 @@ function Customers(props) {
           {
             icon: PdfIcon,
             tooltip: window.app("print pdf"),
-            onClick: () => {
+            onClick: (event, rowData) => {
+              props.setSelectedCustomer(rowData.id_user);
               props.setModalCustomer(true);
             },
           },
@@ -235,6 +237,7 @@ function mapDispatchToProps(dispatch) {
     setSelectedItem: (item) => dispatch(setSelectedItem(item)),
     setSelectedUser: (item) => dispatch(setSelectedUser(item)),
     setModalCustomer: (state) => dispatch(setModalCustomer(state)),
+    setSelectedCustomer: (state) => dispatch(setSelectedCustomer(state)),
   };
 }
 

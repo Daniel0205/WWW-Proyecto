@@ -1,7 +1,8 @@
 :root {
-  --font-color: red; /*este es el verdadero color #181850*/
+  --font-color: black;
   --font: bold 14px/45px Helvetica, Sans-Serif;
-  --letter-spacing: -1px;
+  --big-font: bold 18px/45px Helvetica, Sans-Serif;
+  --letter-spacing: 0px;
 }
 
 .container img {
@@ -10,9 +11,15 @@
   left: 0px;
 }
 
+#chart {
+  position: absolute;
+  top: 348px;
+  left: 38px;
+}
+
 #service {
   position: absolute;
-  top: 184px;
+  top: 174px;
   left: 46px;
   color: var(--font-color);
   font: var(--font);
@@ -21,7 +28,7 @@
 
 #name {
   position: absolute;
-  top: 198px;
+  top: 188px;
   left: 46px;
   color: var(--font-color);
   font: var(--font);
@@ -30,14 +37,41 @@
 
 #address {
   position: absolute;
-  top: 211px;
+  top: 201px;
   left: 46px;
   color: var(--font-color);
   font: var(--font);
   letter-spacing: var(--letter-spacing);
 }
 
-#due_date {
+#apartment_contract {
+  position: absolute;
+  top: 238px;
+  left: 46px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#apartment_stratum {
+  position: absolute;
+  top: 252px;
+  left: 46px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#electricitymeter_id {
+  position: absolute;
+  top: 267px;
+  left: 46px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#due_date_1 {
   position: absolute;
   top: 101px;
   left: 685px;
@@ -46,10 +80,244 @@
   letter-spacing: var(--letter-spacing);
 }
 
-#amount_due {
+#due_date_2 {
+  position: absolute;
+  top: 290px;
+  left: 516px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#amount_due_1 {
   position: absolute;
   top: 101px;
-  left: 802px;
+  left: 794px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#month_billed {
+  position: absolute;
+  top: 568px;
+  left: 54px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#due_days {
+  position: absolute;
+  top: 568px;
+  left: 146px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#cost_kwt {
+  position: absolute;
+  top: 568px;
+  left: 190px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#average_daily_measuring {
+  position: absolute;
+  top: 568px;
+  left: 270px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#average_monthly {
+  position: absolute;
+  top: 568px;
+  left: 338px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#balance_title_1 {
+  position: absolute;
+  top: 206px;
+  left: 430px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#balance_title_2 {
+  position: absolute;
+  top: 224px;
+  left: 432px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#balance_title_3 {
+  position: absolute;
+  top: 243px;
+  left: 432px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#amount_due_2 {
+  position: absolute;
+  top: 204px;
+  left: 740px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#amount_due_3 {
+  position: absolute;
+  top: 290px;
+  left: 806px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#bill_id {
+  position: absolute;
+  top: 101px;
+  left: 592px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#big_amount_due {
+  position: absolute;
+  top: 904px;
+  left: 776px;
+  color: var(--font-color);
+  font: var(--big-font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#due_date_big {
+  position: absolute;
+  top: 904px;
+  left: 630px;
+  color: var(--font-color);
+  font: var(--big-font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#bill_id_big {
+  position: absolute;
+  top: 904px;
+  left: 516px;
+  color: var(--font-color);
+  font: var(--big-font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#customer_id_big {
+  position: absolute;
+  top: 150px;
+  left: 320px;
+  color: var(--font-color);
+  font: var(--big-font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#customer_email {
+  position: absolute;
+  top: 214px;
+  left: 46px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#prev_measuring_date {
+  position: absolute;
+  top: 638px;
+  left: 56px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#actual_measuring_date {
+  position: absolute;
+  top: 660px;
+  left: 56px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#days_billed {
+  position: absolute;
+  top: 682px;
+  left: 56px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#actual_measuring {
+  position: absolute;
+  top: 660px;
+  left: 286px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#prev_measuring {
+  position: absolute;
+  top: 638px;
+  left: 286px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#month_measuring {
+  position: absolute;
+  top: 682px;
+  left: 286px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#interest {
+  position: absolute;
+  top: 224px;
+  left: 740px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#reconnect_value {
+  position: absolute;
+  top: 243px;
+  left: 740px;
+  color: var(--font-color);
+  font: var(--font);
+  letter-spacing: var(--letter-spacing);
+}
+
+#amount_due_4 {
+  position: absolute;
+  top: 266px;
+  left: 740px;
   color: var(--font-color);
   font: var(--font);
   letter-spacing: var(--letter-spacing);

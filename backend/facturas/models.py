@@ -150,8 +150,8 @@ class Bank(models.Model):
 class Bill(models.Model):
     id_bill = models.AutoField(primary_key=True)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Bill's electricitymeter ", null=False)
-    expedition_date = models.DateTimeField(auto_now=False)
-    due_date = models.DateTimeField(auto_now=False)
+    expedition_date = models.DateField(auto_now=False)
+    due_date = models.DateField(auto_now=False)
     payment_status = models.BooleanField(default=False)
     quantity = models.IntegerField(null=False)
     

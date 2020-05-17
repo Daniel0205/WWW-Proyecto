@@ -54,6 +54,7 @@ from .views import (
    BillListView,
    BillListViewMonth,
    BillPayListView,
+   BillAllInfoView,
 
    #Payment
    PaymentCreateView,
@@ -122,6 +123,7 @@ urlpatterns = [
     path('bill/pay', BillPayListView.as_view()),
     path('bill/update/<pk>',BillUpdateView.as_view()),
     path('bill/create/',BillCreateView.as_view()),
+    path('bill/allinfo',BillAllInfoView.as_view()),
 
     #Payment
     path('payment', PaymentListView.as_view()),
