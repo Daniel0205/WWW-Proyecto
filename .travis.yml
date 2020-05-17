@@ -1,0 +1,42 @@
+dist: xenial
+os: linux
+git:
+  depth: 3 
+
+language: node_js
+node_js:
+  - 12
+
+jobs:
+  include:
+    
+    # ======== Parte de Backend ========
+    - language: python
+      python:
+        - "3.6"
+
+      cache: pip
+
+      branches:
+        only:
+          - master
+
+      env:
+        - DJANGO=3.0
+
+      before_install:
+        - cd backend/
+
+      install:
+        - "pip install -r requirements.txt"
+
+      script: 
+        - python manage.py test
+
+      deploy:
+        provider: heroku
+        api_key: $HEROKU_TOKEN
+        app: wwwproyect
+        on: 
+          repo: daniel0205/WWW-Proyecto
+          branch: master
