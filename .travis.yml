@@ -30,7 +30,6 @@ jobs:
       install:
         - npm install
       script:
-        - npm test && codecov
         - npm run build
       deploy:
         provider: firebase
