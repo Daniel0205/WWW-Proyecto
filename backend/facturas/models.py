@@ -46,7 +46,7 @@ class User(AbstractBaseUser):
     id_user =  models.IntegerField(primary_key=True)
     name = models.TextField(null=False)
     last_name = models.TextField(null=False)
-    password = models.CharField(max_length=15)
+    password = models.CharField(max_length=100)
     
     TYPE_CHOICES = {
         ("O", "Operador"),

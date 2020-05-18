@@ -36,7 +36,9 @@ jobs:
       deploy:
         provider: heroku
         api_key: $HEROKU_TOKEN
-        app: wwwproyect
+        app: univalleapp
         on: 
           repo: daniel0205/WWW-Proyecto
           branch: master
+
+   

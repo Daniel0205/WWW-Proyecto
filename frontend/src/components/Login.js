@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import ReCAPTCHA from "react-google-recaptcha";
+import Recaptcha from "react-recaptcha";
 import Paper from "@material-ui/core/Paper";
 import Background from "./Images/login.jpg";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -85,6 +85,13 @@ function SignIn(props) {
     setOpen(false);
   };
 
+  // specifying verify callback function
+  var verifyCallback = function (response) {
+    if(response){
+      setdisabledLogin(false);
+    }
+  };
+
   function onSubmit(event) {
     event.preventDefault();
 
@@ -120,11 +127,6 @@ function SignIn(props) {
     sessionStorage.setItem("name", credentials.name);
     sessionStorage.setItem("token", credentials.token);
     sessionStorage.setItem("type", credentials.type);
-  }
-
-  function CaptchaPassed() {
-
-    setdisabledLogin(false);
   }
 
   const forceUpdate = useForceUpdate();
@@ -183,10 +185,12 @@ function SignIn(props) {
                 />
                 <br />
                 <br />
-                <ReCAPTCHA
+                <Recaptcha
                   align="center"
-                  sitekey="6LcTTdQUAAAAAO4tccHs-veRpt1qFHe8vvKaNpZS"
-                  onChange={CaptchaPassed}
+                  sitekey="6Ldev_gUAAAAABBKuj7jNeKE2NS7w6J8vG_SBXIC"
+                  render="explicit"
+            
+                  verifyCallback={verifyCallback}
                 />
                 <Button
                   disabled={disabledLogin}
