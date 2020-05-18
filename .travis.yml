@@ -27,10 +27,11 @@ jobs:
         - cd frontend/
 
       install:
-        - npm install
+        - npm install -g codecov
       script:
+        - npm test && codecov
+        - CI=false 
         - npm run build
-
       deploy:
         provider: firebase
         skip_cleanup: true
@@ -64,7 +65,7 @@ jobs:
         api_key: $HEROKU_TOKEN
         app: univalleapp
         on: 
-          repo: daniel0205/WWW-Proyecto
+          repo: Daniel0205/WWW-Proyecto 
           branch: master
 
    
