@@ -7,17 +7,18 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Navigator from "./Navigator";
 import Header from "./Header";
-import Substation from "./Content/Substation"
+import Substation from "./Content/Substation";
 import { connect } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarMesssages from "../SnackbarMesssages";
-
 
 //Options of content listed the Navigation Panel
 import UsertList from "./Content/UsertList";
 import Banks from "./Content/Banks";
 import Customers from "./Content/Customers";
 import Apartments from "./Content/Apartments";
+import Transformer from "./Content/Transformer";
+import SingleBill from "./Content/Bills/SingleBill";
 import Reports from "./Content/reports";
 
 function Copyright() {
@@ -38,29 +39,29 @@ let theme = createMuiTheme({
     primary: {
       light: "#63ccff",
       main: "#009be5",
-      dark: "#006db3"
-    }
+      dark: "#006db3",
+    },
   },
   typography: {
     h5: {
       fontWeight: 500,
       fontSize: 26,
-      letterSpacing: 0.5
-    }
+      letterSpacing: 0.5,
+    },
   },
   shape: {
-    borderRadius: 8
+    borderRadius: 8,
   },
   props: {
     MuiTab: {
-      disableRipple: true
-    }
+      disableRipple: true,
+    },
   },
   mixins: {
     toolbar: {
-      minHeight: 48
-    }
-  }
+      minHeight: 48,
+    },
+  },
 });
 
 theme = {
@@ -68,30 +69,30 @@ theme = {
   overrides: {
     MuiDrawer: {
       paper: {
-        backgroundColor: "#18202c"
-      }
+        backgroundColor: "#18202c",
+      },
     },
     MuiButton: {
       label: {
-        textTransform: "none"
+        textTransform: "none",
       },
       contained: {
         boxShadow: "none",
         "&:active": {
-          boxShadow: "none"
-        }
-      }
+          boxShadow: "none",
+        },
+      },
     },
     MuiTabs: {
       root: {
-        marginLeft: theme.spacing(1)
+        marginLeft: theme.spacing(1),
       },
       indicator: {
         height: 3,
         borderTopLeftRadius: 3,
         borderTopRightRadius: 3,
-        backgroundColor: theme.palette.common.white
-      }
+        backgroundColor: theme.palette.common.white,
+      },
     },
     MuiTab: {
       root: {
@@ -101,84 +102,83 @@ theme = {
         padding: 0,
         [theme.breakpoints.up("md")]: {
           padding: 0,
-          minWidth: 0
-        }
-      }
+          minWidth: 0,
+        },
+      },
     },
     MuiIconButton: {
       root: {
-        padding: theme.spacing(1)
-      }
+        padding: theme.spacing(1),
+      },
     },
     MuiTooltip: {
       tooltip: {
-        borderRadius: 4
-      }
+        borderRadius: 4,
+      },
     },
     MuiDivider: {
       root: {
-        backgroundColor: "#404854"
-      }
+        backgroundColor: "#404854",
+      },
     },
     MuiListItemText: {
       primary: {
-        fontWeight: theme.typography.fontWeightMedium
-      }
+        fontWeight: theme.typography.fontWeightMedium,
+      },
     },
     MuiListItemIcon: {
       root: {
         color: "inherit",
         marginRight: 0,
         "& svg": {
-          fontSize: 20
-        }
-      }
+          fontSize: 20,
+        },
+      },
     },
     MuiAvatar: {
       root: {
         width: 32,
-        height: 32
-      }
-    }
-  }
+        height: 32,
+      },
+    },
+  },
 };
 
 const drawerWidth = 256;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
   app: {
     flex: 1,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   main: {
     flex: 1,
     padding: theme.spacing(6, 4),
-    background: "#eaeff1"
+    background: "#eaeff1",
   },
   footer: {
     padding: theme.spacing(2),
-    background: "#eaeff1"
-  }
+    background: "#eaeff1",
+  },
 }));
 
 //create your forceUpdate hook
-function useForceUpdate(){
+function useForceUpdate() {
   const [value, setValue] = useState(0); // integer state
-  let val = value +1
+  let val = value + 1;
   return () => setValue(val); // update the state to force render
 }
-
 
 function Paperbase(props) {
   const classes = useStyles();
@@ -194,35 +194,36 @@ function Paperbase(props) {
 
   const forceUpdate = useForceUpdate();
 
-
   let changeLanguage = (e) => {
-
     window.changeLanguage(e.currentTarget.dataset.language);
-    forceUpdate()
-}
+    forceUpdate();
+  };
 
   //Return a react component in th
-  const contentElement = content => {
+  const contentElement = (content) => {
     switch (content) {
-      
       case "Users":
-        return <UsertList language={window.language}/>;
+        return <UsertList language={window.language} />;
       case "Banks":
-        return <Banks language={window.language}/>;
+        return <Banks language={window.language} />;
       case "Customers":
-        return <Customers language={window.language}/>;
+        return <Customers language={window.language} />;
       case "Apartments":
-        return <Apartments language={window.language}/>;
+        return <Apartments language={window.language} />;
       case "Substations":
-        return <Substation language={window.language}/>;
+        return <Substation language={window.language} />;
+      case "SingleBill":
+        return <SingleBill language={window.language} />;
+      case "Transformers":
+        return <Transformer language={window.language} />;
       case "Income":
-        return <Reports language={window.language} type="Income"/>;
+        return <Reports language={window.language} type="Income" />;
       case "Clients":
-        return <Reports language={window.language} type="Clients"/>;
+        return <Reports language={window.language} type="Clients" />;
       case "Assets":
-        return <Reports language={window.language} type="Assets"/>;
+        return <Reports language={window.language} type="Assets" />;
       case "Employees":
-        return <Reports language={window.language} type="Employees"/>;
+        return <Reports language={window.language} type="Employees" />;
       default:
         return (
           <div>
@@ -232,7 +233,6 @@ function Paperbase(props) {
     }
   };
 
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -240,12 +240,12 @@ function Paperbase(props) {
     setOpen(false);
   };
 
-  function showMsj(x){
-    console.log(x)
+  function showMsj(x) {
+    console.log(x);
     setType(x.type);
     setMessaje(x.msj);
     setOpen(true);
-}
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -266,7 +266,11 @@ function Paperbase(props) {
           </Hidden>
         </nav>
         <div className={classes.app}>
-          <Header onDrawerToggle={handleDrawerToggle} callback={changeLanguage} simu={showMsj}/>
+          <Header
+            onDrawerToggle={handleDrawerToggle}
+            callback={changeLanguage}
+            simu={showMsj}
+          />
           <main className={classes.main}>
             {/* <Content /> */}
             {/* <UsertList /> */}
@@ -293,10 +297,10 @@ function Paperbase(props) {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     credentials: state.credentials,
-    item: state.itemReducer.item
+    item: state.itemReducer.item,
   };
 };
 

@@ -1,7 +1,7 @@
 from rest_framework import permissions
 from django.db.models.functions import ExtractMonth,ExtractYear
 from django.db.models import Count,Sum,F,Case,When
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from random import randrange
 
 from rest_framework.generics import (
@@ -391,4 +391,79 @@ class  SimulateBillPayment(APIView):
         return Response({"state":True})
 
 
-###############################################
+#################Print Bill#######################
+
+class  BillAllInfoView(APIView):
+    def post(self,request):     
+
+        id_bill = request.data["return_bill"]  
+  
+        fields = [
+        # Client
+        "id_user_client",
+        "id_user_client__name", 
+        "id_user_client__last_name", 
+        "id_user_client__email", 
+        # Apartment
+        "num_contract",
+        "address", 
+        "stratum", 
+        # ElectricityMeter
+        "id_electricitymeter",                 
+        "id_electricitymeter__previous_measuring", 
+        "id_electricitymeter__previous_measuring_date", 
+        "id_electricitymeter__actual_measuring", 
+        "id_electricitymeter__actual_measuring_date",
+        # Bill
+        "id_electricitymeter__bill__id_bill",
+        "id_electricitymeter__bill__expedition_date",
+        "id_electricitymeter__bill__due_date",
+        "id_electricitymeter__bill__payment_status",
+        "id_electricitymeter__bill__quantity",
+        ]
+        
+        latest_expedition_date = Bill.objects.values("expedition_date").order_by("-expedition_date")[0]["expedition_date"]
+        
+        bills_list = list(Bill.objects.values("id_electricitymeter", "quantity"))    
+        latest_6_months_consumption = {}
+        for i in bills_list:
+            latest_6_months_consumption[str(i['id_electricitymeter'])] = []
+        for i in bills_list:
+            latest_6_months_consumption[str(i['id_electricitymeter'])].append(i["quantity"]/1000)
+        
+        
+        if(id_bill=="All"):
+            queryset = list(Apartment.objects
+            .filter( id_electricitymeter__bill__expedition_date=latest_expedition_date )
+            .values(*fields))
+        else:
+            queryset = list(Apartment.objects
+            .filter(id_user_client=id_bill)
+            .filter( id_electricitymeter__bill__expedition_date=latest_expedition_date )
+            .values(*fields))
+
+        # adding calculated information for the bill
+        for i in queryset:           
+            months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            due_date = i["id_electricitymeter__bill__due_date"]          
+            # Dias de mora
+            i["due_days"] = ( date.today() - due_date ).days 
+            # Intereses por mora, max 30%
+            i["interest"] = (i["due_days"]/100)*i["id_electricitymeter__bill__quantity"] if (i["due_days"]<=30 and i["due_days"]>0) else 0
+            # Dias facturados
+            i["days_billed"] = ( i["id_electricitymeter__actual_measuring_date"]-i["id_electricitymeter__previous_measuring_date"] ).days
+            # Consumo mensual (lectura)
+            i["month_measuring"] = i["id_electricitymeter__actual_measuring"] - i["id_electricitymeter__previous_measuring"]
+            # Promedio de consumo diario
+            i["average_daily_measuring"] = round(i["month_measuring"] / 30, 2)
+            # Periodo de facturación
+            i["month_billed"] = months[ due_date.month - 1 ]
+            #dias_mora > 60 --> suspendido
+            i["discontinued"] = True if(i["due_days"]>60) else False
+            # suspendido True --> reconexion = 34000
+            i["reconnect_value"] =  34000 if(i["discontinued"]) else 0
+            # consumo de los ultimos 6 meses
+            i["latest_6_months_consumption"] = latest_6_months_consumption[str(i['id_electricitymeter'])]
+        
+        return Response(queryset)    
+    

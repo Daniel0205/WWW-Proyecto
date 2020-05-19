@@ -104,8 +104,8 @@ class Substation(models.Model):
 class Transformer(models.Model):
     id_transformer =  models.AutoField(primary_key=True)
     tension_level = models.IntegerField(null=False)
-    lat_transformer = models.DecimalField(null=True, max_digits=10, decimal_places=8)
-    long_transformer = models.DecimalField(null=True, max_digits=10, decimal_places=8)
+    lat_transformer = models.DecimalField(null=True, max_digits=22, decimal_places=16)
+    long_transformer = models.DecimalField(null=True, max_digits=22, decimal_places=16)
     id_substation = models.ForeignKey(Substation,on_delete=models.CASCADE, verbose_name="substation to which it belongs the transformer", null=False)
     active = models.BooleanField(default=True)
 
@@ -150,8 +150,8 @@ class Bank(models.Model):
 class Bill(models.Model):
     id_bill = models.AutoField(primary_key=True)
     id_electricitymeter = models.ForeignKey(ElectricityMeter,on_delete=models.CASCADE, verbose_name="Bill's electricitymeter ", null=False)
-    expedition_date = models.DateTimeField(auto_now=False)
-    due_date = models.DateTimeField(auto_now=False)
+    expedition_date = models.DateField(auto_now=False)
+    due_date = models.DateField(auto_now=False)
     payment_status = models.BooleanField(default=False)
     quantity = models.IntegerField(null=False)
     
