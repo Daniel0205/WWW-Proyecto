@@ -137,11 +137,7 @@ function SignIn(props) {
 }
 
   if (RedirectToHome) {
-<<<<<<< HEAD
-    return <Redirect to="/dashboard" />;
-=======
     return <Redirect from="/login" to="/dashboard" />
->>>>>>> ff85b05b0b94ab3b5b647774b1cb9700903737bd
   } else {
     return (
       <React.Fragment>

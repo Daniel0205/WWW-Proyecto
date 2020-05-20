@@ -20,6 +20,8 @@ import Apartments from "./Content/Apartments";
 import Transformer from "./Content/Transformer";
 import SingleBill from "./Content/Bills/SingleBill";
 import Reports from "./Content/reports";
+import RecordPayments from "./Content/RecordPayments";
+import PayBill from "./Content/PayBill";
 
 function Copyright() {
   return (
@@ -224,6 +226,10 @@ function Paperbase(props) {
         return <Reports language={window.language} type="Assets" />;
       case "Employees":
         return <Reports language={window.language} type="Employees" />;
+      case "Record Payments":
+        return <RecordPayments language={window.language}/>;
+      case "Bills":
+        return <PayBill language={window.language}/>;
       default:
         return (
           <div>

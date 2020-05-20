@@ -313,6 +313,13 @@ class BillUpdateView(UpdateAPIView):
     queryset =Bill.objects.all()
     serializer_class = BillSerializer
 
+class BillSingle(APIView):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id', 'Default Value if not there')
+        bill = Bill.objects.filter(id_bill=id).values()
+        serializer_class = BillSerializer
+        return Response(bill)
+
 ###############################################
 
 #####################Payment#####################
@@ -322,7 +329,8 @@ class  PaymentCreateView(CreateAPIView):
 
 class  PaymentTypeList(APIView):
     def get(self,request):
-        queryset = Payment.objects.values('payment_method').annotate(c=Count('payment_method')).values('payment_method', 'c') 
+        queryset = Payment.objects.values('payment_method').annotate(c=Count('payment_method')).values('payment_method', 'c')
+        serializer_class = PaymentSerializer 
         
         return Response(queryset)
 
@@ -334,6 +342,16 @@ class PaymentListView(ListAPIView):
 class PaymentUpdateView(UpdateAPIView):
     queryset =Payment.objects.all()
     serializer_class = PaymentSerializer
+
+class PaymentIdView(APIView):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id', 'Default Value if not there')
+        queryset = Payment.objects.filter(id_bill__id_electricitymeter__apartment__id_user_client=id).values("payment_method","quantity","payment_date","id_bill","id_payment")
+        #Client.objects.filter(id=1234).values("apartment__id_electricitymeter__bill__payment__quantity")
+        serializer_class = PaymentSerializer
+
+        return Response(queryset)
+    
 
 ###############################################
 

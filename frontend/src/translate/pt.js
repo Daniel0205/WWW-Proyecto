@@ -79,17 +79,34 @@ export default {
     "Info terms":"Ao pressionar CONSULT, você aceita os termos e condições",
     "Consult":"CONSULTAR",
     "Document or NIT":"Documento ou NIT",
-
-    //Transformador
-    "Tension Level" : "Nível de tensão",
-    "Transformer Card" : "Cartão do transformador",
-    "Transformer": "Transformador",
-    "Substation Id": "Id da subestação",
-    "Substation Address" : "Endereço da Subestação",
     "Income":"Renda",
     "Employees":"Empregados",
     "Assets":"Ativos",
     "Clients":"Clientes",
+    //Record Payments
+    "Consult RP":"Verifique o registro de pagamento",
+    "Instruc":"Digite o ID do cliente",
+    "Id pay": "Identificador de pagamento ",
+    "Paid": "Você pagou a quantia de: ",
+    "Date pay": "Você pagou na data ",
+    "Bill paid": "Você pagou a fatura com número ",
+    "No client with id":"Não há cliente com esse Id",
+    //Pay Bill
+    "Make payment": "Fazer pagamento",
+    "Search Bill":"Digite o identificador da fatura a ser paga",
+    "Pay": "Pagar",
+    "No bill with id":"Não há fatura com esse Id",
+    "Search bill no resuslt":"A pesquisa não produziu resultados. Tente novamente",
+    "Pay Bill title":"Pagar fatura",
+    "Bill":"Fatura ",
+    "Get payment":"Cobra o cliente da quantidade de $",
+    "Change payment":"Se necessário, entregue a alteração ao cliente",
+    "Cancel":"Cancelar",
+    "Create pay":"Gerar pagamento",
+    "Paid bill":"Fatura paga",
+    "Bill already paid":"Esta fatura já foi paga",
+    "Bill identifier":"Rechnungskennung",
+    "Bill identifier":"ID da fatura",
 };
 
 

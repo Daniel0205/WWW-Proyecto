@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper";
@@ -15,6 +14,13 @@ import Dialog from "@material-ui/core/Dialog";
 
 import '../services/localizationService';
 import InitialHeader from './InitialHeader';
+import { setSelectedCustomer } from "./store/selectedCustomer/action";
+import { setModalCustomer } from "./store/selectedModal/action";
+import { setSelectedItem } from "./store/selectedItem/action";
+import { setSelectedUser } from "./store/selectedUser/action";
+import { useSelector } from "react-redux";
+import { connect } from "react-redux";
+
 
 function Copyright() {
   return (
@@ -95,13 +101,19 @@ function useForceUpdate(){
 }
 
 
-export default function Client() {
+function Client(props) {
   const classes = useStyles();
 
   const [consultType, setConsultType] = React.useState("document")
   const [document, setDocument] = React.useState("")
   const [contract, setContract] = React.useState("")
-  const [openBill, setOpenBill] = React.useState(false)
+
+  const [open, setOpen] = React.useState(false);
+  const modalState = useSelector((state) => state.modalReducer.Customers); 
+
+  React.useEffect(() => {
+    setOpen(modalState);
+  }, [modalState]);
 
 
   const forceUpdate = useForceUpdate();
@@ -115,7 +127,6 @@ export default function Client() {
 
 const handleChange = (event) => {
     setConsultType(event.target.value);
-    setOpenBill(false)
   };
 
 function consultForm() {
@@ -150,14 +161,22 @@ function consultForm() {
 
 function onConsult(){
 
-  if(openBill){
+  if(modalState){
     if(consultType=="document"){
       return(
-        <SingleBill></SingleBill>
+        <Dialog
+          PaperComponent={SingleBill}
+          open={open}
+          onClose={() => props.setModalCustomer(false)}
+      ></Dialog>
       )
     }else if(consultType=="contract"){
       return(
-        <SingleBill></SingleBill>
+        <Dialog
+          PaperComponent={SingleBill}
+          open={open}
+          onClose={() => props.setModalCustomer(false)}
+      ></Dialog>
       )
     }
   }
@@ -192,8 +211,9 @@ function onConsult(){
                 variant="contained" 
                 color="primary" 
                 onClick={
-                  ()=>{
-                    setOpenBill(true)
+                  (event) => {
+                    props.setSelectedCustomer(document);
+                    props.setModalCustomer(true);
                   }
                 }
               >
@@ -217,4 +237,25 @@ function onConsult(){
       {/* End footer */}
     </React.Fragment>
   );
+
 }
+
+const mapStateToProps = (state) => {
+  return {
+    credentials: state.loginReducer.credentials,
+    item: state.itemReducer.item,
+    user: state.userReducer.user,
+    modalState: state.modalReducer.Customer,
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setSelectedItem: (item) => dispatch(setSelectedItem(item)),
+    setSelectedUser: (item) => dispatch(setSelectedUser(item)),
+    setModalCustomer: (state) => dispatch(setModalCustomer(state)),
+    setSelectedCustomer: (state) => dispatch(setSelectedCustomer(state)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Client);

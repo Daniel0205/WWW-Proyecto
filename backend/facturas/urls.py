@@ -55,12 +55,14 @@ from .views import (
    BillListViewMonth,
    BillPayListView,
    BillAllInfoView,
+   BillSingle,
 
    #Payment
    PaymentCreateView,
    PaymentUpdateView,
    PaymentListView,
    PaymentTypeList,
+   PaymentIdView,
 
    #Simulation
    SimulateBillPayment
@@ -124,12 +126,14 @@ urlpatterns = [
     path('bill/update/<pk>',BillUpdateView.as_view()),
     path('bill/create/',BillCreateView.as_view()),
     path('bill/allinfo',BillAllInfoView.as_view()),
-
+    path('bill/<id>',BillSingle.as_view()),
+    
     #Payment
     path('payment', PaymentListView.as_view()),
     path('payment/bank', PaymentTypeList.as_view()),
     path('payment/update/<pk>',PaymentUpdateView.as_view()),
     path('payment/create/',PaymentCreateView.as_view()),
+    path('payment/<id>', PaymentIdView.as_view()),
 
     #Simulation
     path('simulate', SimulateBillPayment.as_view()),
