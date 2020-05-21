@@ -3,6 +3,8 @@ import MaterialTable from "material-table";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarMesssages from "../../SnackbarMesssages";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -55,6 +57,16 @@ export default function UserList(language) {
     data: []
   });
 
+  const [type, setType] = React.useState("error");
+  const [messaje, setMessaje] = React.useState("");
+  
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMessaje("");
+  };
+
 
   React.useEffect(() => {
     axios
@@ -88,7 +100,7 @@ export default function UserList(language) {
           };
         })
       });
-console.log("ENtroe")
+
     })
     .catch(error => {
       console.log(error);
@@ -99,8 +111,24 @@ console.log("ENtroe")
 
   const classes = useStyles();
 
-  console.log(state)
-  console.log(language)
+  function verifyData(data){
+
+    var aux = false
+    var aux2 = "error"
+    if(data.name.length===0 || data.last_name.length===0 || data.email.length===0)setMessaje("All fields are required")
+    else if(!/^[a-zA-Z ]+$/.test(data.name))setMessaje("Enter a valid name [a-zA-Z ]")
+    else if(!/^[a-zA-Z ]+$/.test(data.last_name))setMessaje("Enter a valid surname [a-zA-Z ]")
+    else if(!/^[0-9a-zA-Z-_.@]+$/.test(data.last_name))setMessaje("Enter a valid email [0-9a-zA-Z-_.@]")
+    else {
+      setMessaje("The customer was successfully created")
+      aux2="success"
+      aux=true
+    }
+
+    setType(aux2)
+   
+    return aux
+  }
 
   return (
     <Paper className={classes.paper}>      
@@ -177,6 +205,18 @@ console.log("ENtroe")
             })
         }}
       />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleClose}
+        open={messaje!==""}
+        autoHideDuration={2000}
+      >
+        <SnackbarMesssages
+          variant={type}
+          onClose={handleClose}
+          message={messaje}
+        />
+      </Snackbar>
     </Paper>
   );
 }

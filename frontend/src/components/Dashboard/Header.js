@@ -74,7 +74,7 @@ function Header(props) {
 
 
   function simulation(){
-    if(props.credentials.type==='O'){
+    
       return (
       <Grid item>
         <Tooltip title="Simulation">
@@ -83,7 +83,7 @@ function Header(props) {
           </IconButton>
         </Tooltip>
       </Grid>)
-    }
+    
   }
 
   function start(){

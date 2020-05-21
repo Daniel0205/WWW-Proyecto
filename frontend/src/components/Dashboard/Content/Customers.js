@@ -12,6 +12,8 @@ import { setModalCustomer } from "../../store/selectedModal/action";
 import { setSelectedCustomer } from "../../store/selectedCustomer/action";
 import Dialog from "@material-ui/core/Dialog";
 import { useSelector } from "react-redux";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarMesssages from "../../SnackbarMesssages";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -73,6 +75,15 @@ function Customers(props) {
     ],
     data: [],
   });
+  const [type, setType] = React.useState("error");
+  const [messaje, setMessaje] = React.useState("");
+  
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMessaje("");
+  };
 
   React.useEffect(() => {
     axios
@@ -105,7 +116,26 @@ function Customers(props) {
     setOpen(modalState);
   }, [modalState]);
 
-  console.log(state);
+  function verifyData(data){
+
+    var aux = false
+    var aux2 = "error"
+    if(data.name.length===0 || data.last_name.length===0 || data.email.length===0)setMessaje("All fields are required")
+    else if(!/^[a-zA-Z ]+$/.test(data.name))setMessaje("Enter a valid name [a-zA-Z ]")
+    else if(!/^[a-zA-Z ]+$/.test(data.last_name))setMessaje("Enter a valid surname [a-zA-Z ]")
+    else if(!/^[0-9a-zA-Z-_.@]+$/.test(data.last_name))setMessaje("Enter a valid email [0-9a-zA-Z-_.@]")
+    else {
+      setMessaje("The customer was successfully created")
+      aux2="success"
+      aux=true
+    }
+
+    setType(aux2)
+   
+    return aux
+  }
+
+
   return (
     <Paper className={classes.paper}>
       <MaterialTable
@@ -165,34 +195,41 @@ function Customers(props) {
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                axios
-                  .put(
-                    "http://localhost:8000/api/client/update/" +
-                      newData.id_user,
-                    {
-                      id: newData.id_user,
-                      name: newData.name,
-                      last_name: newData.last_name,
-                      type: newData.type,
-                      email: newData.email,
-                      shipping_way: newData.shipping_way,
-                    }
-                  )
-                  .then((response) => {
-                    if (oldData) {
-                      setState((prevState) => {
-                        const data = [...prevState.data];
-                        data[data.indexOf(oldData)] = newData;
-                        return { ...prevState, data };
+              
+              
+              if(verifyData(newData)){
+                setTimeout(() => {
+            
+                    resolve();
+                    axios
+                      .put(
+                        "http://localhost:8000/api/client/update/" +
+                          newData.id_user,
+                        {
+                          id: newData.id_user,
+                          name: newData.name,
+                          last_name: newData.last_name,
+                          type: newData.type,
+                          email: newData.email,
+                          shipping_way: newData.shipping_way,
+                        }
+                      )
+                      .then((response) => {
+                        if (oldData) {
+                          setState((prevState) => {
+                            const data = [...prevState.data];
+                            data[data.indexOf(oldData)] = newData;
+                            return { ...prevState, data };
+                          });
+                        }
+                      })
+                      .catch((error) => {
+                        console.log(error);
                       });
-                    }
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-              }, 600);
+                  
+                }, 600);
+              }
+              else resolve();
             }),
         }}
         actions={[
@@ -214,6 +251,18 @@ function Customers(props) {
           },
         ]}
       />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleClose}
+        open={messaje!==""}
+        autoHideDuration={2000}
+      >
+        <SnackbarMesssages
+          variant={type}
+          onClose={handleClose}
+          message={messaje}
+        />
+      </Snackbar>
       <Dialog
         PaperComponent={SingleBill}
         open={open}

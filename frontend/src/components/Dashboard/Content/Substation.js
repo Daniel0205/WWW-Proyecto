@@ -19,6 +19,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 
 
+
 const styles = theme => ({
   paper: {
     maxWidth: 936,
@@ -73,6 +74,7 @@ function Substation(props) {
 
   const { classes } = props;
   const [flagToAdd, setFlagToAdd] = useState(false);
+  const [error, setError] = useState("");
 
   const [state, setState] = React.useState({
     data: []
@@ -128,8 +130,15 @@ function Substation(props) {
 
 
   function changeFunction(index,x){
-    var aux = state.data[index]
-    aux.sector_name=x.target.value
+
+    
+
+    if(x.target.value.length===0)setError("This field is required")
+    else if(!/^[0-9a-zA-Z,-_#.áéíóú ]+$/.test(x.target.value))setError("Enter a valid adress")
+    else setError("")
+
+    var aux = state.data
+    aux[index].sector_name=x.target.value
 
     setState({...state,data:aux})
   }
@@ -202,6 +211,7 @@ function Substation(props) {
     aux[index].lat_substation= datos.latitud
     aux[index].long_substation= datos.longitud
 
+    setError("")
     setState({...state,data:aux})
   
   } 
@@ -209,7 +219,7 @@ function Substation(props) {
   const handleChange= index => event => {
     var aux=state.data;
     aux[index].active= event.target.value
-
+    
     setState({...state,data:aux})
   };
 
@@ -283,7 +293,9 @@ function Substation(props) {
                   variant="outlined"
                   margin="normal"
                   fullWidth
+                  helperText={error}
                   autoFocus
+                  error={error!==""}
                   value={a.sector_name}
                   defaultValue={a.sector_name}
                   onChange={(x)=>changeFunction(index,x)}
@@ -315,6 +327,8 @@ function Substation(props) {
     }
   }
 
+  console.log(state)
+
   let existentSubstation = state.data.map((a,i) => {
       return(
         <Paper className={classes.paper} key={i}>
@@ -332,7 +346,7 @@ function Substation(props) {
                     >
                         <EditIcon color="inherit" />
                     </IconButton>
-                    <IconButton disabled={!a.edit}
+                    <IconButton disabled={!a.edit || error!==""}
                         onClick={() => takeChoise(state.data[i])}
                     >
                         <DoneIcon color="inherit" />

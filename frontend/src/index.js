@@ -13,6 +13,7 @@ const routing = (
     <div>
       <Router>
         <Redirect from="/dashboard" to="/home" />
+       
         <Route exact path="/home" component={App} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/login" component={Login} />

@@ -40,7 +40,7 @@ Bank(id_bank=555 ,name_bank="Banco popular").save()
 Bank(id_bank=444 ,name_bank="Banco de Bogota").save()
 Bank(id_bank=333 ,name_bank="Banco de Occidente").save()
 
--- id_electricitymeter=1 | Bills of last 6 months
+#-- id_electricitymeter=1 | Bills of last 6 months
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 388000 , expedition_date='2019-09-27' ,due_date='2019-11-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 388000 , expedition_date='2019-10-27' ,due_date='2019-12-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 470000 , expedition_date='2019-11-27' ,due_date='2020-01-14' ,payment_status=True).save()
@@ -48,7 +48,7 @@ Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , q
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 405500 , expedition_date='2020-01-27' ,due_date='2020-03-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 500000 , expedition_date='2020-02-27' ,due_date='2020-04-14' ,payment_status=True).save()
 
--- id_electricitymeter=2 | Bills of last 6 months
+#-- id_electricitymeter=2 | Bills of last 6 months
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 540000 ,  expedition_date='2019-09-27' ,due_date='2019-11-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 540000 ,  expedition_date='2019-10-27' ,due_date='2019-12-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 570000 ,  expedition_date='2019-11-27' ,due_date='2020-01-14' ,payment_status=True).save()
@@ -56,7 +56,7 @@ Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , q
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 670000 ,  expedition_date='2020-01-27' ,due_date='2020-03-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 770000 ,  expedition_date='2020-02-27' ,due_date='2020-04-14' ,payment_status=True).save()
 
--- id_electricitymeter=3 | Bills of last 6 months
+#-- id_electricitymeter=3 | Bills of last 6 months
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) , quantity = 490000 ,  expedition_date='2019-09-27' ,due_date='2019-11-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) , quantity = 490000 ,  expedition_date='2019-10-27' ,due_date='2019-12-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) , quantity = 590000 ,  expedition_date='2019-11-27' ,due_date='2020-01-14' ,payment_status=True).save()
