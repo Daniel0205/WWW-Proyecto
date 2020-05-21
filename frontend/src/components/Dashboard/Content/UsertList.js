@@ -88,7 +88,7 @@ export default function UserList(language) {
           };
         })
       });
-console.log("ENtroe")
+
     })
     .catch(error => {
       console.log(error);

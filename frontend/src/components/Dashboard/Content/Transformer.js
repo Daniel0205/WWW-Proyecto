@@ -71,6 +71,7 @@ function Transformer(props) {
   const [flagToAdd, setFlagToAdd] = useState(false);
   const [state, setState] = React.useState({ data: [] });
   const [substations, setSubstations] = React.useState([]);
+  const [error, setError] = React.useState("");
 
   //Fetch Transformers
   React.useEffect(consultTransformer, []);
@@ -139,6 +140,10 @@ function Transformer(props) {
 
   //Update state
   function changeFunction(index, event) {
+    if(event.target.value.length===0)setError("This field is required")
+    else if(!/^[0-9]+$/.test(event.target.value))setError("Enter a valid tension")
+    else setError("")
+
     var aux = state.data;
     aux[index].tension_level = event.target.value;
     setState({ ...state, data: aux });
@@ -262,10 +267,18 @@ function Transformer(props) {
           variant="outlined"
           margin="normal"
           fullWidth
+          type="number"
+          InputLabelProps={{
+            min: 0
+          }}
+          required
+          helperText={error}
           autoFocus
+          error={error!==""}
           value={transformer.tension_level}
           onChange={(event) => changeFunction(index, event)}
           label={window.app("Tension Level")}
+          
         />,
         <TextField
           key="active"
@@ -342,7 +355,7 @@ function Transformer(props) {
                   <EditIcon color="inherit" />
                 </IconButton>
                 <IconButton
-                  disabled={!transformer.edit}
+                  disabled={!transformer.edit|| error!==""}
                   onClick={() => takeChoise(state.data[index])}
                 >
                   <DoneIcon color="inherit" />

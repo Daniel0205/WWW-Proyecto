@@ -20,9 +20,9 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
+import clsx from 'clsx';
 import { EsriProvider } from 'leaflet-geosearch';
-
+import { FormHelperText, useRadioGroup } from '@material-ui/core';
 import axios from "axios";
 import { connect } from "react-redux";
 import { setSelectedItem } from "../../store/selectedItem/action";
@@ -82,7 +82,8 @@ function Apartments(props) {
   axios.defaults.headers = {
     "Content-Type": "application/json"
   };
-  
+  const [error, setError] = useState("");
+  const [errorAd, setErrorAd] = useState("");
   const { classes } = props;
   const [flagToAdd, setFlagToAdd] = useState(false);
 
@@ -315,7 +316,7 @@ function Apartments(props) {
   const updateData= index => datos => {
     var aux=state.data;
     
-    
+    setErrorAd("")    
 
     aux[index].address= datos.description
     aux[index].lat_address= datos.latitud
@@ -338,14 +339,22 @@ function Apartments(props) {
   const handleChange= index => e =>{
     var aux=state.data;
 
+
+
     switch (e.target.id) {
       case 'stratum':
+        if(e.target.value.length===0)setError("This field is required")
+        else if(!/^[0-9]+$/.test(e.target.value))setError("Enter a valid stratum")
+        else setError("")
         aux[index].stratum= e.target.value
         break;
       case 'id_electricity_meter':
         aux[index].id_electricity_meter= e.target.value
         break;
-      case 'address':
+      case 'outlined-adornment-password':
+        if(e.target.value.length===0)setErrorAd("This field is required")
+        else if(!/^[0-9a-zA-Z,-_#.áéíóú ]+$/.test(e.target.value))setErrorAd("Enter a valid address")
+        else setErrorAd("")
         aux[index].address= e.target.value
         break;
       default:
@@ -446,36 +455,40 @@ function Apartments(props) {
                   value={a.long_address}
                   label={window.app("Longitud")}
               /> ,
-              <FormControl className={classes.addwidth} variant="outlined">
-                <InputLabel htmlFor="address">{window.app("Address")}</InputLabel>
-                <OutlinedInput
-                    id="address"
-                    variant="outlined"
-                    margin="normal"  
-                    fullWidth
-                    value={a.address}
-                    label={window.app("Address")}
-                    onChange = {handleChange(index)}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label={window.app("Search the address in the map")}
-                          onClick={() => {searchAddress(index)}}
-                          onMouseDown={handleMouseDown}
-                        >
-                          <SearchIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                /> 
-              </FormControl>,
+              <FormControl className={clsx(classes.margin, classes.textField,classes.addwidth)} variant="outlined">
+              <InputLabel htmlFor="component-helper">{window.app("Address")}</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                helperText={error}
+                autoFocus
+                error={errorAd!==""}
+                value={a.address}
+                onChange = {handleChange(index)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => {searchAddress(index)}}
+                      onMouseDown={handleMouseDown}
+                      edge="end"
+                    >
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+              <FormHelperText id="component-helper-text">{errorAd}</FormHelperText>
+            </FormControl>,
               <TextField
                   id="stratum"
                   variant="outlined"
                   margin="normal"
                   fullWidth
                   type="number"
+                  helperText={error}
                   autoFocus
+                  error={error!==""}
                   value={a.stratum}
                   label={window.app("Stratum")}
                   onChange = {handleChange(index)}
@@ -555,7 +568,7 @@ function Apartments(props) {
                 >
                     <EditIcon color="inherit" />
                 </IconButton>
-                <IconButton disabled={!a.edit}
+                <IconButton disabled={!a.edit || error!=="" || errorAd!==""}
                     onClick={() => takeChoise(state.data[i])}
                 >
                     <DoneIcon color="inherit" />
