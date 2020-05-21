@@ -500,7 +500,7 @@ class  BillAllInfoView(APIView):
             months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
             due_date = i["id_electricitymeter__bill__due_date"]          
             # Dias de mora
-            i["due_days"] = ( date.today() - due_date ).days 
+            i["due_days"] = ( datetime.now() - due_date ).days 
             # Intereses por mora, max 30%
             i["interest"] = (i["due_days"]/100)*i["id_electricitymeter__bill__quantity"] if (i["due_days"]<=30 and i["due_days"]>0) else 0
             # Dias facturados
