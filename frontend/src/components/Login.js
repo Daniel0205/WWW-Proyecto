@@ -134,8 +134,8 @@ function SignIn(props) {
 
   let changeLanguage = (e) => {
 
-    window.changeLanguage(e.currentTarget.dataset.language);
-    console.log(e.currentTarget.dataset.language)
+    window.changeLanguage(e.target.value);
+    
     forceUpdate()
 }
 
