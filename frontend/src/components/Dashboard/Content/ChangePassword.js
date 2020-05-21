@@ -99,7 +99,7 @@ function ChangePassword(props){
     function update(){
         axios
         .put(
-            "http://localhost:8000/api/user/changePW/",{
+            "https://univalleapp.herokuapp.com//api/user/changePW/",{
                 id_user: stateUser.id_user,
                 name: stateUser.name,
                 last_name: stateUser.last_name,
@@ -118,7 +118,7 @@ function ChangePassword(props){
 
     function handleClick(){
         axios
-        .post("http://localhost:8000/api/user/verifypw/",{
+        .post("https://univalleapp.herokuapp.com//api/user/verifypw/",{
             id_user: stateUser.id_user,
             password: actualPassword
           }

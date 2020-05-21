@@ -47,8 +47,7 @@ class Login(APIView):
   def post(self,request):
     id_user = request.data.get('id_user',None)
     password = request.data.get('password',None)
-    print (id_user)
-    print (password)
+
 
     if id_user and password:
         user_obj = User.objects.filter(id_user__iexact= id_user ).values('id_user','name', 'password', 'type')  
