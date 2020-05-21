@@ -11,6 +11,8 @@ import HomeIcon from "@material-ui/icons/Home";
 import PeopleIcon from "@material-ui/icons/People";
 import DescriptionIcon from "@material-ui/icons/Description";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import PowerIcon from "@material-ui/icons/Power";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
@@ -64,6 +66,14 @@ const categoriesManager = [
       { id:  "Employees", icon: <SupervisedUserCircleIcon />, active: false },
       { id:  "Assets", icon: <BusinessIcon />, active: false },
     ]
+  },
+  {
+    id: "Profile",
+    children: [
+      { id: "Password", icon: <VpnKeyIcon />, active: false }
+      // { id: "Analytics", icon: <SettingsIcon />, active: false },
+      // { id: "Performance", icon: <TimerIcon />, active: false }
+    ]
   }
 ];
 
@@ -82,6 +92,14 @@ const categoriesAdministrator = [
       // { id: "Analytics", icon: <SettingsIcon />, active: false },
       // { id: "Performance", icon: <TimerIcon />, active: false }
     ]
+  },
+  {
+    id: "Profile",
+    children: [
+      { id: "Password", icon: <VpnKeyIcon />, active: false }
+      // { id: "Analytics", icon: <SettingsIcon />, active: false },
+      // { id: "Performance", icon: <TimerIcon />, active: false }
+    ]
   }
 ];
 
@@ -95,16 +113,15 @@ const categoriesOperator = [
       { id:  "Bills", icon: <DescriptionIcon />, active: false },
       { id:  "Record Payments", icon: <PaymentIcon />, active: false }
     ]
-  }/*,
+  },
   {
-    id: "Inventory",
+    id: "Profile",
     children: [
-      { id: "Substations", icon: <AccountTreeIcon />, active: false },
-      { id: "Transformers", icon: <PowerIcon />, active: false }
+      { id: "Password", icon: <VpnKeyIcon />, active: false }
       // { id: "Analytics", icon: <SettingsIcon />, active: false },
       // { id: "Performance", icon: <TimerIcon />, active: false }
     ]
-  }*/
+  }
 ];
 
 const useStyles = makeStyles(theme => ({

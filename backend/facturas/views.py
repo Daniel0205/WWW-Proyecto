@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from django.db.models.functions import ExtractMonth,ExtractYear
+from django.contrib.auth.hashers import make_password
 from django.db.models import Count,Sum,F,Case,When
 from datetime import datetime, timedelta, date
 from random import randrange
@@ -69,7 +70,6 @@ class Login(APIView):
     return Response({"message": message , "code": 500, 'data': {}})
 
 
-
 #####################USER#####################
 class RegisterView(CreateAPIView):
     queryset = User.objects.all()
@@ -102,6 +102,42 @@ class  UserActiveListView(APIView):
         queryset1.extend([{"type":"totalInactive","c":queryset3[0]["c"]}])
 
         return Response(queryset1)
+
+class  UserSearchView(APIView):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id', 'Default Value if not there')
+        user = User.objects.filter(id_user=id).values()
+        serializer_class = UserSerializer
+        return Response(user)
+
+class  UserVerifyView(APIView):
+    def post(self,request):
+        id_user = request.data.get('id_user',None)
+        password = request.data.get('password',None)
+
+        if id_user and password:
+            user_obj =  User.objects.filter(id_user__iexact= id_user ).values('id_user','name', 'password', 'type')
+            user_objp = user_obj[0]
+            if(check_password(password, user_objp['password'])):
+                return Response({"message": "Equal",  "code": 200 })
+            else:
+                message= "Not equal"
+        else:
+            message = "You have not provided data or they are not valid"
+        
+        return Response({"message": message , "code": 500, 'data': {}})
+
+class  UserChangePasswordView(APIView):
+    def put(self,request):
+        id_user = request.data.get('id_user',None)
+        password = request.data.get('password',None)
+
+        query = User.objects.filter(id_user__iexact= id_user).update(password=make_password(password))
+
+        return Response(query)
+        
+
+
 
 ###############################################
 

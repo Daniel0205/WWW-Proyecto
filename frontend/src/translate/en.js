@@ -14,6 +14,8 @@ export default {
     "Banks":"Banks",
     "Company":"Company",
     "Inventory":"Inventory",
+    "General":"General",
+    "Profile":"Profile",
     "Guest":"Guest",
     "Language:":"Language:",
     "Log out":"Log out",
@@ -106,4 +108,13 @@ export default {
     "Paid bill":"Invoice paid",
     "Bill already paid":"This invoice has already been paid",
     "Bill identifier":"Invoice identifier",
+    //Change password
+    "Change your password": "Change your password",
+    "Actual password": "Actual password",
+    "New password": "New password",
+    "Confirm password": "Confirm password",
+    "Change password": "Change password",
+    "Not actual": "Your current password does not match the one entered",
+    "Not equal": "New passwords don't match",
+    "Changed": "Updated password",
 };

@@ -22,6 +22,7 @@ import SingleBill from "./Content/Bills/SingleBill";
 import Reports from "./Content/reports";
 import RecordPayments from "./Content/RecordPayments";
 import PayBill from "./Content/PayBill";
+import ChangePassword from "./Content/ChangePassword";
 
 function Copyright() {
   return (
@@ -230,6 +231,8 @@ function Paperbase(props) {
         return <RecordPayments language={window.language}/>;
       case "Bills":
         return <PayBill language={window.language}/>;
+      case "Password":
+        return <ChangePassword language={window.language}/>;
       default:
         return (
           <div>
