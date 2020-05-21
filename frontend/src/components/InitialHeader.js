@@ -1,72 +1,87 @@
-import React, {useState} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import OfflineBoltRoundedIcon from '@material-ui/icons/OfflineBoltRounded';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import IconButton from '@material-ui/core/IconButton';
+import React, { useState } from "react";
+import AppBar from "@material-ui/core/AppBar";
+import TranslateIcon from "@material-ui/icons/Translate";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 
 const useStyles = makeStyles((theme) => ({
-  header:{
-    display: "-webkit-box" 
-  },
-  languages:{
-    display:'flex',
-    paddingTop:"5%",
-    paddingLeft:"00%"
-  },
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(0),
   },
-  title: {
-    flexGrow: 1,
+  header: {
+    display: "-webkit-box",
   },
+  logo: {
+    color: theme.palette.common.white,
+  },
+  input: {
+    color: theme.palette.common.white,
+  }, 
+  notchedOutline: {
+    borderColor: "white !important",
+    borderWidth: "1px",
+},
 }));
 
-
 //create your forceUpdate hook
-function useForceUpdate(){
-    const [value, setValue] = useState(0); // integer state
-    let val = value +1
-    return () => setValue(val); // update the state to force render
-  }
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  let val = value + 1;
+  return () => setValue(val); // update the state to force render
+}
 
 export default function InitialHeader(props) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const forceUpdate = useForceUpdate();
+  const forceUpdate = useForceUpdate();
 
-    function send(x){
-        props.callback(x)
-        forceUpdate()
-    }
+  function send(x) {
+    props.callback(x);
+    forceUpdate();
+  }
+  //position="static"
 
-    return (
-      <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <OfflineBoltRoundedIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            EnergyUnivalle
-          </Typography>
-          <Grid item >
-            <div id="lenguage" className={classes.languages}>
-              <Avatar src="es.png" width="3%" alt="es" data-language="es" onClick={props.callback}/>
-              <Avatar src="de.png" width="3%" alt="de" data-language="de" onClick={props.callback}/>
-              <Avatar src="pt.png" width="3%" alt="pt" data-language="pt" onClick={props.callback}/>
-              <Avatar src="en.png" width="3%" alt="en" data-language="en" onClick={props.callback}/>
-            </div>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-    </div>
-    )
+  return (
+      <Typography variant="h6" color="primary !important" >
+    <AppBar position="static" className={classes.header}>
+      <CssBaseline />
+      <Toolbar></Toolbar>
+        <TextField  
+             className={classes.input}   
+           style={{
+            // backgroundColor: "blue"
+        }}
+          key="active"
+          variant="outlined"
+          margin="normal"
+          select
+          InputProps={{
+            defaultValue: "en", 
+            startAdornment: (
+              <InputAdornment position="start">
+                <TranslateIcon className={classes.logo} />
+              </InputAdornment>            
+            ),
+            className: classes.input,
+            
+            classes: {
+              notchedOutline: classes.notchedOutline
+            }
+          }}
+          onChange={send}
+          label={window.app("Language")} 
+        >
+          <option value="en">{window.app("English")}</option>
+          <option value="es">{window.app("Spanish")}</option>
+          <option value="de">{window.app("German")}</option>
+          <option value="pt">{window.app("Portuguese")}</option>
+        </TextField>
+    </AppBar>
+      </Typography>
+  );
 }
