@@ -102,7 +102,7 @@ function Apartments(props) {
   function consultApartments(){
     axios
     .get(
-      "http://localhost:8000/api/apartments/"+props.user
+      "https://univalleapp.herokuapp.com/api/apartments/"+props.user
     )
     .then(response => {
       setState({
@@ -148,7 +148,7 @@ function Apartments(props) {
   function consultTransformer(){
     axios
     .get(
-      "http://localhost:8000/api/transformer"
+      "https://univalleapp.herokuapp.com/api/transformer"
     )
     .then(response => {
       setState({
@@ -230,7 +230,7 @@ function Apartments(props) {
 
     axios
     .post(
-      "http://localhost:8000/api/electricitymeter/create/",
+      "https://univalleapp.herokuapp.com/api/electricitymeter/create/",
       {
         previous_measuring: 0,
         previous_measuring_date: fecha,
@@ -253,7 +253,7 @@ function Apartments(props) {
 
     axios
     .post(
-      "http://localhost:8000/api/apartment/create/",
+      "https://univalleapp.herokuapp.com/api/apartment/create/",
       {
         lat_address:x.lat_address,
         long_address: x.long_address,
@@ -277,7 +277,7 @@ function Apartments(props) {
   
     axios
     .put(
-      "http://localhost:8000/api/apartment/update/"+x.num_contract,
+      "https://univalleapp.herokuapp.com/api/apartment/update/"+x.num_contract,
       {
         lat_address:x.lat_address,
         long_address: x.long_address,

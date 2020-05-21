@@ -8,7 +8,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Background from "./Images/background.jpg";
+import Background from "./Images/background1.jpg";
 import SingleBill from "./Dashboard/Content/Bills/SingleBill";
 import Dialog from "@material-ui/core/Dialog";
 
@@ -121,7 +121,7 @@ function Client(props) {
 
   let changeLanguage = (e) => {
 
-    window.changeLanguage(e.currentTarget.dataset.language);
+    window.changeLanguage(e.target.value);
     forceUpdate()
 }
 
