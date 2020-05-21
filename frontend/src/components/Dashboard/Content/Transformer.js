@@ -77,7 +77,7 @@ function Transformer(props) {
   React.useEffect(consultTransformer, []);
   function consultTransformer() {
     axios
-      .get("http://localhost:8000/api/transformer")
+      .get("https://univalleapp.herokuapp.comapi/transformer")
       .then((response) => {
         if (response.status === 200) {
           setState({
@@ -106,7 +106,7 @@ function Transformer(props) {
   React.useEffect(consultSubstation, []);
   function consultSubstation() {
     axios
-      .get("http://localhost:8000/api/substation")
+      .get("https://univalleapp.herokuapp.comapi/substation")
       .then((response) => {
         if (response.status === 200) {
           let a = [];
@@ -153,7 +153,7 @@ function Transformer(props) {
   function update(transformer) {
     axios
       .put(
-        "http://localhost:8000/api/transformer/update/" +
+        "https://univalleapp.herokuapp.comapi/transformer/update/" +
           transformer.id_transformer,
         {
           tension_level: transformer.tension_level,
@@ -174,7 +174,7 @@ function Transformer(props) {
   //Creates a new Transformer in the DB
   function create(transformer) {
     axios
-      .post("http://localhost:8000/api/transformer/create/", {
+      .post("https://univalleapp.herokuapp.comapi/transformer/create/", {
         tension_level: parseInt(transformer.tension_level),
         lat_transformer: parseFloat(transformer.lat_transformer),
         long_transformer: parseFloat(transformer.long_transformer),

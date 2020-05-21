@@ -17,7 +17,7 @@ function Template(props) {
 
   React.useEffect(() => {
     axios
-      .post("http://localhost:8000/api/bill/allinfo", {
+      .post("https://univalleapp.herokuapp.comapi/bill/allinfo", {
         return_bill: props.customer_id,
       })
       .then((response) => {

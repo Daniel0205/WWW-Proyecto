@@ -48,7 +48,7 @@ function Reports (props) {
 
 
     axios
-    .get("http://localhost:8000/api/bill/month")
+    .get("https://univalleapp.herokuapp.comapi/bill/month")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -65,7 +65,7 @@ function Reports (props) {
     });
 
     axios
-    .get("http://localhost:8000/api/payment/bank")
+    .get("https://univalleapp.herokuapp.comapi/payment/bank")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -82,7 +82,7 @@ function Reports (props) {
     });
 
     axios
-    .get("http://localhost:8000/api/bank/number")
+    .get("https://univalleapp.herokuapp.comapi/bank/number")
     .then(response => {
       
       var data1 = response.data.map( x => {
@@ -111,7 +111,7 @@ function Reports (props) {
   function  clients(){
 
     axios
-    .get("http://localhost:8000/api/apartment/active")
+    .get("https://univalleapp.herokuapp.comapi/apartment/active")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -128,7 +128,7 @@ function Reports (props) {
     });
 
     axios
-    .get("http://localhost:8000/api/apartment/pay")
+    .get("https://univalleapp.herokuapp.comapi/apartment/pay")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -145,7 +145,7 @@ function Reports (props) {
     });
     
     axios
-    .get("http://localhost:8000/api/bill/pay")
+    .get("https://univalleapp.herokuapp.comapi/bill/pay")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -169,7 +169,7 @@ function Reports (props) {
   function assets(){
      
     axios
-    .get("http://localhost:8000/api/substation/trans")
+    .get("https://univalleapp.herokuapp.comapi/substation/trans")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -198,7 +198,7 @@ function Reports (props) {
     });
 
     axios
-    .get("http://localhost:8000/api/transformer/sub")
+    .get("https://univalleapp.herokuapp.comapi/transformer/sub")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -216,7 +216,7 @@ function Reports (props) {
     });
 
     axios
-    .get("http://localhost:8000/api/transformer/active")
+    .get("https://univalleapp.herokuapp.comapi/transformer/active")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -241,7 +241,7 @@ function Reports (props) {
   function employees(){
  
     axios
-    .get("http://localhost:8000/api/user/active")
+    .get("https://univalleapp.herokuapp.comapi/user/active")
     .then(response => {
       
       var data = [
