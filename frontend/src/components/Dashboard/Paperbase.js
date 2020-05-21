@@ -206,6 +206,8 @@ function Paperbase(props) {
         return <UsertList language={window.language} />;
       case "Banks":
         return <Banks language={window.language} />;
+      case "Manager":
+        return <Banks language={window.language} />;
       case "Customers":
         return <Customers language={window.language} />;
       case "Apartments":

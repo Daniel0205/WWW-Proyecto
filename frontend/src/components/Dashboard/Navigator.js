@@ -53,7 +53,7 @@ const categoriesManager = [
   {
     id:  "Company",
     children: [
-      { id:  "Banks", icon: <AccountBalanceIcon />, active: false },
+      { id:  "Banks", icon: <AccountBalanceIcon />, active: true },
     ]
   },
   {
@@ -162,6 +162,7 @@ function Navigator(props) {
         props.setSelectedItem("Customers");
         return categoriesOperator;
       case "G":
+        props.setSelectedItem("Manager");
         return categoriesManager;
       default:  
           return categories;

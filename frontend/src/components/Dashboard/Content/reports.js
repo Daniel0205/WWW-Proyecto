@@ -456,7 +456,7 @@ function Reports (props) {
             loader={<div>Loading Chart</div>}
             data={dataApartamentsPay}
             options={{
-              title: 'Number ofproperties with late payments',
+              title: 'Number of properties with late payments',
               // Just add this option
               is3D: true,
             }}
