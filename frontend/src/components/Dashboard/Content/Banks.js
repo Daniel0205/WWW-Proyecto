@@ -70,7 +70,7 @@ export function Banks(props) {
 
   React.useEffect(() => {
     axios
-      .get("https://univalleapp.herokuapp.com/api/bank")
+      .get("http://localhost:8000/api/bank")
       .then((response) => {
         setState({
           columns:[
@@ -144,7 +144,7 @@ export function Banks(props) {
                   resolve();
 
                   axios
-                    .post("https://univalleapp.herokuapp.com/api/bank/create/", {
+                    .post("http://localhost:8000/api/bank/create/", {
                       id_bank: newData.id,
                       name_bank: newData.name,
                       city_bank: newData.city,
@@ -179,7 +179,7 @@ export function Banks(props) {
                   resolve();
                   axios
                     .put(
-                      "https://univalleapp.herokuapp.com/api/bank/update/" + newData.id,
+                      "http://localhost:8000/api/bank/update/" + newData.id,
                       {
                         id_bank: newData.id,
                         name_bank: newData.name,

@@ -2,7 +2,7 @@ from rest_framework import permissions
 from django.db.models.functions import ExtractMonth,ExtractYear
 from django.contrib.auth.hashers import make_password
 from django.db.models import Count,Sum,F,Case,When
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, timezone
 from random import randrange
 
 from rest_framework.generics import (
@@ -498,9 +498,12 @@ class  BillAllInfoView(APIView):
         # adding calculated information for the bill
         for i in queryset:           
             months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-            due_date = i["id_electricitymeter__bill__due_date"]          
+            due_date = i["id_electricitymeter__bill__due_date"]       
+
+            dt = datetime.combine(due_date.today(), datetime.min.time())  
+            naive = dt.replace(tzinfo=None)
             # Dias de mora
-            i["due_days"] = ( datetime.now() - due_date ).days 
+            i["due_days"] = ( datetime.now() - naive ).days 
             # Intereses por mora, max 30%
             i["interest"] = (i["due_days"]/100)*i["id_electricitymeter__bill__quantity"] if (i["due_days"]<=30 and i["due_days"]>0) else 0
             # Dias facturados

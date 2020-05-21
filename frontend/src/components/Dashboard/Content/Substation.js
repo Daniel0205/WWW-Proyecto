@@ -85,7 +85,7 @@ function Substation(props) {
   function consultSubstation(){
     axios
     .get(
-      "https://univalleapp.herokuapp.com/api/substation"
+      "http://localhost:8000/api/substation"
     )
     .then(response => {
       if(response.status===200){
@@ -148,7 +148,7 @@ function Substation(props) {
   
     axios
     .put(
-      "https://univalleapp.herokuapp.com/api/substation/update/"+x.id_substation,
+      "http://localhost:8000/api/substation/update/"+x.id_substation,
       {
         sector_name: x.sector_name,
         lat_substation: x.lat_substation,
@@ -167,7 +167,7 @@ function Substation(props) {
   function create(x) {
     axios
     .post(
-      "https://univalleapp.herokuapp.com/api/substation/create/",
+      "http://localhost:8000/api/substation/create/",
       {
         sector_name: x.sector_name,
         lat_substation: x.lat_substation,

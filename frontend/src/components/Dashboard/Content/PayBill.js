@@ -97,15 +97,27 @@ function PayBill(props) {
 
   function createPay(){
 
+  
+
+    let  expedition_date = new Date(stateBill.expedition_date)
+    let  due_date = new Date(stateBill.due_date)
+
+    console.log({
+      payment_status: true,
+      id_electricitymeter: stateBill.id_electricitymeter,
+      expedition_date: expedition_date.getFullYear() + "-" + expedition_date.getMonth()+ "-" +  expedition_date.getDate(),
+      due_date: due_date.getFullYear() + "-" + due_date.getMonth()+ "-" +  due_date.getDate(),
+      quantity: stateBill.quantity,
+  })
     //Primero actualiza el estado del pago en la factura
     axios
-    .put(
-      "https://univalleapp.herokuapp.com/api/bill/update/"+stateBill.id_bill,
+    .patch(
+      "http://localhost:8000/api/bill/update/"+stateBill.id_bill,
       {
         payment_status: true,
         id_electricitymeter: stateBill.id_electricitymeter,
-        expedition_date: stateBill.expedition_date,
-        due_date: stateBill.due_date,
+        expedition_date: expedition_date.getFullYear() + "-" + expedition_date.getMonth()+ "-" +  expedition_date.getDate(),
+        due_date: due_date.getFullYear() + "-" + due_date.getMonth()+ "-" +  due_date.getDate(),
         quantity: stateBill.quantity,
     })
     .then(response => {
@@ -124,7 +136,7 @@ function PayBill(props) {
 
     axios
     .post(
-      "https://univalleapp.herokuapp.com/api/payment/create/",
+      "http://localhost:8000/api/payment/create/",
       {
         payment_date: fecha,
         quantity: stateBill.quantity,
@@ -149,7 +161,7 @@ function PayBill(props) {
   //Esta función va a buscar si el id ingresado conincide con el de una factura a pagar
   function handleClick(){
     axios
-    .get("https://univalleapp.herokuapp.com/api/bill/"+payBill)
+    .get("http://localhost:8000/api/bill/"+payBill)
     .then(response => {
 
       if(response.status===200){

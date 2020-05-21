@@ -117,7 +117,7 @@ function RecordPayments(props) {
 
   function getPayments(){
     axios
-      .get("https://univalleapp.herokuapp.com/api/payment/"+document)
+      .get("http://localhost:8000/api/payment/"+document)
       .then(response => {
 
         console.log("Respesta")
