@@ -6,34 +6,36 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { Link } from 'react-router-dom';
-
 import './services/localizationService';
 import InitialHeader from './components/InitialHeader';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
+import Background from "./components/Images/background.jpg";
+import FacebookIcon from '@material-ui/icons/Facebook';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
+      
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    // backgroundColor: theme.palette.background.paper,
+    height: "auto",
+    backgroundImage: `url(${Background})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    // padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(14, 0, 14),
   },
   heroButtons: {
     marginTop: theme.spacing(4),  
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
+    // backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#18202c",
+    color: theme.palette.common.white,
+    // padding: theme.spacing(6),
+    padding: theme.spacing(3),
   },
   root: {
     display: 'flex',
@@ -42,10 +44,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   Grid:{
-    display:"-webkit-inline-box",
-    [theme.breakpoints.down('xs')]: {
-      display:"flex",
-    },
+    // display:"-webkit-inline-box",
+    // [theme.breakpoints.down('xs')]: {
+    //   display:"flex",
+    // },
   },
   image: {
     position: 'relative',
@@ -114,6 +116,9 @@ const useStyles = makeStyles((theme) => ({
   header:{
     display: "-webkit-box"
     
+  },
+  footerIcons:{
+    color: theme.palette.common.white,
   }
 }));
 
@@ -127,34 +132,34 @@ function useForceUpdate(){
 
 export default function App() {
   const classes = useStyles();
-
-
   const forceUpdate = useForceUpdate();
-
-
+  
   let changeLanguage = (e) => {
-
     window.changeLanguage(e.target.value);
     forceUpdate()
 }
+//classes={classes.background}
+{/* <div id="co"><img src={Background} alt="" /></div> */}
 
   return (
+      
     <React.Fragment>
+
       <CssBaseline />
-      <InitialHeader callback={changeLanguage}/>
+      <InitialHeader callback={changeLanguage}/> 
       <main>
         
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container maxWidth="md">{/* maxWidth=sm */}
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Welcome to Energy-Univalle
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Please select thw kind of user that you are:
+              Please select the kind of user that you are:
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} className={classes.Grid} justify="center">
-                <Grid item>
+                <Grid item xs={4} >
                 <div className={classes.root}>
                   <ButtonBase
                       button
@@ -189,7 +194,8 @@ export default function App() {
                     </ButtonBase>
                     </div>
                   </Grid>
-                  <Grid item>
+                  <Grid item xs={0}></Grid>
+                  <Grid item  xs={4}>
                     <div className={classes.root}>
                     <ButtonBase
                       button
@@ -227,18 +233,30 @@ export default function App() {
               </Grid>
             </div>
           </Container>
-        </div>
-       
+        </div>     
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-      
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          We give you the best energy!
+        
+        <div className={{alignItems: "center"}}>
+        </div>
+
+        <Typography variant="subtitle1" align="center"  component="p">
+        <FacebookIcon className={classes.footerIcons}/>&nbsp;&nbsp;
+        <TwitterIcon className={classes.footerIcons}/>&nbsp;&nbsp;
+        <InstagramIcon className={classes.footerIcons}/>
+        <br/>
+          We give you the best energy !
         </Typography>
-        <Copyright />
-      </footer>
-      {/* End footer */}
-    </React.Fragment>
+
+        <Typography variant="body2"  align="center" >
+          {'Copyright © '}
+          {new Date().getFullYear()}
+          {'.'}
+          </Typography>
+
+          </footer>
+          {/* End footer */}
+      </React.Fragment>
   );
 }
