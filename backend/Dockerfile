@@ -10,7 +10,7 @@ COPY ./ ./
 RUN pip install -r requirements.txt
 RUN python manage.py makemigrations facturas
 RUN python manage.py migrate
-RUN python manage.py shell < scripts.txt
+RUN python manage.py shell < scripts.sql
 
 RUN useradd -s /bin/bash myuser
 USER myuser
