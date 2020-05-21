@@ -14,6 +14,8 @@ export default {
     "Banks":"Banken",
     "Company":"Unternehmen",
     "Inventory":"Inventar",
+    "General":"Allgemeines",
+    "Profile":"Profil",
     "Guest":"Gast",
     "Language:":"Sprache:",
     "Log out":"Ausloggen",
@@ -106,4 +108,13 @@ export default {
     "Paid bill":"Rechnung bezahlt",
     "Bill already paid":"Diese Rechnung wurde bereits bezahlt",
     "Bill identifier":"Rechnungskennung",
+    //Change password
+    "Change your password": "Ändern Sie Ihr Passwort",
+    "Actual password": "Derzeitiges Passwort",
+    "New password": "Neues Kennwort",
+    "Confirm password": "Kennwort bestätigen",
+    "Change password": "Passwort ändern",
+    "Not actual": "Ihr aktuelles Passwort stimmt nicht mit dem eingegebenen überein",
+    "Not equal": "Neue Passwörter stimmen nicht überein",
+    "Changed": "Passwort aktualisiert",
 };

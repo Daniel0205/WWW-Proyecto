@@ -9,6 +9,9 @@ from .views import (
    UserTypeListView,
    UserActiveListView,
    Login,
+   UserSearchView,
+   UserVerifyView,
+   UserChangePasswordView,
    
    #Client
    ClientCreateView,
@@ -85,6 +88,9 @@ urlpatterns = [
     path('user/type', UserTypeListView.as_view()),
     path('user/active', UserActiveListView.as_view()),
     path('user/update/<pk>',UserUpdateView.as_view()),
+    path('user/<id>',UserSearchView.as_view()),
+    path('user/verifypw/',UserVerifyView.as_view()),
+    path('user/changePW/',UserChangePasswordView.as_view()),
 
     #Apartments
     path('apartment', ApartmentListView.as_view()),

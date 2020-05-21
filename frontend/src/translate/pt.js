@@ -14,6 +14,8 @@ export default {
     "Banks":"Bancos",
     "Company":"Empresa",
     "Inventory":"Inventário",
+    "General":"Geral",
+    "Profile":"Perfil",
     "Guest":"Convidado",
     "Language:":"Língua:",
     "Log out":"Sair",
@@ -107,6 +109,15 @@ export default {
     "Bill already paid":"Esta fatura já foi paga",
     "Bill identifier":"Rechnungskennung",
     "Bill identifier":"ID da fatura",
+    //Change password
+    "Change your password": "Mude sua senha",
+    "Actual password": "Senha atual",
+    "New password": "Nova senha",
+    "Confirm password": "Confirme a Senha",
+    "Change password": "Mudar senha",
+    "Not actual": "Sua senha atual não corresponde à digitada",
+    "Not equal": "Novas senhas não correspondem",
+    "Changed": "Senha atualizada",
 };
 
 

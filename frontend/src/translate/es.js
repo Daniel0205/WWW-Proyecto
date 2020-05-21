@@ -14,6 +14,8 @@ export default {
     "Banks":"Bancos",
     "Company":"Compañia",
     "Inventory":"Inventario",
+    "General":"General",
+    "Profile":"Perfil",
     "Guest":"Invitado",
     "Language:":"Lenguaje:",
     "Log out":"Cerrar Sesion",
@@ -106,4 +108,13 @@ export default {
     "Paid bill":"Factura pagada",
     "Bill already paid":"Esta factura ya fue pagada",
     "Bill identifier":"Identificador de factura",
+    //Change password
+    "Change your password": "Cambia tu contraseña",
+    "Actual password": "Contraseña actual",
+    "New password": "Nueva contraseña",
+    "Confirm password": "Confirmar contraseña",
+    "Change password": "Cambiar contraseña",
+    "Not actual": "No coincide tu contraseña actual con la ingresada",
+    "Not equal": "Las contraseñas nuevas no coinciden",
+    "Changed": "Contraseña actualizada",
 };
