@@ -17,7 +17,7 @@ function Template(props) {
 
   React.useEffect(() => {
     axios
-      .post("https://univalleapp.herokuapp.comapi/bill/allinfo", {
+      .post("https://univalleapp.herokuapp.com/api/bill/allinfo", {
         return_bill: props.customer_id,
       })
       .then((response) => {
@@ -67,10 +67,9 @@ function Template(props) {
   else {
 
     const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'long', day: '2-digit' })
-
-    const due_date = new Date(bill[0].bill_due_date + "T00:00:00-05:00")
-    const [{ value: month }, , { value: day }, , { value: year }] = dateTimeFormat.formatToParts(due_date)
     
+    const due_date = new Date(bill[0].bill_due_date)
+      
     const prev_measuring_date = new Date(bill[0].electricitymeter_previous_measuring_date + "T00:00:00-05:00")
     const [{ value: month_p }, , { value: day_p }, , { value: year_p }] = dateTimeFormat.formatToParts(prev_measuring_date)
     
@@ -108,14 +107,14 @@ function Template(props) {
         <span id="apartment_stratum">{"Apartment Stratum: " + bill[0].apartment_stratum}</span>
         <span id="electricitymeter_id">{"Electricitymeter Id: " + bill[0].electricitymeter_id}</span>
 
-        <span id="due_date_1">{bill[0].bill_due_date}</span>
-        <span id="due_date_2">{`${month} ${day}, ${year}`}</span>
+        <span id="due_date_1">{due_date.getFullYear()+"-"+due_date.getMonth()+"-"+due_date.getDate()}</span>
+        <span id="due_date_2">{due_date.toDateString()}</span>
         <span id="amount_due_1">{"$ " + total_due.toLocaleString('es')}</span>
         <span id="amount_due_2">{"$ " + bill[0].bill_quantity.toLocaleString('es')}</span>
         <span id="amount_due_3">{"$ " + total_due.toLocaleString('es')}</span>
         <span id="bill_id">{"00000-" + bill[0].bill_id}</span>
 
-        <span id="due_date_big">{`${month} ${day}, ${year}`}</span>
+        <span id="due_date_big">{due_date.getFullYear()+"-"+due_date.getMonth()+"-"+due_date.getDate()}</span>
         <span id="big_amount_due">{"$ " + total_due.toLocaleString('es')}</span>
         <span id="bill_id_big">{"00000-" + bill[0].bill_id}</span>
         <span id="customer_id_big">{"ID: " + bill[0].customer_id}</span>

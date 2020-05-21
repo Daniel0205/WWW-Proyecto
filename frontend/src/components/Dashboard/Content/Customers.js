@@ -87,7 +87,7 @@ function Customers(props) {
 
   React.useEffect(() => {
     axios
-      .get("https://univalleapp.herokuapp.comapi/client")
+      .get("https://univalleapp.herokuapp.com/api/client")
       .then((response) => {
         setState({
           columns: state.columns,
@@ -173,7 +173,7 @@ function Customers(props) {
                 resolve();
 
                 axios
-                  .post("https://univalleapp.herokuapp.comapi/client/create/", {
+                  .post("https://univalleapp.herokuapp.com/api/client/create/", {
                     id: newData.id_user,
                     name: newData.name,
                     last_name: newData.last_name,
@@ -203,7 +203,7 @@ function Customers(props) {
                     resolve();
                     axios
                       .put(
-                        "https://univalleapp.herokuapp.comapi/client/update/" +
+                        "https://univalleapp.herokuapp.com/api/client/update/" +
                           newData.id_user,
                         {
                           id: newData.id_user,

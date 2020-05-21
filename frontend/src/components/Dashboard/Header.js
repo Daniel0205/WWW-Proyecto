@@ -88,7 +88,7 @@ function Header(props) {
 
   function start(){
     axios
-    .post("https://univalleapp.herokuapp.comapi/simulate")
+    .post("https://univalleapp.herokuapp.com/api/simulate")
     .then(response => {
       console.log(response)
       if(response.status===200)props.simu({type:"success",msj:"The simulation worked well"})

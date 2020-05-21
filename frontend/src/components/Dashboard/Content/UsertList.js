@@ -58,7 +58,7 @@ export default function UserList(language) {
 
   React.useEffect(() => {
     axios
-    .get("https://univalleapp.herokuapp.comapi/user")
+    .get("https://univalleapp.herokuapp.com/api/user")
     .then(response => {
       setState({
         columns: [
@@ -118,7 +118,7 @@ export default function UserList(language) {
                 resolve();
 
                 axios
-                  .post("https://univalleapp.herokuapp.comapi/register/", {
+                  .post("https://univalleapp.herokuapp.com/api/register/", {
                     id_user: newData.id_user,
                     password: "password1234",
                     name: newData.name,
@@ -149,7 +149,7 @@ export default function UserList(language) {
                
                 axios
                   .patch(
-                    "https://univalleapp.herokuapp.comapi/user/update/" + oldData.id_user,
+                    "https://univalleapp.herokuapp.com/api/user/update/" + oldData.id_user,
                     {
                       id_user: newData.id_user,
                       name: newData.name,

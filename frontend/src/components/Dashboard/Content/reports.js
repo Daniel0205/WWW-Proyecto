@@ -48,7 +48,7 @@ function Reports (props) {
 
 
     axios
-    .get("https://univalleapp.herokuapp.comapi/bill/month")
+    .get("https://univalleapp.herokuapp.com/api/bill/month")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -65,7 +65,7 @@ function Reports (props) {
     });
 
     axios
-    .get("https://univalleapp.herokuapp.comapi/payment/bank")
+    .get("https://univalleapp.herokuapp.com/api/payment/bank")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -82,7 +82,7 @@ function Reports (props) {
     });
 
     axios
-    .get("https://univalleapp.herokuapp.comapi/bank/number")
+    .get("https://univalleapp.herokuapp.com/api/bank/number")
     .then(response => {
       
       var data1 = response.data.map( x => {
@@ -111,7 +111,7 @@ function Reports (props) {
   function  clients(){
 
     axios
-    .get("https://univalleapp.herokuapp.comapi/apartment/active")
+    .get("https://univalleapp.herokuapp.com/api/apartment/active")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -128,7 +128,7 @@ function Reports (props) {
     });
 
     axios
-    .get("https://univalleapp.herokuapp.comapi/apartment/pay")
+    .get("https://univalleapp.herokuapp.com/api/apartment/pay")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -145,7 +145,7 @@ function Reports (props) {
     });
     
     axios
-    .get("https://univalleapp.herokuapp.comapi/bill/pay")
+    .get("https://univalleapp.herokuapp.com/api/bill/pay")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -169,7 +169,7 @@ function Reports (props) {
   function assets(){
      
     axios
-    .get("https://univalleapp.herokuapp.comapi/substation/trans")
+    .get("https://univalleapp.herokuapp.com/api/substation/trans")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -198,7 +198,7 @@ function Reports (props) {
     });
 
     axios
-    .get("https://univalleapp.herokuapp.comapi/transformer/sub")
+    .get("https://univalleapp.herokuapp.com/api/transformer/sub")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -216,7 +216,7 @@ function Reports (props) {
     });
 
     axios
-    .get("https://univalleapp.herokuapp.comapi/transformer/active")
+    .get("https://univalleapp.herokuapp.com/api/transformer/active")
     .then(response => {
       
       var data = response.data.map( x => {
@@ -241,7 +241,7 @@ function Reports (props) {
   function employees(){
  
     axios
-    .get("https://univalleapp.herokuapp.comapi/user/active")
+    .get("https://univalleapp.herokuapp.com/api/user/active")
     .then(response => {
       
       var data = [

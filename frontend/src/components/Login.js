@@ -96,7 +96,7 @@ function SignIn(props) {
     event.preventDefault();
 
     axios
-      .post("https://univalleapp.herokuapp.comapi/login/", {
+      .post("https://univalleapp.herokuapp.com/api/login/", {
         id_user: userID,
         password: password
       })

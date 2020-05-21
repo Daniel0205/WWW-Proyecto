@@ -112,7 +112,7 @@ function PayBill(props) {
     //Primero actualiza el estado del pago en la factura
     axios
     .patch(
-      "https://univalleapp.herokuapp.comapi/bill/update/"+stateBill.id_bill,
+      "https://univalleapp.herokuapp.com/api/bill/update/"+stateBill.id_bill,
       {
         payment_status: true,
         id_electricitymeter: stateBill.id_electricitymeter,
@@ -136,7 +136,7 @@ function PayBill(props) {
 
     axios
     .post(
-      "https://univalleapp.herokuapp.comapi/payment/create/",
+      "https://univalleapp.herokuapp.com/api/payment/create/",
       {
         payment_date: fecha,
         quantity: stateBill.quantity,
@@ -161,7 +161,7 @@ function PayBill(props) {
   //Esta función va a buscar si el id ingresado conincide con el de una factura a pagar
   function handleClick(){
     axios
-    .get("https://univalleapp.herokuapp.comapi/bill/"+payBill)
+    .get("https://univalleapp.herokuapp.com/api/bill/"+payBill)
     .then(response => {
 
       if(response.status===200){
