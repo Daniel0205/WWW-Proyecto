@@ -203,7 +203,7 @@ function Apartments(props) {
         i = '0' + i;
     }
     return i;
-}
+  }
 
   function hoyFecha(){
     var hoy = new Date();
