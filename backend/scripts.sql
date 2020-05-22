@@ -11,9 +11,9 @@ Bank.objects.all().delete()
 Bill.objects.all().delete()
 Payment.objects.all().delete()
 
-User(id_user=1670129 ,name="Steban" ,last_name="Cadena" ,password=make_password('123456789') ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
-User(id_user=1630536 ,name="Jem Pool" ,last_name="Suarez" ,password=make_password('123456789') ,type='G' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
-User(id_user=1629338 ,name="Daniel" ,last_name="Diaz" ,password=make_password('123456789') ,type='A' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
+User(id_user=1670129 ,name="Steban" ,last_name="Cadena" ,password=make_password('123456789') ,type='A' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
+User(id_user=1630536 ,name="Jem Pool" ,last_name="Suarez" ,password=make_password('123456789') ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
+User(id_user=1629338 ,name="Daniel" ,last_name="Diaz" ,password=make_password('123456789') ,type='G' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
 User(id_user=1234567 ,name="Emma" ,last_name="Claus" ,password=make_password('123456789') ,type='G' ,active=False ,is_admin=True ,is_staff=True ,is_superuser=True).save()
 User(id_user=1670033 ,name="Blake" ,last_name="Russell" ,password=make_password('123456789') ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
 User(id_user=1682004 ,name="Ryan" ,last_name="Springer" ,password=make_password('123456789') ,type='O' ,active=True ,is_admin=True ,is_staff=True ,is_superuser=True).save()
@@ -53,12 +53,6 @@ Bank(id_bank=3214234 ,name_bank="Banco popular").save()
 Bank(id_bank=8023489 ,name_bank="Banco de Bogota").save()
 Bank(id_bank=3487132 ,name_bank="Banco de Occidente").save()
 
-<<<<<<< HEAD
-#-- id_electricitymeter=1 | Bills of last 6 months
-||||||| merged common ancestors
--- id_electricitymeter=1 | Bills of last 6 months
-=======
->>>>>>> 18ef64567c6d48b43b438c92d7f25aef1db69b85
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 388000 , expedition_date='2019-09-27' ,due_date='2019-11-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 388000 , expedition_date='2019-10-27' ,due_date='2019-12-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 470000 , expedition_date='2019-11-27' ,due_date='2020-01-14' ,payment_status=True).save()
@@ -66,12 +60,6 @@ Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , q
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 405500 , expedition_date='2020-01-27' ,due_date='2020-03-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=1) , quantity = 500000 , expedition_date='2020-02-27' ,due_date='2020-04-14' ,payment_status=True).save()
 
-<<<<<<< HEAD
-#-- id_electricitymeter=2 | Bills of last 6 months
-||||||| merged common ancestors
--- id_electricitymeter=2 | Bills of last 6 months
-=======
->>>>>>> 18ef64567c6d48b43b438c92d7f25aef1db69b85
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 540000 ,  expedition_date='2019-09-27' ,due_date='2019-11-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 540000 ,  expedition_date='2019-10-27' ,due_date='2019-12-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 570000 ,  expedition_date='2019-11-27' ,due_date='2020-01-14' ,payment_status=True).save()
@@ -79,12 +67,6 @@ Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , q
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 670000 ,  expedition_date='2020-01-27' ,due_date='2020-03-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=2) , quantity = 770000 ,  expedition_date='2020-02-27' ,due_date='2020-04-14' ,payment_status=True).save()
 
-<<<<<<< HEAD
-#-- id_electricitymeter=3 | Bills of last 6 months
-||||||| merged common ancestors
--- id_electricitymeter=3 | Bills of last 6 months
-=======
->>>>>>> 18ef64567c6d48b43b438c92d7f25aef1db69b85
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) , quantity = 490000 ,  expedition_date='2019-09-27' ,due_date='2019-11-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) , quantity = 490000 ,  expedition_date='2019-10-27' ,due_date='2019-12-14' ,payment_status=True).save()
 Bill(id_electricitymeter=ElectricityMeter.objects.get(id_electricitymeter=3) , quantity = 590000 ,  expedition_date='2019-11-27' ,due_date='2020-01-14' ,payment_status=True).save()
