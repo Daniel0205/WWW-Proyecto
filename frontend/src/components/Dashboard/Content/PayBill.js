@@ -97,28 +97,13 @@ function PayBill(props) {
 
   function createPay(){
 
-  
 
-    let  expedition_date = new Date(stateBill.expedition_date)
-    let  due_date = new Date(stateBill.due_date)
-
-    console.log({
-      payment_status: true,
-      id_electricitymeter: stateBill.id_electricitymeter,
-      expedition_date: expedition_date.getFullYear() + "-" + expedition_date.getMonth()+ "-" +  expedition_date.getDate(),
-      due_date: due_date.getFullYear() + "-" + due_date.getMonth()+ "-" +  due_date.getDate(),
-      quantity: stateBill.quantity,
-  })
     //Primero actualiza el estado del pago en la factura
     axios
     .patch(
       "https://univalleapp.herokuapp.com/api/bill/update/"+stateBill.id_bill,
       {
         payment_status: true,
-        id_electricitymeter: stateBill.id_electricitymeter,
-        expedition_date: expedition_date.getFullYear() + "-" + expedition_date.getMonth()+ "-" +  expedition_date.getDate(),
-        due_date: due_date.getFullYear() + "-" + due_date.getMonth()+ "-" +  due_date.getDate(),
-        quantity: stateBill.quantity,
     })
     .then(response => {
       if(response.status===200){
@@ -129,19 +114,14 @@ function PayBill(props) {
     .catch(error => {
       console.log(error)
     });
-    //Ahora crea el registro de pago 
-    var fecha = new Date();
 
-    fecha.toISOString()
 
     axios
     .post(
       "https://univalleapp.herokuapp.com/api/payment/create/",
       {
-        payment_date: fecha,
         quantity: stateBill.quantity,
         id_bill: stateBill.id_bill,
-        id_bank: 555,
         id_user: props.credentials.id_user,
     })
     .then(response => {
