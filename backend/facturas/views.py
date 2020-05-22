@@ -223,10 +223,11 @@ class SubstationActiveView(APIView):
 class  SubActiveTransListView(APIView):
     def get(self,request):
         queryset = Substation.objects.filter(active=True).values("active").annotate(c=Count("active")).values("active","c")
-        queryset2 = Substation.objects.values("active").annotate(c=Count("active")).values("c")
+        queryset2 = list(Substation.objects.all().values("active"))
 
+        
 
-        return Response([{"state":"Active","c":queryset[0]["c"]},{"state":"Inactive","c":queryset2[0]["c"]-queryset[0]["c"]},{"state":"Total","c":queryset2[0]["c"]}])
+        return Response([{"state":"Active","c":queryset[0]["c"]},{"state":"Inactive","c":len(queryset2)-queryset[0]["c"]},{"state":"Total","c":len(queryset2)}])
 
 
 ###############################################
