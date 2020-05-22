@@ -142,7 +142,7 @@ function consultForm() {
                 }}
                 />
             )
-            break;
+
         case "contract":
             return(
                 <TextField className={classes.tf} 
@@ -198,7 +198,6 @@ function onConsult(){
               </Typography>
               <RadioGroup row aria-label="position" name="howconsult" value={consultType} onChange={handleChange}>
                   <FormControlLabel value="document" control={<Radio color="primary" />} label={window.app("With document")} />
-                  <FormControlLabel value="contract" control={<Radio color="primary" />} label={window.app("With contract")} />
               </RadioGroup>
               <div>
                   {consultForm()}
